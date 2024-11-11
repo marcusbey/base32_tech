@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { CompanyProvider } from '@/components/company-provider';
+import { CompanyProvider } from "@/lib/company-context";
 
 export default function ClientLayout({
   children,

@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { useCompany } from './company-provider';
-import { CircuitBoard, Palette } from 'lucide-react';
+import { motion } from "framer-motion";
+import { CircuitBoard, Palette } from "lucide-react";
+import { useCompany } from "./client-layout";
 
 export default function Navigation() {
   const { company, toggleCompany } = useCompany();
@@ -12,9 +12,7 @@ export default function Navigation() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 ${
-        company === 'tech'
-          ? 'bg-black/50 text-white'
-          : 'bg-white/50 text-black'
+        company === "tech" ? "bg-black/50 text-white" : "bg-white/50 text-black"
       } backdrop-blur-lg rounded-full px-6 py-3`}
     >
       <div className="flex items-center gap-8">
@@ -24,7 +22,7 @@ export default function Navigation() {
           onClick={toggleCompany}
           className="flex items-center gap-2"
         >
-          {company === 'tech' ? (
+          {company === "tech" ? (
             <>
               <CircuitBoard className="w-5 h-5" />
               <span className="font-bold">BASE32.TECH</span>
@@ -36,9 +34,9 @@ export default function Navigation() {
             </>
           )}
         </motion.button>
-        
+
         <div className="flex gap-6">
-          {['Services', 'About', 'Contact'].map((item) => (
+          {["Services", "About", "Contact"].map((item) => (
             <motion.a
               key={item}
               href={`#${item.toLowerCase()}`}

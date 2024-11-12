@@ -1,55 +1,98 @@
 "use client";
 
 import BackgroundEffects from "@/components/background-effects";
-import { Button } from "@/components/ui/button";
+import Hero from "@/components/hero";
+import Services from "@/components/services";
+import Pricing from "@/components/pricing";
+import Brands from "@/components/brands";
+import Values from "@/components/values";
+import Testimonials from "@/components/testimonials";
+import Footer from "@/components/footer";
+import Navigation from "@/components/navigation";
+import ThemeSwitch from "@/components/theme-switch";
+import CreativeContact from "@/components/creative-contact";
+import Works from "@/components/works";
 import { useCompany } from "@/lib/company-context";
-import { motion } from "framer-motion";
+import dynamic from 'next/dynamic';
+
+const TechParticles = dynamic(() => import('@/components/shapes/tech-particles'), { ssr: false });
 
 export default function Home() {
-  const { company, setCompany } = useCompany();
+  const { company } = useCompany();
+  const isStudio = company === 'studio';
+  const isTech = company === 'tech';
 
   return (
     <main className="min-h-screen relative">
-      <BackgroundEffects />
+      {/* Background (z-index: 1) */}
+      <div className="fixed inset-0 background-layer">
+        <BackgroundEffects />
+      </div>
 
-      <div className="container mx-auto px-4 py-12 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          <h1
-            className={`text-6xl font-bold mb-6 ${
-              company === "tech"
-                ? "bg-gradient-to-r from-blue-500 via-cyan-400 to-green-400 text-transparent bg-clip-text"
-                : "bg-gradient-to-r from-gray-800 to-gray-600 text-transparent bg-clip-text"
-            }`}
-          >
-            BASE32.{company.toUpperCase()}
-          </h1>
-          <p className="text-xl mb-8">
-            {company === "tech"
-              ? "We create intelligent agents and automation tools that understand your needs, saving you 8 hours daily - no clicks required."
-              : "We craft brands and user experiences for companies building a brighter future."}
-          </p>
+      {/* Particles for tech page (z-index: 1) */}
+      {isTech && (
+        <div className="fixed inset-0 particles-layer">
+          <TechParticles />
+        </div>
+      )}
 
-          <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-            <Button
-              onClick={() => setCompany(company === "tech" ? "studio" : "tech")}
-              className={`
-                px-8 py-6 rounded-full text-lg font-medium transition-all duration-300
-                ${
-                  company === "tech"
-                    ? "bg-black/20 hover:bg-black/30 text-white backdrop-blur-lg border border-blue-500/20"
-                    : "bg-white/20 hover:bg-white/30 text-gray-800 backdrop-blur-lg border border-gray-200"
-                }
-              `}
-            >
-              Switch to BASE32.{company === "tech" ? "STUDIO" : "TECH"}
-            </Button>
+      {/* Grid background (z-index: 2) */}
+      {isStudio && (
+        <div className="fixed inset-8 grid-layer rounded-3xl overflow-hidden">
+          <div className="w-full h-full studio-grid" />
+        </div>
+      )}
+
+      {/* Hero section (z-index: 3) */}
+      <div className="relative hero-layer">
+        <section className="h-screen">
+          <Hero />
+        </section>
+      </div>
+
+      {/* Content sections with glass background for studio (z-index: 4) */}
+      <div className={`relative ${isStudio ? 'content-overlay-layer' : 'content-layer'}`}>
+        {isStudio ? (
+          <div className="relative">
+            <div className="absolute inset-0 -z-10">
+              <div className="w-full h-full mega-glass-card" />
+            </div>
+            <div className="relative">
+              <Works />
+              <Services />
+              <Brands />
+              <div className="py-24">
+                <Pricing />
+              </div>
+              <Testimonials />
+              <CreativeContact />
+              <Footer />
+            </div>
           </div>
-        </motion.div>
+        ) : (
+          <div className="relative">
+            <Services />
+            <Brands />
+            <Values />
+            <div className="relative">
+              <div className="absolute inset-0 -z-10">
+                <div className="w-full h-full border-y border-blue-500/20" />
+              </div>
+              <div className="relative">
+                <Pricing />
+              </div>
+            </div>
+            <Testimonials />
+            <CreativeContact />
+            <Footer />
+          </div>
+        )}
+      </div>
+
+      {/* UI Elements (z-index: 50) */}
+      <div className="fixed top-0 left-0 right-0 ui-layer">
+        <ThemeSwitch />
+        <Navigation />
       </div>
     </main>
   );

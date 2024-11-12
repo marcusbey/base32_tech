@@ -1,76 +1,249 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { useCompany } from './company-provider';
-import { Bot, Workflow, Brain, Clock, Palette, Layout, Wand2, Users } from 'lucide-react';
+import { useCompany } from '@/lib/company-context';
+import { Bot, Workflow, Brain, Clock, Palette, Layout, Wand2, Users, Zap } from 'lucide-react';
 
 const services = {
   tech: [
-    { icon: Bot, title: 'AI Agents', description: 'Custom intelligent agents that learn and adapt to your needs' },
-    { icon: Workflow, title: 'Workflow Automation', description: 'Streamline complex processes with smart automation' },
-    { icon: Brain, title: 'Machine Learning', description: 'Advanced algorithms that improve over time' },
-    { icon: Clock, title: 'Time Optimization', description: 'Save hours daily with automated task management' },
+    { 
+      icon: Bot, 
+      title: 'AI Agents', 
+      description: 'Custom intelligent agents that learn and adapt to your needs',
+      features: [
+        'Natural language processing',
+        'Machine learning integration',
+        'Automated decision making',
+        'Continuous learning'
+      ]
+    },
+    { 
+      icon: Workflow, 
+      title: 'Workflow Automation', 
+      description: 'Streamline complex processes with smart automation',
+      features: [
+        'Process optimization',
+        'Custom workflows',
+        'Integration with existing tools',
+        'Real-time monitoring'
+      ]
+    },
+    { 
+      icon: Brain, 
+      title: 'Machine Learning', 
+      description: 'Advanced algorithms that improve over time',
+      features: [
+        'Predictive analytics',
+        'Pattern recognition',
+        'Data processing',
+        'Model optimization'
+      ]
+    },
+    { 
+      icon: Clock, 
+      title: 'Time Optimization', 
+      description: 'Save hours daily with automated task management',
+      features: [
+        'Task prioritization',
+        'Resource allocation',
+        'Performance tracking',
+        'Efficiency metrics'
+      ]
+    }
   ],
   studio: [
-    { icon: Palette, title: 'Brand Identity', description: 'Distinctive visual languages that tell your story' },
-    { icon: Layout, title: 'UI/UX Design', description: 'Intuitive interfaces that delight users' },
-    { icon: Wand2, title: 'Design Systems', description: 'Scalable and consistent design frameworks' },
-    { icon: Users, title: 'User Research', description: 'Data-driven design decisions' },
-  ],
+    { 
+      icon: Palette, 
+      title: 'Brand Identity', 
+      description: 'Distinctive visual languages that tell your story',
+      features: [
+        'Logo design',
+        'Color systems',
+        'Typography',
+        'Brand guidelines'
+      ]
+    },
+    { 
+      icon: Layout, 
+      title: 'UI/UX Design', 
+      description: 'Intuitive interfaces that delight users',
+      features: [
+        'User research',
+        'Wireframing',
+        'Prototyping',
+        'User testing'
+      ]
+    },
+    { 
+      icon: Wand2, 
+      title: 'Design Systems', 
+      description: 'Scalable and consistent design frameworks',
+      features: [
+        'Component libraries',
+        'Style guides',
+        'Documentation',
+        'Design tokens'
+      ]
+    },
+    { 
+      icon: Users, 
+      title: 'User Research', 
+      description: 'Data-driven design decisions',
+      features: [
+        'User interviews',
+        'Usability testing',
+        'Analytics',
+        'Feedback loops'
+      ]
+    }
+  ]
 };
 
 export default function Services() {
   const { company } = useCompany();
   const currentServices = company === 'tech' ? services.tech : services.studio;
+  const isTech = company === 'tech';
 
   return (
-    <section className="py-24 px-4">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="max-w-6xl mx-auto"
-      >
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className={`text-4xl font-bold text-center mb-16 ${
-            company === 'tech' ? 'text-white' : 'text-gray-900'
-          }`}
-        >
-          Our Services
-        </motion.h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {currentServices.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className={`p-6 rounded-2xl ${
-                company === 'tech'
-                  ? 'bg-black/50 border border-blue-500/20 hover:border-blue-500/40'
-                  : 'bg-white/50 border border-gray-200 hover:border-gray-300'
-              } backdrop-blur-lg transition-all duration-300`}
-            >
-              <service.icon className={`w-12 h-12 mb-4 ${
-                company === 'tech' ? 'text-blue-400' : 'text-indigo-500'
-              }`} />
-              <h3 className={`text-xl font-semibold mb-2 ${
-                company === 'tech' ? 'text-white' : 'text-gray-900'
-              }`}>
-                {service.title}
-              </h3>
-              <p className={company === 'tech' ? 'text-gray-400' : 'text-gray-600'}>
-                {service.description}
-              </p>
-            </motion.div>
-          ))}
+    <section className="relative py-32 px-4 border-t border-blue-500/20">
+      <div className="max-w-7xl mx-auto">
+        {/* First Row: Title */}
+        <div className="grid lg:grid-cols-2 gap-16 mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className={`text-5xl font-semibold leading-[1.2] ${
+              isTech ? 'text-white' : 'text-gray-900'
+            }`}>
+              Pioneering Tomorrow's Solutions Today
+            </h2>
+          </motion.div>
         </div>
-      </motion.div>
+
+        {/* Second Row: Description + Button and Service Cards */}
+        <div className="grid lg:grid-cols-12 md:grid-cols-2 gap-8 lg:gap-16">
+          {/* Left Column - Description and Button (2/6) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-4 md:col-span-1"
+          >
+            <div className="flex flex-col justify-between h-full">
+              <div className="space-y-8">
+                <p className={`text-xl leading-relaxed font-normal ${
+                  isTech ? 'text-gray-300' : 'text-gray-600'
+                } leading-[1.8]`}>
+                  Transform your business operations with our enterprise-grade automation solutions. We specialize in developing intelligent systems that reduce operational costs, eliminate human error, and accelerate growth.
+                </p>
+
+                <div className={`text-lg leading-relaxed ${
+                  isTech ? 'text-gray-400' : 'text-gray-500'
+                }`}>
+                  <p className="mb-6">Our solutions have helped companies achieve:</p>
+                  <ul className="space-y-3">
+                    <li className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-yellow-400" />
+                      80% reduction in manual tasks
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-yellow-400" />
+                      60% faster processing times
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-yellow-400" />
+                      99.9% accuracy in automated processes
+                    </li>
+                  </ul>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="group relative px-8 py-3 rounded-full font-medium 
+                    bg-yellow-500 text-black overflow-hidden
+                    transition-all duration-300 mt-20"
+                >
+                  <div className="relative z-10 flex items-center gap-2">
+                    See Our Services
+                    <motion.div
+                      initial={{ x: -4, opacity: 0.5 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      →
+                    </motion.div>
+                  </div>
+
+                  <motion.div
+                    className="absolute inset-0 -z-10 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600"
+                    animate={{
+                      transform: ["translateX(-100%)", "translateX(100%)"],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Empty Column (1/6) */}
+          <div className="hidden lg:block lg:col-span-2" />
+
+          {/* Right Column - Services Grid (3/6) */}
+          <div className="lg:col-span-6 md:col-span-1 grid md:grid-cols-2 gap-6">
+            {currentServices.map((service, index) => (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ scale: 1.02 }}
+                className={`p-6 rounded-2xl backdrop-blur-lg ${
+                  isTech ? 'bg-black/30 border border-blue-500/20' : 'bg-white/30 border border-gray-200'
+                }`}
+              >
+                <service.icon className={`w-8 h-8 mb-4 ${
+                  isTech ? 'text-yellow-400' : 'text-indigo-500'
+                }`} />
+                <h3 className={`text-xl font-semibold mb-2 ${
+                  isTech ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {service.title}
+                </h3>
+                <p className={`mb-4 font-normal ${
+                  isTech ? 'text-gray-400' : 'text-gray-600'
+                }`}>
+                  {service.description}
+                </p>
+                <ul className={`space-y-2 font-normal ${
+                  isTech ? 'text-gray-400' : 'text-gray-600'
+                }`}>
+                  {service.features.map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <div className={`w-1 h-1 rounded-full ${
+                        isTech ? 'bg-yellow-400' : 'bg-indigo-500'
+                      }`} />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

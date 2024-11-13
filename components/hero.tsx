@@ -1,18 +1,20 @@
 "use client";
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useCompany } from '@/lib/company-context';
-import dynamic from 'next/dynamic';
-import { Spotlight } from './ui/spotlight';
+import { useCompany } from "@/lib/company-context";
+import { motion, useScroll, useTransform } from "framer-motion";
+import dynamic from "next/dynamic";
 import { AuroraBackground } from "./ui/aurora-background";
+import { Spotlight } from "./ui/spotlight";
 
-const StudioShape = dynamic(() => import('./shapes/studio-shape'), { ssr: false });
-const TechShape = dynamic(() => import('./shapes/tech-shape'), { ssr: false });
+const StudioShape = dynamic(() => import("./shapes/studio-shape"), {
+  ssr: false,
+});
+const TechShape = dynamic(() => import("./shapes/tech-shape"), { ssr: false });
 
 export default function Hero() {
   const { company } = useCompany();
   const { scrollYProgress } = useScroll();
-  
+
   // Transform values for scroll animations - complete fade out by 15% scroll (faster)
   const opacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.15], [1, 0.7]); // More dramatic scale
@@ -20,7 +22,7 @@ export default function Hero() {
   const gridOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const auroraOpacity = useTransform(scrollYProgress, [0, 0.15], [0.5, 0]); // Aurora fade out
 
-  const isStudio = company === 'studio';
+  const isStudio = company === "studio";
 
   return (
     <section className="fixed inset-0 h-screen flex items-center justify-center overflow-hidden">
@@ -31,30 +33,32 @@ export default function Hero() {
 
       {/* Grid Background for Studio */}
       {isStudio && (
-        <motion.div 
+        <motion.div
           className="hero-grid shadow-lg"
           style={{ opacity: gridOpacity }}
         />
       )}
 
       {/* Shape container with proper positioning */}
-      <div className={`absolute inset-0 shape-layer ${
-        isStudio ? 'z-[11]' : ''
-      }`}>
+      <div
+        className={`absolute inset-0 shape-layer ${isStudio ? "z-[11]" : ""}`}
+      >
         {isStudio ? <StudioShape /> : <TechShape />}
       </div>
 
       {/* Aurora Background only for Studio */}
       {isStudio && (
-        <motion.div 
+        <motion.div
           className="absolute inset-0 z-[10]"
           style={{ opacity: auroraOpacity }}
         >
-          <AuroraBackground />
+          <AuroraBackground>
+            <div />
+          </AuroraBackground>
         </motion.div>
       )}
-      
-      <motion.div 
+
+      <motion.div
         style={{ opacity, scale, y }}
         className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16"
       >
@@ -67,7 +71,7 @@ export default function Hero() {
           <div className="flex items-center gap-2">
             <motion.div
               className={`w-2 h-2 rounded-full ${
-                isStudio ? 'bg-indigo-500' : 'bg-green-400'
+                isStudio ? "bg-indigo-500" : "bg-green-400"
               }`}
               animate={{
                 scale: [1, 1.5, 1],
@@ -76,12 +80,14 @@ export default function Hero() {
               transition={{
                 duration: 1.5,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
             />
-            <span className={`text-xs uppercase tracking-wider ${
-              isStudio ? 'text-indigo-400' : 'text-yellow-400/80'
-            }`}>
+            <span
+              className={`text-xs uppercase tracking-wider ${
+                isStudio ? "text-indigo-400" : "text-yellow-400/80"
+              }`}
+            >
               Available Now
             </span>
           </div>
@@ -93,7 +99,9 @@ export default function Hero() {
                   Creative Design Solutions
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-700 max-w-2xl">
-                  We craft brands and user experiences for companies building a brighter future. Our design-driven approach transforms ideas into impactful digital experiences.
+                  We craft brands and user experiences for companies building a
+                  brighter future. Our design-driven approach transforms ideas
+                  into impactful digital experiences.
                 </p>
               </>
             ) : (
@@ -102,7 +110,9 @@ export default function Hero() {
                   Intelligent Automation
                 </h1>
                 <p className="text-xl md:text-2xl text-white/70 max-w-2xl">
-                  We create intelligent agents and automation tools that understand your needs, saving you 8 hours daily - no clicks required.
+                  We create intelligent agents and automation tools that
+                  understand your needs, saving you 8 hours daily - no clicks
+                  required.
                 </p>
               </>
             )}

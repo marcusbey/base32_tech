@@ -1,12 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
 // Dynamically import the Canvas component
-const Scene = dynamic(() => import("./tech-particles-scene"), {
+const Scene = dynamic(() => import('./tech-particles-scene'), {
   ssr: false,
-  loading: () => null,
+  loading: () => null
 });
 
 export default function TechParticles() {

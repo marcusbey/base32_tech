@@ -1,32 +1,26 @@
 "use client";
 
 import BackgroundEffects from "@/components/background-effects";
-import Brands from "@/components/brands";
-import CreativeContact from "@/components/creative-contact";
-import Footer from "@/components/footer";
 import Hero from "@/components/hero";
-import Navigation from "@/components/navigation";
-import Pricing from "@/components/pricing";
 import Services from "@/components/services";
-import Testimonials from "@/components/testimonials";
-import ThemeSwitch from "@/components/theme-switch";
+import Pricing from "@/components/pricing";
+import Brands from "@/components/brands";
 import Values from "@/components/values";
+import Testimonials from "@/components/testimonials";
+import Footer from "@/components/footer";
+import Navigation from "@/components/navigation";
+import ThemeSwitch from "@/components/theme-switch";
+import CreativeContact from "@/components/creative-contact";
 import Works from "@/components/works";
 import { useCompany } from "@/lib/company-context";
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic';
 
-const TechParticles = dynamic(
-  () => import("@/components/shapes/tech-particles"),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-);
+const TechParticles = dynamic(() => import('@/components/shapes/tech-particles'), { ssr: false });
 
 export default function Home() {
   const { company } = useCompany();
-  const isStudio = company === "studio";
-  const isTech = company === "tech";
+  const isStudio = company === 'studio';
+  const isTech = company === 'tech';
 
   return (
     <main className="min-h-screen relative">
@@ -57,11 +51,7 @@ export default function Home() {
       </div>
 
       {/* Content sections with glass background for studio (z-index: 4) */}
-      <div
-        className={`relative ${
-          isStudio ? "content-overlay-layer" : "content-layer"
-        }`}
-      >
+      <div className={`relative ${isStudio ? 'content-overlay-layer' : 'content-layer'}`}>
         {isStudio ? (
           <div className="relative">
             <div className="absolute inset-0 -z-10">

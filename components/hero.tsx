@@ -14,13 +14,25 @@ export default function Hero() {
   const gridOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const auroraOpacity = useTransform(scrollYProgress, [0, 0.15], [0.5, 0]);
 
+  const isTech = company === "tech";
+  const isStudio = company === "studio";
+
+  // Adjusted timing for tech page
   const combinedTransform = useTransform(
     scrollYProgress,
-    [0, 0.15],
-    ["translate(0, 0) scale(1)", "translate(0, -100px) scale(0.7)"]
+    [0, isTech ? 0.12 : 0.15],
+    [
+      "translate(0, 0) scale(1)",
+      `translate(0, ${isTech ? -120 : -100}px) scale(${isTech ? 0.6 : 0.7})`,
+    ]
   );
 
-  const isStudio = company === "studio";
+  // Slightly delayed opacity fade for tech page
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, isTech ? 0.1 : 0.15],
+    [1, 0]
+  );
 
   return (
     <section className="fixed inset-0 h-screen flex items-center justify-center overflow-hidden">
@@ -33,7 +45,10 @@ export default function Hero() {
       />
 
       <motion.div
-        style={{ transform: combinedTransform }}
+        style={{
+          transform: combinedTransform,
+          opacity: contentOpacity,
+        }}
         className={`relative ${
           isStudio ? "z-10" : "z-20"
         } w-full max-w-7xl mx-auto px-8 lg:px-16`}

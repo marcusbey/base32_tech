@@ -1,84 +1,85 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { useCompany } from '@/lib/company-context';
-import { 
-  Zap, 
-  Clock, 
+import { useCompany } from "@/lib/company-context";
+import { motion } from "framer-motion";
+import {
   Bot,
-  Workflow,
   Brain,
-  Shield,
-  Palette,
-  Layout,
-  Code,
-  Target,
   CheckCircle2,
-  Rocket
-} from 'lucide-react';
+  Clock,
+  Code,
+  Layout,
+  Palette,
+  Rocket,
+  Shield,
+  Target,
+  Workflow,
+} from "lucide-react";
+import { memo } from "react";
 
 const pricingFeatures = {
   tech: [
     {
       icon: Bot,
       title: "Custom AI Agents",
-      description: "Intelligent automation tailored to your needs"
+      description: "Intelligent automation tailored to your needs",
     },
     {
       icon: Workflow,
       title: "Process Automation",
-      description: "Streamline your entire workflow"
+      description: "Streamline your entire workflow",
     },
     {
       icon: Brain,
       title: "Machine Learning",
-      description: "Self-improving algorithms"
+      description: "Self-improving algorithms",
     },
     {
       icon: Shield,
       title: "Enterprise Security",
-      description: "Bank-grade data protection"
+      description: "Bank-grade data protection",
     },
     {
       icon: Clock,
       title: "24/7 Monitoring",
-      description: "Round-the-clock system oversight"
-    }
+      description: "Round-the-clock system oversight",
+    },
   ],
   studio: [
     {
       icon: Palette,
       title: "Brand Identity",
-      description: "Complete visual language system"
+      description: "Complete visual language system",
     },
     {
       icon: Layout,
       title: "UI/UX Design",
-      description: "User-centered interface design"
+      description: "User-centered interface design",
     },
     {
       icon: Code,
       title: "Development",
-      description: "Clean, maintainable code"
+      description: "Clean, maintainable code",
     },
     {
       icon: Target,
       title: "Strategy",
-      description: "Data-driven design decisions"
+      description: "Data-driven design decisions",
     },
     {
       icon: Clock,
       title: "Fast Delivery",
-      description: "Quick turnaround times"
-    }
-  ]
+      description: "Quick turnaround times",
+    },
+  ],
 };
 
-export default function Pricing() {
+function Pricing() {
   const { company } = useCompany();
-  const currentFeatures = company === 'tech' ? pricingFeatures.tech : pricingFeatures.studio;
-  const isTech = company === 'tech';
-  
+  const currentFeatures =
+    company === "tech" ? pricingFeatures.tech : pricingFeatures.studio;
+  const isTech = company === "tech";
+
   return (
     <section className="relative min-h-screen py-32 overflow-hidden flex items-center">
       <div className="relative z-10 container mx-auto px-4">
@@ -88,14 +89,16 @@ export default function Pricing() {
           viewport={{ once: true }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
-          <h2 className={`text-5xl font-semibold mb-4 ${
-            isTech ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2
+            className={`text-5xl font-semibold mb-4 ${
+              isTech ? "text-white" : "text-gray-900"
+            }`}
+          >
             Simple, Transparent Pricing
           </h2>
-          <p className={`text-xl ${
-            isTech ? 'text-gray-400' : 'text-gray-600'
-          }`}>
+          <p
+            className={`text-xl ${isTech ? "text-gray-400" : "text-gray-600"}`}
+          >
             Choose the perfect plan for your business needs
           </p>
         </motion.div>
@@ -110,38 +113,45 @@ export default function Pricing() {
           >
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className={`text-2xl font-bold ${
-                  isTech ? 'text-white' : 'text-gray-900'
-                }`}>
-                  {isTech ? 'Enterprise AI Solution' : 'Full Design System'}
+                <h3
+                  className={`text-2xl font-bold ${
+                    isTech ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  {isTech ? "Enterprise AI Solution" : "Full Design System"}
                 </h3>
-                <span className={`text-sm font-medium px-3 py-1 rounded-full ${
-                  isTech 
-                    ? 'bg-yellow-500/10 text-yellow-400'
-                    : 'bg-indigo-500/10 text-indigo-500'
-                }`}>
-                  {isTech ? '3 seats left' : '2 seats left'}
+                <span
+                  className={`text-sm font-medium px-3 py-1 rounded-full ${
+                    isTech
+                      ? "bg-yellow-500/10 text-yellow-400"
+                      : "bg-indigo-500/10 text-indigo-500"
+                  }`}
+                >
+                  {isTech ? "3 seats left" : "2 seats left"}
                 </span>
               </div>
 
               <div className="mb-8">
                 <div className="flex items-baseline gap-1">
-                  <span className={`text-4xl font-bold ${
-                    isTech ? 'text-yellow-400' : 'text-indigo-500'
-                  }`}>
-                    ${isTech ? '3,989' : '4,899'}
+                  <span
+                    className={`text-4xl font-bold ${
+                      isTech ? "text-yellow-400" : "text-indigo-500"
+                    }`}
+                  >
+                    ${isTech ? "3,989" : "4,899"}
                   </span>
-                  <span className={isTech ? 'text-gray-400' : 'text-gray-600'}>
+                  <span className={isTech ? "text-gray-400" : "text-gray-600"}>
                     /month
                   </span>
                 </div>
-                <p className={`mt-2 text-sm ${
-                  isTech ? 'text-gray-400' : 'text-gray-600'
-                }`}>
-                  {isTech 
-                    ? 'Everything you need to automate your business'
-                    : 'Complete design system for your brand'
-                  }
+                <p
+                  className={`mt-2 text-sm ${
+                    isTech ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
+                  {isTech
+                    ? "Everything you need to automate your business"
+                    : "Complete design system for your brand"}
                 </p>
               </div>
 
@@ -154,18 +164,24 @@ export default function Pricing() {
                     transition={{ delay: index * 0.1 }}
                     className="flex items-start gap-3"
                   >
-                    <feature.icon className={`w-5 h-5 mt-0.5 ${
-                      isTech ? 'text-yellow-400' : 'text-indigo-500'
-                    }`} />
+                    <feature.icon
+                      className={`w-5 h-5 mt-0.5 ${
+                        isTech ? "text-yellow-400" : "text-indigo-500"
+                      }`}
+                    />
                     <div>
-                      <p className={`font-medium ${
-                        isTech ? 'text-white' : 'text-gray-900'
-                      }`}>
+                      <p
+                        className={`font-medium ${
+                          isTech ? "text-white" : "text-gray-900"
+                        }`}
+                      >
                         {feature.title}
                       </p>
-                      <p className={`text-sm ${
-                        isTech ? 'text-gray-400' : 'text-gray-600'
-                      }`}>
+                      <p
+                        className={`text-sm ${
+                          isTech ? "text-gray-400" : "text-gray-600"
+                        }`}
+                      >
                         {feature.description}
                       </p>
                     </div>
@@ -178,8 +194,8 @@ export default function Pricing() {
                 whileTap={{ scale: 0.98 }}
                 className={`w-full py-3 px-6 rounded-xl font-semibold transition-colors ${
                   isTech
-                    ? 'bg-yellow-500 hover:bg-yellow-600 text-black'
-                    : 'bg-indigo-500 hover:bg-indigo-600 text-white'
+                    ? "bg-yellow-500 hover:bg-yellow-600 text-black"
+                    : "bg-indigo-500 hover:bg-indigo-600 text-white"
                 }`}
               >
                 Get Started
@@ -194,65 +210,87 @@ export default function Pricing() {
             className="glass-card rounded-2xl p-8 flex flex-col justify-between"
           >
             <div>
-              <h3 className={`text-2xl font-bold mb-8 ${
-                isTech ? 'text-white' : 'text-gray-900'
-              }`}>
+              <h3
+                className={`text-2xl font-bold mb-8 ${
+                  isTech ? "text-white" : "text-gray-900"
+                }`}
+              >
                 Success Metrics
               </h3>
 
               <div className="space-y-8">
                 <div className="space-y-4">
-                  <div className={`flex items-center gap-3 ${
-                    isTech ? 'text-yellow-400' : 'text-indigo-500'
-                  }`}>
+                  <div
+                    className={`flex items-center gap-3 ${
+                      isTech ? "text-yellow-400" : "text-indigo-500"
+                    }`}
+                  >
                     <Rocket className="w-5 h-5" />
                     <span className="font-semibold">Implementation Time</span>
                   </div>
-                  <div className={`ml-8 ${
-                    isTech ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
+                  <div
+                    className={`ml-8 ${
+                      isTech ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
                     <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                      <div className={`h-full w-[85%] ${
-                        isTech ? 'bg-yellow-400' : 'bg-indigo-500'
-                      }`} />
+                      <div
+                        className={`h-full w-[85%] ${
+                          isTech ? "bg-yellow-400" : "bg-indigo-500"
+                        }`}
+                      />
                     </div>
-                    <p className="mt-2">85% faster than traditional solutions</p>
+                    <p className="mt-2">
+                      85% faster than traditional solutions
+                    </p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className={`flex items-center gap-3 ${
-                    isTech ? 'text-yellow-400' : 'text-indigo-500'
-                  }`}>
+                  <div
+                    className={`flex items-center gap-3 ${
+                      isTech ? "text-yellow-400" : "text-indigo-500"
+                    }`}
+                  >
                     <CheckCircle2 className="w-5 h-5" />
                     <span className="font-semibold">Success Rate</span>
                   </div>
-                  <div className={`ml-8 ${
-                    isTech ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
+                  <div
+                    className={`ml-8 ${
+                      isTech ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
                     <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                      <div className={`h-full w-[98%] ${
-                        isTech ? 'bg-yellow-400' : 'bg-indigo-500'
-                      }`} />
+                      <div
+                        className={`h-full w-[98%] ${
+                          isTech ? "bg-yellow-400" : "bg-indigo-500"
+                        }`}
+                      />
                     </div>
                     <p className="mt-2">98% client satisfaction rate</p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className={`flex items-center gap-3 ${
-                    isTech ? 'text-yellow-400' : 'text-indigo-500'
-                  }`}>
+                  <div
+                    className={`flex items-center gap-3 ${
+                      isTech ? "text-yellow-400" : "text-indigo-500"
+                    }`}
+                  >
                     <Clock className="w-5 h-5" />
                     <span className="font-semibold">Time Saved</span>
                   </div>
-                  <div className={`ml-8 ${
-                    isTech ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
+                  <div
+                    className={`ml-8 ${
+                      isTech ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
                     <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                      <div className={`h-full w-[75%] ${
-                        isTech ? 'bg-yellow-400' : 'bg-indigo-500'
-                      }`} />
+                      <div
+                        className={`h-full w-[75%] ${
+                          isTech ? "bg-yellow-400" : "bg-indigo-500"
+                        }`}
+                      />
                     </div>
                     <p className="mt-2">Save up to 40 hours per week</p>
                   </div>
@@ -260,13 +298,18 @@ export default function Pricing() {
               </div>
             </div>
 
-            <div className={`mt-8 p-4 rounded-xl ${
-              isTech ? 'bg-blue-950/30' : 'bg-gray-50'
-            }`}>
-              <p className={`text-sm ${
-                isTech ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                "We guarantee measurable results within the first 30 days or your money back. No questions asked."
+            <div
+              className={`mt-8 p-4 rounded-xl ${
+                isTech ? "bg-blue-950/30" : "bg-gray-50"
+              }`}
+            >
+              <p
+                className={`text-sm ${
+                  isTech ? "text-gray-400" : "text-gray-600"
+                }`}
+              >
+                &ldquo;We guarantee measurable results within the first 30 days
+                or your money back. No questions asked.&rdquo;
               </p>
             </div>
           </motion.div>
@@ -275,3 +318,5 @@ export default function Pricing() {
     </section>
   );
 }
+
+export default memo(Pricing);

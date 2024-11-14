@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useRef, useEffect, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { MeshTransmissionMaterial, Environment } from '@react-three/drei';
-import * as THREE from 'three';
-import { useScroll } from 'framer-motion';
-import dynamic from 'next/dynamic';
+import { Environment, MeshTransmissionMaterial } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useScroll } from "framer-motion";
+import dynamic from "next/dynamic";
+import { useEffect, useMemo, useRef } from "react";
+import * as THREE from "three";
 
 const StudioShapeContent = () => {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -14,11 +14,15 @@ const StudioShapeContent = () => {
   const { scrollYProgress } = useScroll();
   const clock = useMemo(() => new THREE.Clock(), []);
 
-  const geometry = useMemo(() => new THREE.TorusKnotGeometry(1.5, 0.6, 200, 64), []);
+  const geometry = useMemo(
+    () => new THREE.TorusKnotGeometry(1.5, 0.6, 200, 64),
+    []
+  );
 
   useFrame(() => {
-    if (!meshRef.current || !spotLightRef.current || !haloLightRef.current) return;
-    
+    if (!meshRef.current || !spotLightRef.current || !haloLightRef.current)
+      return;
+
     const time = clock.getElapsedTime();
     const scroll = scrollYProgress.get();
 
@@ -32,7 +36,7 @@ const StudioShapeContent = () => {
       Math.cos(time * 0.5) * 0.2,
       0.1
     );
-    
+
     meshRef.current.rotation.x = THREE.MathUtils.lerp(
       meshRef.current.rotation.x,
       time * 0.1,
@@ -116,16 +120,12 @@ const StudioShapeContent = () => {
       <pointLight position={[-8, -3, 5]} intensity={15} color="#BBDEFB" />
       <pointLight position={[3, 8, 5]} intensity={15} color="#90CAF9" />
       <pointLight position={[-3, -8, 5]} intensity={15} color="#64B5F6" />
-      
+
       {/* Rim lights - stronger blue tint */}
       <pointLight position={[5, 0, -5]} intensity={10} color="#2196F3" />
       <pointLight position={[-5, 0, -5]} intensity={10} color="#1E88E5" />
 
-      <Environment
-        preset="dawn"
-        background={false}
-        intensity={2.5}
-      />
+      <Environment preset="dawn" background={false} />
     </>
   );
 };
@@ -140,7 +140,7 @@ const StudioShapeCanvas = () => (
       alpha: true,
       powerPreference: "high-performance",
       stencil: false,
-      depth: true
+      depth: true,
     }}
   >
     <StudioShapeContent />

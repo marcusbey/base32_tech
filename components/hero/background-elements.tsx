@@ -1,20 +1,26 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { Spotlight } from '../ui/spotlight';
+import { motion, MotionValue } from "framer-motion";
+import dynamic from "next/dynamic";
 import { AuroraBackground } from "../ui/aurora-background";
-import dynamic from 'next/dynamic';
+import { Spotlight } from "../ui/spotlight";
 
-const StudioShape = dynamic(() => import('../shapes/studio-shape'), { ssr: false });
-const TechShape = dynamic(() => import('../shapes/tech-shape'), { ssr: false });
+const StudioShape = dynamic(() => import("../shapes/studio-shape"), {
+  ssr: false,
+});
+const TechShape = dynamic(() => import("../shapes/tech-shape"), { ssr: false });
 
 interface BackgroundElementsProps {
   isStudio: boolean;
-  gridOpacity: any;
-  auroraOpacity: any;
+  gridOpacity: MotionValue<number>;
+  auroraOpacity: MotionValue<number>;
 }
 
-export function BackgroundElements({ isStudio, gridOpacity, auroraOpacity }: BackgroundElementsProps) {
+export function BackgroundElements({
+  isStudio,
+  gridOpacity,
+  auroraOpacity,
+}: BackgroundElementsProps) {
   return (
     <>
       {/* Spotlight effect for tech page */}
@@ -24,26 +30,30 @@ export function BackgroundElements({ isStudio, gridOpacity, auroraOpacity }: Bac
 
       {/* Grid Background for Studio */}
       {isStudio && (
-        <motion.div 
+        <motion.div
           className="hero-grid shadow-lg"
           style={{ opacity: gridOpacity }}
         />
       )}
 
       {/* Shape container with proper positioning */}
-      <div className={`absolute inset-0 shape-layer ${
-        isStudio ? 'z-[11]' : 'lg:z-[11] z-[5]'
-      }`}>
+      <div
+        className={`absolute inset-0 shape-layer ${
+          isStudio ? "z-[11]" : "lg:z-[11] z-[5]"
+        }`}
+      >
         {isStudio ? <StudioShape /> : <TechShape />}
       </div>
 
       {/* Aurora Background only for Studio */}
       {isStudio && (
-        <motion.div 
+        <motion.div
           className="absolute inset-0 z-[10]"
           style={{ opacity: auroraOpacity }}
         >
-          <AuroraBackground />
+          <AuroraBackground>
+            <div />
+          </AuroraBackground>
         </motion.div>
       )}
     </>

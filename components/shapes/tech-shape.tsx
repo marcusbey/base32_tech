@@ -1,29 +1,56 @@
 "use client";
 
-import { useRef, useMemo } from 'react';
-import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { MeshTransmissionMaterial, useHelper } from '@react-three/drei';
-import { useScroll } from 'framer-motion';
+import { MeshTransmissionMaterial } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { MotionValue, useScroll } from "framer-motion";
+import { useMemo, useRef } from "react";
+import * as THREE from "three";
 
-function Fragment({ position, rotation, scale, baseGeometry, scrollProgress, index }) {
-  const meshRef = useRef();
-  const initialPosition = useMemo(() => new THREE.Vector3(...position), [position]);
-  const initialRotation = useMemo(() => new THREE.Euler(...rotation), [rotation]);
+interface FragmentProps {
+  position: [number, number, number];
+  rotation: [number, number, number];
+  scale: [number, number, number];
+  baseGeometry: THREE.BufferGeometry;
+  scrollProgress: MotionValue<number>;
+  index: number;
+}
+
+function Fragment({
+  position,
+  rotation,
+  scale,
+  baseGeometry,
+  scrollProgress,
+  index,
+}: FragmentProps) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const initialPosition = useMemo(
+    () => new THREE.Vector3(...position),
+    [position]
+  );
+  const initialRotation = useMemo(
+    () => new THREE.Euler(...rotation),
+    [rotation]
+  );
 
   useFrame((state) => {
     if (meshRef.current) {
       const time = state.clock.getElapsedTime();
       const scroll = scrollProgress.get();
-      
+
       const explosionFactor = scroll * 2;
       const direction = initialPosition.clone().normalize();
-      
-      meshRef.current.position.copy(initialPosition.clone().multiplyScalar(1 + explosionFactor));
-      
-      meshRef.current.rotation.x = initialRotation.x + time * 0.2 + scroll * Math.PI * 0.5;
-      meshRef.current.rotation.y = initialRotation.y + time * 0.3 + scroll * Math.PI * 0.5;
-      meshRef.current.rotation.z = initialRotation.z + time * 0.1 + scroll * Math.PI * 0.5;
+
+      meshRef.current.position.copy(
+        initialPosition.clone().multiplyScalar(1 + explosionFactor)
+      );
+
+      meshRef.current.rotation.x =
+        initialRotation.x + time * 0.2 + scroll * Math.PI * 0.5;
+      meshRef.current.rotation.y =
+        initialRotation.y + time * 0.3 + scroll * Math.PI * 0.5;
+      meshRef.current.rotation.z =
+        initialRotation.z + time * 0.1 + scroll * Math.PI * 0.5;
 
       const pulseScale = 1 + Math.sin(time * 2 + index) * 0.05;
       meshRef.current.scale.set(
@@ -35,7 +62,13 @@ function Fragment({ position, rotation, scale, baseGeometry, scrollProgress, ind
   });
 
   return (
-    <mesh ref={meshRef} position={position} rotation={rotation} scale={scale} geometry={baseGeometry}>
+    <mesh
+      ref={meshRef}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+      geometry={baseGeometry}
+    >
       <MeshTransmissionMaterial
         samples={4}
         thickness={0.5}
@@ -54,8 +87,8 @@ function Fragment({ position, rotation, scale, baseGeometry, scrollProgress, ind
 }
 
 function Lighting() {
-  const mainLightRef = useRef();
-  const yellowLightRef = useRef();
+  const mainLightRef = useRef<THREE.DirectionalLight>(null);
+  const yellowLightRef = useRef<THREE.SpotLight>(null);
   const { scrollYProgress } = useScroll();
 
   const targetPosition = useMemo(() => new THREE.Vector3(0, 0, 0), []);
@@ -90,7 +123,7 @@ function Lighting() {
         color="#1e3a8a"
         castShadow
       />
-      
+
       {/* Yellow highlight light from top left */}
       <spotLight
         ref={yellowLightRef}
@@ -101,17 +134,13 @@ function Lighting() {
         distance={20}
         color="#ffd700"
       />
-      
+
       {/* Ambient light - reduced intensity */}
       <ambientLight intensity={0.2} color="#ffffff" />
-      
+
       {/* Hemisphere light - reduced intensity */}
-      <hemisphereLight
-        intensity={0.3}
-        color="#1e3a8a"
-        groundColor="#000000"
-      />
-      
+      <hemisphereLight intensity={0.3} color="#1e3a8a" groundColor="#000000" />
+
       {/* Rim light - slightly reduced */}
       <spotLight
         position={[0, 0, -10]}
@@ -155,21 +184,25 @@ function ExplodedGeodesic() {
         positions.getZ(idx3)
       );
 
-      const center = new THREE.Vector3().add(v1).add(v2).add(v3).divideScalar(3);
+      const center = new THREE.Vector3()
+        .add(v1)
+        .add(v2)
+        .add(v3)
+        .divideScalar(3);
       const direction = center.clone().normalize();
 
       fragments.push({
-        position: [
-          direction.x * 0.8,
-          direction.y * 0.8,
-          direction.z * 0.8
+        position: [direction.x * 0.8, direction.y * 0.8, direction.z * 0.8] as [
+          number,
+          number,
+          number
         ],
         rotation: [
           Math.random() * Math.PI,
           Math.random() * Math.PI,
-          Math.random() * Math.PI
-        ],
-        scale: [0.4, 0.4, 0.1]
+          Math.random() * Math.PI,
+        ] as [number, number, number],
+        scale: [0.4, 0.4, 0.1] as [number, number, number],
       });
     }
 

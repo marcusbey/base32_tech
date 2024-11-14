@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useScroll, useTransform, motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 type SpotlightProps = {
   className?: string;
@@ -15,8 +15,10 @@ export const Spotlight = ({ className, fill }: SpotlightProps) => {
 
   return (
     <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       style={{ opacity, scale }}
-      className="absolute top-0 left-0 w-full h-full pointer-events-none"
+      className="fixed top-0 left-0 w-full h-full pointer-events-none"
     >
       <svg
         className={cn(

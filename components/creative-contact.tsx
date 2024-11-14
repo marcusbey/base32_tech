@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Calendar, Send, Sparkles } from 'lucide-react';
-import { useCompany } from '@/lib/company-context';
+import { useCompany } from "@/lib/company-context";
+import { motion } from "framer-motion";
+import { Calendar, Send, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 export default function CreativeContact() {
   const { company } = useCompany();
-  const isTech = company === 'tech';
-  
+  const isTech = company === "tech";
+
   const [formData, setFormData] = useState({
-    vision: '',
-    email: ''
+    vision: "",
+    email: "",
   });
 
   const currentTestimonial = {
-    quote: isTech 
+    quote: isTech
       ? "The automation solutions provided by BASE32.TECH have transformed our workflow completely. We're seeing incredible results."
       : "Working with BASE32.STUDIO was a game-changer for our brand. Their attention to detail and creativity is unmatched.",
     author: isTech ? "Sarah Chen" : "David Park",
-    role: isTech ? "CTO, InnovateTech" : "Founder, Nexus Innovations"
+    role: isTech ? "CTO, InnovateTech" : "Founder, Nexus Innovations",
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -29,11 +29,13 @@ export default function CreativeContact() {
 
   return (
     <section className="min-h-[80vh] flex items-center justify-center px-4 py-32">
-      <div className={`w-full max-w-6xl rounded-2xl p-8 md:p-16 relative overflow-hidden ${
-        isTech 
-          ? 'bg-gradient-to-br from-blue-950/30 via-indigo-900/20 to-violet-900/30 backdrop-blur-2xl border border-blue-500/10'
-          : 'bg-gradient-to-br from-indigo-100/90 via-white/80 to-purple-100/90 backdrop-blur-xl shadow-[inset_0_-100px_200px_-50px_rgba(99,102,241,0.2)]'
-      }`}>
+      <div
+        className={`w-full max-w-6xl rounded-2xl p-8 md:p-16 relative overflow-hidden ${
+          isTech
+            ? "bg-gradient-to-br from-blue-950/30 via-indigo-900/20 to-violet-900/30 backdrop-blur-2xl border border-blue-500/10"
+            : "bg-gradient-to-br from-indigo-100/90 via-white/80 to-purple-100/90 backdrop-blur-xl shadow-[inset_0_-100px_200px_-50px_rgba(99,102,241,0.2)]"
+        }`}
+      >
         {/* Studio-specific decorative elements */}
         {!isTech && (
           <div className="absolute inset-0 overflow-hidden">
@@ -48,17 +50,17 @@ export default function CreativeContact() {
             className="absolute inset-0 -z-10"
             animate={{
               background: [
-                'radial-gradient(circle at 0% 0%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)',
-                'radial-gradient(circle at 100% 100%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)',
-                'radial-gradient(circle at 0% 100%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)',
-                'radial-gradient(circle at 100% 0%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)',
-                'radial-gradient(circle at 0% 0%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)',
+                "radial-gradient(circle at 0% 0%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)",
+                "radial-gradient(circle at 100% 100%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)",
+                "radial-gradient(circle at 0% 100%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)",
+                "radial-gradient(circle at 100% 0%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)",
+                "radial-gradient(circle at 0% 0%, rgba(30, 58, 138, 0.1) 0%, transparent 50%)",
               ],
             }}
             transition={{
               duration: 10,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
         )}
@@ -66,7 +68,7 @@ export default function CreativeContact() {
         <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
           <div className="space-y-12 mb-16">
             <div className="space-y-6">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -75,78 +77,93 @@ export default function CreativeContact() {
                 <motion.div
                   animate={{
                     rotate: [0, 360],
-                    scale: [1, 1.2, 1]
+                    scale: [1, 1.2, 1],
                   }}
                   transition={{
                     duration: 3,
                     repeat: Infinity,
-                    ease: "linear"
+                    ease: "linear",
                   }}
                 >
-                  <Sparkles className={`w-6 h-6 ${
-                    isTech ? 'text-yellow-400' : 'text-indigo-500'
-                  }`} />
+                  <Sparkles
+                    className={`w-6 h-6 ${
+                      isTech ? "text-yellow-400" : "text-indigo-500"
+                    }`}
+                  />
                 </motion.div>
-                <h2 className={`text-3xl font-semibold ${
-                  isTech ? 'text-white' : 'text-gray-900'
-                }`}>
-                  What's your vision?
+                <h2
+                  className={`text-3xl font-semibold ${
+                    isTech ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  What&apos;s your vision?
                 </h2>
               </motion.div>
 
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 className={`text-lg mb-8 ${
-                  isTech ? 'text-gray-400' : 'text-gray-600'
+                  isTech ? "text-gray-400" : "text-gray-600"
                 }`}
               >
-                Share your ideas and let's create something extraordinary together.
+                Share your ideas and let&apos;s create something extraordinary
+                together.
               </motion.p>
 
-              <div className={`relative rounded-xl overflow-hidden ${
-                isTech ? 'bg-blue-950/20' : 'bg-white/80'
-              }`}>
+              <div
+                className={`relative rounded-xl overflow-hidden ${
+                  isTech ? "bg-blue-950/20" : "bg-white/80"
+                }`}
+              >
                 <textarea
                   id="vision"
                   rows={4}
                   value={formData.vision}
-                  onChange={(e) => setFormData(prev => ({ ...prev, vision: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, vision: e.target.value }))
+                  }
                   className={`w-full px-4 py-3 bg-transparent relative z-10 ${
                     isTech
-                      ? 'text-white placeholder-gray-400'
-                      : 'text-gray-900 placeholder-gray-500'
+                      ? "text-white placeholder-gray-400"
+                      : "text-gray-900 placeholder-gray-500"
                   } focus:outline-none focus:ring-2 ${
-                    isTech ? 'focus:ring-yellow-500/50' : 'focus:ring-indigo-500/50'
+                    isTech
+                      ? "focus:ring-yellow-500/50"
+                      : "focus:ring-indigo-500/50"
                   }`}
                   placeholder="Tell us about your project..."
                 />
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
                 placeholder="Your email"
                 className={`flex-1 px-4 py-3 rounded-xl ${
                   isTech
-                    ? 'bg-blue-950/20 border border-blue-500/20 text-white placeholder-gray-400'
-                    : 'bg-white/80 text-gray-900 placeholder-gray-500'
+                    ? "bg-blue-950/20 border border-blue-500/20 text-white placeholder-gray-400"
+                    : "bg-white/80 text-gray-900 placeholder-gray-500"
                 } focus:outline-none focus:ring-2 ${
-                  isTech ? 'focus:ring-yellow-500/50' : 'focus:ring-indigo-500/50'
+                  isTech
+                    ? "focus:ring-yellow-500/50"
+                    : "focus:ring-indigo-500/50"
                 }`}
               />
-              
+
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.02 }}
-                className={`w-[180px] py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+                className={`w-full sm:w-[180px] py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
                   isTech
-                    ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                    : 'bg-indigo-500 text-white hover:bg-indigo-600'
+                    ? "bg-blue-500 hover:bg-blue-600 text-white"
+                    : "bg-indigo-500 text-white hover:bg-indigo-600"
                 } transition-all duration-300`}
               >
                 <Send className="w-5 h-5" />
@@ -156,9 +173,11 @@ export default function CreativeContact() {
           </div>
 
           {/* Divider */}
-          <div className={`h-px w-full ${
-            isTech ? 'bg-blue-500/20' : 'bg-indigo-200/50'
-          } mb-16`} />
+          <div
+            className={`h-px w-full ${
+              isTech ? "bg-blue-500/20" : "bg-indigo-200/50"
+            } mb-16`}
+          />
 
           {/* Testimonial and Call Booking Section */}
           <div className="flex flex-col md:flex-row gap-8">
@@ -169,25 +188,33 @@ export default function CreativeContact() {
               viewport={{ once: true }}
               className="flex-1 p-8"
             >
-              <div className={`text-xl mb-4 ${
-                isTech ? 'text-yellow-400' : 'text-indigo-500'
-              }`}>
-                "
+              <div
+                className={`text-xl mb-4 ${
+                  isTech ? "text-yellow-400" : "text-indigo-500"
+                }`}
+              >
+                &quot;
               </div>
-              <p className={`text-lg mb-6 ${
-                isTech ? 'text-gray-300' : 'text-gray-600'
-              }`}>
+              <p
+                className={`text-lg mb-6 ${
+                  isTech ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
                 {currentTestimonial.quote}
               </p>
               <div>
-                <p className={`font-medium ${
-                  isTech ? 'text-white' : 'text-gray-900'
-                }`}>
+                <p
+                  className={`font-medium ${
+                    isTech ? "text-white" : "text-gray-900"
+                  }`}
+                >
                   {currentTestimonial.author}
                 </p>
-                <p className={`text-sm ${
-                  isTech ? 'text-gray-400' : 'text-gray-500'
-                }`}>
+                <p
+                  className={`text-sm ${
+                    isTech ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
                   {currentTestimonial.role}
                 </p>
               </div>
@@ -198,20 +225,22 @@ export default function CreativeContact() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="flex flex-col items-end justify-end w-[180px]"
+              className="flex flex-col items-center md:items-end justify-end w-full md:w-[180px]"
             >
-              <p className={`text-sm font-medium mb-4 text-right ${
-                isTech ? 'text-gray-300' : 'text-gray-700'
-              }`}>
+              <p
+                className={`text-sm font-medium mb-4 text-center md:text-right ${
+                  isTech ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
                 Ready to discuss your project in detail?
               </p>
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.02 }}
-                className={`w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+                className={`w-full max-w-[300px] md:max-w-none py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
                   isTech
-                    ? 'bg-yellow-500 hover:bg-yellow-600 text-black shadow-lg shadow-yellow-500/20'
-                    : 'bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                    ? "bg-yellow-500 hover:bg-yellow-600 text-black shadow-lg shadow-yellow-500/20"
+                    : "bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20"
                 } transition-all duration-300`}
               >
                 <Calendar className="w-5 h-5" />

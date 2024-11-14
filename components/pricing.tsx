@@ -103,13 +103,19 @@ function Pricing() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-12 gap-16 max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.02 }}
-            className="mega-glass-card rounded-2xl overflow-hidden relative group"
+            whileHover={{
+              background: isTech
+                ? "linear-gradient(135deg, rgba(234, 179, 8, 0.1), rgba(59, 130, 246, 0.1))"
+                : "linear-gradient(135deg, rgba(219, 39, 119, 0.1), rgba(59, 130, 246, 0.1))",
+              backdropFilter: "blur(12px)",
+              transition: { duration: 0.3 },
+            }}
+            className="mega-glass-card rounded-2xl overflow-hidden relative group md:col-span-7"
           >
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
@@ -189,17 +195,19 @@ function Pricing() {
                 ))}
               </div>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`w-full py-3 px-6 rounded-xl font-semibold transition-colors ${
-                  isTech
-                    ? "bg-yellow-500 hover:bg-yellow-600 text-black"
-                    : "bg-indigo-500 hover:bg-indigo-600 text-white"
-                }`}
-              >
-                Get Started
-              </motion.button>
+              <div className="flex justify-center">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-2/3 py-3 px-6 rounded-xl font-semibold transition-colors ${
+                    isTech
+                      ? "bg-yellow-500 hover:bg-yellow-600 text-black"
+                      : "bg-indigo-500 hover:bg-indigo-600 text-white"
+                  }`}
+                >
+                  Get Started
+                </motion.button>
+              </div>
             </div>
           </motion.div>
 
@@ -207,7 +215,7 @@ function Pricing() {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="glass-card rounded-2xl p-8 flex flex-col justify-between"
+            className="glass-card rounded-2xl p-8 flex flex-col justify-between md:col-span-4"
           >
             <div>
               <h3

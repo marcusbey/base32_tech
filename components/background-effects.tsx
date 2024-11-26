@@ -1,7 +1,7 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 // Device detection hook
@@ -20,10 +20,34 @@ function useIsMobile() {
   return isMobile;
 }
 
+// Tab visibility hook
+function useTabVisibility() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsVisible(!document.hidden);
+    };
+
+    // Initial check
+    setIsVisible(!document.hidden);
+    
+    // Listen for visibility changes
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  return isVisible;
+}
+
 export default function BackgroundEffects() {
   const { company } = useCompany();
   const { scrollYProgress } = useScroll();
   const isMobile = useIsMobile();
+  const isTabVisible = useTabVisibility();
 
   // Scale down the glow as user scrolls
   const glowScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
@@ -53,19 +77,27 @@ export default function BackgroundEffects() {
               </>
             )}
 
-            {/* Simplified animation for mobile */}
-            <motion.div
-              className={`absolute inset-[40%] rounded-full bg-blue-900/10 ${isMobile ? 'blur-[20px]' : 'blur-[40px]'}`}
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.1, 0.12, 0.1],
-              }}
-              transition={{
-                duration: isMobile ? 6 : 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
+            {/* Animated glow with tab visibility control */}
+            <AnimatePresence>
+              {isTabVisible && (
+                <motion.div
+                  key="glow-animation"
+                  className={`absolute inset-[40%] rounded-full bg-blue-900/10 ${isMobile ? 'blur-[20px]' : 'blur-[40px]'}`}
+                  initial={{ scale: 1, opacity: 0.1 }}
+                  animate={{
+                    scale: [1, 1.1, 1],
+                    opacity: [0.1, 0.12, 0.1],
+                  }}
+                  exit={{ scale: 1, opacity: 0.1 }}
+                  transition={{
+                    duration: isMobile ? 6 : 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    repeatDelay: 0,
+                  }}
+                />
+              )}
+            </AnimatePresence>
           </motion.div>
         </>
       ) : (

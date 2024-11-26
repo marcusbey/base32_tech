@@ -1,11 +1,12 @@
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { CircuitBoard, Palette, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useCompany } from "@/lib/company-context";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Navigation() {
   const { company, toggleCompany } = useCompany();
@@ -141,17 +142,18 @@ export default function Navigation() {
                   isStudio ? 'text-gray-800' : 'text-white'
                 }`}
               >
-                {isStudio ? (
-                  <>
-                    <Palette className="w-4 h-4" />
-                    <span className="text-sm font-medium">BASE32.STUDIO</span>
-                  </>
-                ) : (
-                  <>
-                    <CircuitBoard className="w-4 h-4" />
-                    <span className="text-sm font-medium">BASE32.TECH</span>
-                  </>
-                )}
+                <div className="w-4 h-4 relative">
+                  <Image
+                    src={isStudio ? '/images/dark_base32.svg' : '/images/white_base32.svg'}
+                    alt="Base32 Logo"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+                <span className="text-sm font-medium">
+                  {isStudio ? 'BASE32.STUDIO' : 'BASE32.TECH'}
+                </span>
               </motion.button>
             </Link>
 

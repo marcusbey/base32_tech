@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { CircuitBoard, Palette } from 'lucide-react';
+import Image from 'next/image';
 
 interface LogoProps {
   isStudio: boolean;
@@ -25,11 +25,15 @@ export function Logo({ isStudio }: LogoProps) {
               : 'bg-black/20 backdrop-blur-md'
           }`}
         >
-          {isStudio ? (
-            <Palette className="w-6 h-6 text-indigo-500" />
-          ) : (
-            <CircuitBoard className="w-6 h-6 text-yellow-400" />
-          )}
+          <div className="w-6 h-6 relative">
+            <Image
+              src={isStudio ? '/images/dark_base32.svg' : '/images/white_base32.svg'}
+              alt="Base32 Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
         </motion.div>
         <div className={`hidden sm:block ${
           isStudio ? 'text-gray-800' : 'text-white'

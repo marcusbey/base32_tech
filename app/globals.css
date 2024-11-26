@@ -10,7 +10,7 @@
 
 body {
   background: #000;
-  color: #fff;
+  color: #000;
   overflow-x: hidden;
   font-weight: 400;
   font-size: 0.875rem;
@@ -20,6 +20,7 @@ body {
 
 [data-company="studio"] body {
   background: #ffffff;
+  color: #000;
   transition: all 0.3s ease-in-out;
 }
 
@@ -152,4 +153,58 @@ body {
 .theme-transition {
   pointer-events: none;
   transition: all 0.3s ease-in-out;
+}
+
+/* Media queries for mobile optimization */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
+  }
+
+  .glass-card {
+    backdrop-filter: blur(8px);
+  }
+
+  .mega-glass-card {
+    backdrop-filter: blur(12px);
+  }
+
+  .hero-grid {
+    inset: 1rem;
+    border-radius: 1rem;
+    background-size: 16px 16px;
+  }
+
+  .studio-grid {
+    background-size: 16px 16px;
+  }
+
+  /* Reduce animation complexity on mobile */
+  .theme-transition {
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Optimize canvas rendering for mobile */
+  .shape-layer canvas,
+  .particles-layer canvas {
+    height: 100dvh !important;
+  }
+}
+
+/* High-performance mode for low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition {
+    transition: none;
+  }
+
+  .hero-grid {
+    animation: none;
+    opacity: 1;
+  }
+
+  .studio-grid {
+    animation: none;
+    opacity: 0.5;
+  }
 }

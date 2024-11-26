@@ -68,12 +68,13 @@ function Particles({ count = 100 }) {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.02}
-        color="#1e3a8a"
+        size={0.008}
+        color="#4f46e5"
         transparent
-        opacity={0.6}
+        opacity={1}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
+        sizeAttenuation={true}
       />
     </points>
   );

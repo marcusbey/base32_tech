@@ -27,6 +27,7 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin=""
         />
+        <script defer data-website-id="6745e0e710cb0518ebd02c97" data-domain="base32.tech" src="https://datafa.st/js/script.js"></script>
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <ClientLayout>{children}</ClientLayout>

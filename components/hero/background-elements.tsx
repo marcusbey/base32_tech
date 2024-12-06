@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { AuroraBackground } from "../ui/aurora-background";
 import { Spotlight } from "../ui/spotlight";
 import { useDevice } from "@/hooks/use-device";
+import { Suspense, useEffect, useState } from "react";
 
 const StudioShape = dynamic(() => import("../shapes/studio-shape"), {
   ssr: false,
@@ -23,6 +24,35 @@ export function BackgroundElements({
   auroraOpacity,
 }: BackgroundElementsProps) {
   const { isMobile, isLoading } = useDevice();
+  const [isLowPerformance, setIsLowPerformance] = useState(false);
+
+  // Detect low performance devices
+  useEffect(() => {
+    const checkPerformance = () => {
+      // Check if device has a low refresh rate or is thermal throttling
+      const isLowRefreshRate = window.screen.availWidth * window.screen.availHeight > 2073600; // > 1080p
+      setIsLowPerformance(isLowRefreshRate || isMobile);
+    };
+    
+    checkPerformance();
+    window.addEventListener('resize', checkPerformance);
+    return () => window.removeEventListener('resize', checkPerformance);
+  }, [isMobile]);
+
+  // Render 3D scene with proper fallbacks
+  const render3DScene = () => {
+    if (isLoading || isMobile || !isStudio) return null;
+    
+    return (
+      <Suspense fallback={
+        <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/10 to-transparent" />
+      }>
+        <div className="absolute inset-0 shape-layer z-[11]">
+          <StudioShape quality={isLowPerformance ? "low" : "high"} />
+        </div>
+      </Suspense>
+    );
+  };
 
   return (
     <>
@@ -39,16 +69,7 @@ export function BackgroundElements({
         />
       )}
 
-      {/* Shape container with proper positioning */}
-      {!isLoading && !isMobile && (
-        <div
-          className={`absolute inset-0 shape-layer ${
-            isStudio ? "z-[11]" : "lg:z-[11] z-[5]"
-          }`}
-        >
-          {isStudio ? <StudioShape /> : <TechShape />}
-        </div>
-      )}
+      {render3DScene()}
 
       {/* Mobile fallback background */}
       {isMobile && (
@@ -62,7 +83,7 @@ export function BackgroundElements({
       )}
 
       {/* Aurora Background only for Studio */}
-      {isStudio && !isMobile && (
+      {isStudio && !isMobile && !isLowPerformance && (
         <motion.div
           className="absolute inset-0 z-[10]"
           style={{ opacity: auroraOpacity }}

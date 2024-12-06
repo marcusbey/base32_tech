@@ -7,17 +7,20 @@ const values = [
   {
     title: "Innovation Through Intelligence",
     description: "We push the boundaries of what's possible with AI and automation, creating solutions that adapt and evolve with your business needs.",
-    bigWord: "INNOVATE"
+    bigWord: "INNOVATE",
+    keywords: ["TRANSFORM", "DISRUPT", "CREATE", "PIONEER", "ADVANCE", "INSPIRE"]
   },
   {
     title: "Precision in Execution",
     description: "Every line of code, every algorithm, and every solution is crafted with meticulous attention to detail and performance.",
-    bigWord: "EXECUTE"
+    bigWord: "EXECUTE",
+    keywords: ["DELIVER", "PERFECT", "OPTIMIZE", "ACHIEVE", "EXCEL", "MASTER"]
   },
   {
     title: "Client-Centric Evolution",
     description: "Your success drives our innovation. We continuously evolve our solutions based on real-world feedback and results.",
-    bigWord: "EVOLVE"
+    bigWord: "EVOLVE",
+    keywords: ["ADAPT", "GROW", "IMPROVE", "PROGRESS", "DEVELOP", "THRIVE"]
   }
 ];
 
@@ -51,14 +54,29 @@ export default function Values() {
                     duration: 0.8,
                     ease: [0.21, 0.45, 0.15, 1.0]
                   }}
-                  className="relative space-y-6"
+                  className="relative"
                 >
-                  <h3 className="text-4xl font-semibold text-white">
-                    {value.title}
-                  </h3>
-                  <p className="text-xl text-gray-400 leading-relaxed">
-                    {value.description}
-                  </p>
+                  <h3 className="text-2xl font-medium text-white mb-4">{value.title}</h3>
+                  <p className="text-slate-400">{value.description}</p>
+                  
+                  {/* Keywords Animation */}
+                  <div className="absolute -right-24 top-0 flex flex-wrap w-24 gap-2">
+                    {value.keywords.map((keyword, kidx) => (
+                      <motion.span
+                        key={keyword}
+                        className="text-xs font-medium text-blue-400/60"
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{
+                          delay: index * 0.1 + kidx * 0.1,
+                          duration: 0.5,
+                          ease: "easeOut"
+                        }}
+                      >
+                        {keyword}
+                      </motion.span>
+                    ))}
+                  </div>
                   
                   {/* Subtle decorative line */}
                   <div className="absolute -left-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-yellow-500/30 to-transparent" />

@@ -38,7 +38,7 @@ export default function TechShape() {
     const lerpedColor = currentCol.clone().lerp(nextCol, colorT.current);
     
     if (meshRef.current.material) {
-      (meshRef.current.material as THREE.Material).color = lerpedColor;
+      (meshRef.current.material as THREE.MeshStandardMaterial).color = lerpedColor;
     }
     
     // Simple rotation and scale animation

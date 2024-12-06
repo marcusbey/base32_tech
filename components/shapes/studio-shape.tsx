@@ -130,7 +130,11 @@ const StudioShapeContent = () => {
   );
 };
 
-const StudioShapeCanvas = () => (
+interface StudioShapeProps {
+  quality?: "low" | "high";
+}
+
+const StudioShapeCanvas = ({ quality = "high" }: StudioShapeProps) => (
   <Canvas
     camera={{ position: [0, 0, 5], fov: 75 }}
     dpr={Math.min(window.devicePixelRatio * 0.75, 2)}
@@ -151,10 +155,5 @@ const StudioShape = dynamic(() => Promise.resolve(StudioShapeCanvas), {
   ssr: false,
 });
 
-export default function StudioShapeWrapper() {
-  return (
-    <div className="absolute inset-0 -z-10">
-      <StudioShape />
-    </div>
-  );
-}
+export type { StudioShapeProps };
+export default StudioShape;

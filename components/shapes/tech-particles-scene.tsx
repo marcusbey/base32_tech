@@ -24,14 +24,12 @@ function Particles({ count = 100 }) {
     particlesPosition[i3 + 1] = radius * Math.sin(theta) * Math.sin(phi);
     particlesPosition[i3 + 2] = radius * Math.cos(theta);
 
-    // Random speeds for each particle
-    particlesSpeeds[i] = Math.random() * 0.02;
+    // Reduced speed range for smoother rotation
+    particlesSpeeds[i] = Math.random() * 0.008; // Reduced from 0.02 to 0.008
   }
 
   useFrame((state) => {
     if (mesh.current) {
-      const time = state.clock.getElapsedTime();
-      const scroll = scrollYProgress.get();
       const positions = mesh.current.geometry.attributes.position
         .array as Float32Array;
 
@@ -45,7 +43,7 @@ function Particles({ count = 100 }) {
         const z = positions[i3 + 2];
 
         const radius = Math.sqrt(x * x + y * y + z * z);
-        const theta = Math.atan2(y, x) + speed * (1 - scroll);
+        const theta = Math.atan2(y, x) + speed * (1 - scrollYProgress.get());
         const phi = Math.acos(z / radius);
 
         positions[i3] = radius * Math.sin(phi) * Math.cos(theta);

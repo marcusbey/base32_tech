@@ -69,7 +69,10 @@ export default function CreativeContact() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          company: isTech ? 'tech' : 'studio'
+        }),
       });
 
       if (!response.ok) throw new Error('Failed to send message');

@@ -3,11 +3,18 @@
 import { useCompany } from "@/lib/company-context";
 import { motion } from "framer-motion";
 import { Calendar, Send, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 export default function CreativeContact() {
   const { company } = useCompany();
   const isTech = company === "tech";
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+  const [errors, setErrors] = useState({
+    vision: "",
+    email: "",
+  });
 
   const [formData, setFormData] = useState({
     vision: "",
@@ -22,9 +29,58 @@ export default function CreativeContact() {
     role: isTech ? "CTO, InnovateTech" : "Founder, Nexus Innovations",
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors = {
+      vision: "",
+      email: "",
+    };
+    let isValid = true;
+
+    if (!formData.vision || formData.vision.length < 10) {
+      newErrors.vision = "Vision must be at least 10 characters";
+      isValid = false;
+    }
+
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  // Add real-time validation
+  useEffect(() => {
+    const isFormValid = formData.vision.length >= 10 && 
+                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    setIsValid(isFormValid);
+  }, [formData]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error('Failed to send message');
+
+      toast.success("Thank you for sharing your vision! We'll be in touch soon.");
+      setFormData({ vision: "", email: "" });
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -121,9 +177,10 @@ export default function CreativeContact() {
                   id="vision"
                   rows={4}
                   value={formData.vision}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, vision: e.target.value }))
-                  }
+                  onChange={(e) => {
+                    setFormData((prev) => ({ ...prev, vision: e.target.value }));
+                    if (errors.vision) setErrors(prev => ({ ...prev, vision: "" }));
+                  }}
                   className={`w-full px-4 py-3 bg-transparent relative z-10 ${
                     isTech
                       ? "text-white placeholder-gray-400"
@@ -135,39 +192,69 @@ export default function CreativeContact() {
                   }`}
                   placeholder="Tell us about your project..."
                 />
+                {errors.vision && (
+                  <p className={`absolute -bottom-6 left-0 text-sm ${isTech ? "text-red-400" : "text-red-500"}`}>
+                    {errors.vision}
+                  </p>
+                )}
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, email: e.target.value }))
-                }
-                placeholder="Your email"
-                className={`flex-1 px-4 py-3 rounded-xl ${
-                  isTech
-                    ? "bg-blue-950/20 border border-blue-500/20 text-white placeholder-gray-400"
-                    : "bg-white/80 text-gray-900 placeholder-gray-500"
-                } focus:outline-none focus:ring-2 ${
-                  isTech
-                    ? "focus:ring-yellow-500/50"
-                    : "focus:ring-indigo-500/50"
-                }`}
-              />
+            <div className="flex flex-col sm:flex-row gap-4 items-start">
+              <div className="flex-1">
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => {
+                      setFormData((prev) => ({ ...prev, email: e.target.value }));
+                      if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
+                    }}
+                    placeholder="Your email"
+                    className={`w-full px-4 py-3 rounded-xl ${
+                      isTech
+                        ? "bg-blue-950/20 border border-blue-500/20 text-white placeholder-gray-400"
+                        : "bg-white/80 text-gray-900 placeholder-gray-500"
+                    } focus:outline-none focus:ring-2 ${
+                      isTech
+                        ? "focus:ring-yellow-500/50"
+                        : "focus:ring-indigo-500/50"
+                    }`}
+                  />
+                  {errors.email && (
+                    <p className={`absolute -bottom-5 left-0 text-sm ${isTech ? "text-red-400" : "text-red-500"}`}>
+                      {errors.email}
+                    </p>
+                  )}
+                </div>
+              </div>
 
               <motion.button
-                type="button"
-                whileHover={{ scale: 1.02 }}
+                type="submit"
+                disabled={isSubmitting || !isValid}
+                whileHover={{ scale: isValid ? 1.02 : 1 }}
                 className={`w-full sm:w-[180px] py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
                   isTech
                     ? "bg-blue-500 hover:bg-blue-600 text-white"
                     : "bg-indigo-500 text-white hover:bg-indigo-600"
-                } transition-all duration-300`}
+                } transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                <Send className="w-5 h-5" />
-                Send Message
+                {isSubmitting ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Calendar className="w-5 h-5" />
+                    </motion.div>
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    <span>Send Message</span>
+                  </>
+                )}
               </motion.button>
             </div>
           </div>

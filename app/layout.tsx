@@ -2,6 +2,7 @@ import ClientLayout from "@/components/client-layout";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,18 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        <script defer data-website-id="6745e0e710cb0518ebd02c97" data-domain="base32.tech" src="https://datafa.st/js/script.js"></script>
-      </head>
-      <body className={inter.className} suppressHydrationWarning>
-        <ClientLayout>{children}</ClientLayout>
+    <html lang="en" className={inter.className}>
+      <body>
+        <ClientLayout>
+          {children}
+          <Toaster richColors position="top-center" />
+        </ClientLayout>
       </body>
     </html>
   );

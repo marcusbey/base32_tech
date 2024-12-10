@@ -1,299 +1,192 @@
 "use client";
 
-import { useCompany } from "@/lib/company-context";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 import {
   Bot,
-  Brain,
-  Clock,
-  Layout,
-  Palette,
-  Users,
-  Wand2,
   Workflow,
+  Brain,
   Zap,
+  FileCode,
+  AppWindow
 } from "lucide-react";
 
-const services = {
-  tech: [
-    {
-      icon: Bot,
-      title: "AI Agents",
-      description:
-        "Custom intelligent agents that learn and adapt to your needs",
-      features: [
-        "Natural language processing",
-        "Machine learning integration",
-        "Automated decision making",
-        "Continuous learning",
-      ],
-      gradient: "from-blue-500/10 to-transparent",
-      hoverGradient: "from-blue-500/5 to-transparent",
-    },
-    {
-      icon: Workflow,
-      title: "Workflow Automation",
-      description: "Streamline complex processes with smart automation",
-      features: [
-        "Process optimization",
-        "Custom workflows",
-        "Integration with existing tools",
-        "Real-time monitoring",
-      ],
-      gradient: "from-purple-500/10 to-transparent",
-      hoverGradient: "from-purple-500/5 to-transparent",
-    },
-    {
-      icon: Brain,
-      title: "Machine Learning",
-      description: "Advanced algorithms that improve over time",
-      features: [
-        "Predictive analytics",
-        "Pattern recognition",
-        "Data processing",
-        "Model optimization",
-      ],
-      gradient: "from-green-500/10 to-transparent",
-      hoverGradient: "from-green-500/5 to-transparent",
-    },
-    {
-      icon: Clock,
-      title: "Time Optimization",
-      description: "Save hours daily with automated task management",
-      features: [
-        "Task prioritization",
-        "Resource allocation",
-        "Performance tracking",
-        "Efficiency metrics",
-      ],
-      gradient: "from-orange-500/10 to-transparent",
-      hoverGradient: "from-orange-500/5 to-transparent",
-    },
-  ],
-  studio: [
-    {
-      icon: Palette,
-      title: "Brand Identity",
-      description: "Distinctive visual languages that tell your story",
-      features: [
-        "Logo design",
-        "Color systems",
-        "Typography",
-        "Brand guidelines",
-      ],
-      gradient: "from-pink-500/10 to-transparent",
-      hoverGradient: "from-pink-500/5 to-transparent",
-    },
-    {
-      icon: Layout,
-      title: "UI/UX Design",
-      description: "Intuitive interfaces that delight users",
-      features: ["User research", "Wireframing", "Prototyping", "User testing"],
-      gradient: "from-indigo-500/10 to-transparent",
-      hoverGradient: "from-indigo-500/5 to-transparent",
-    },
-    {
-      icon: Wand2,
-      title: "Design Systems",
-      description: "Scalable and consistent design frameworks",
-      features: [
-        "Component libraries",
-        "Style guides",
-        "Documentation",
-        "Design tokens",
-      ],
-      gradient: "from-cyan-500/10 to-transparent",
-      hoverGradient: "from-cyan-500/5 to-transparent",
-    },
-    {
-      icon: Users,
-      title: "User Research",
-      description: "Data-driven design decisions",
-      features: [
-        "User interviews",
-        "Usability testing",
-        "Analytics",
-        "Feedback loops",
-      ],
-      gradient: "from-violet-500/10 to-transparent",
-      hoverGradient: "from-violet-500/5 to-transparent",
-    },
-  ],
-};
+const services = [
+  {
+    icon: Bot,
+    title: "Intelligent Agents",
+    description: "Accelerate production with AI-driven efficiency.",
+    details: "We create tailored digital agents that streamline your operations, saving time and optimizing workflows.",
+    gradient: "from-blue-500/10 to-transparent",
+    hoverGradient: "from-blue-500/5 to-transparent"
+  },
+  {
+    icon: Workflow,
+    title: "Custom Workflow Automation",
+    description: "Simplify processes and maximize productivity.",
+    details: "Transform repetitive tasks into seamless workflows with smart automation built to adapt to your business.",
+    gradient: "from-purple-500/10 to-transparent",
+    hoverGradient: "from-purple-500/5 to-transparent"
+  },
+  {
+    icon: Brain,
+    title: "AI-Powered Prototyping",
+    description: "From concept to MVP, faster than ever.",
+    details: "Rapidly develop and iterate MVPs with AI-driven solutions that reduce costs and speed up delivery.",
+    gradient: "from-green-500/10 to-transparent",
+    hoverGradient: "from-green-500/5 to-transparent"
+  },
+  {
+    icon: Zap,
+    title: "Advanced AI Integration",
+    description: "Empower your systems with intelligent automation.",
+    details: "Integrate cutting-edge AI into your operations to enhance decision-making and improve scalability.",
+    gradient: "from-orange-500/10 to-transparent",
+    hoverGradient: "from-orange-500/5 to-transparent"
+  },
+  {
+    icon: FileCode,
+    title: "Content Creation with AI",
+    description: "Fuel your creativity with AI-driven insights.",
+    details: "Leverage AI to generate, refine, and optimize content for blogs, campaigns, and social platforms.",
+    gradient: "from-pink-500/10 to-transparent",
+    hoverGradient: "from-pink-500/5 to-transparent"
+  },
+  {
+    icon: AppWindow,
+    title: "Custom Application Development",
+    description: "Build smarter, scalable applications fast.",
+    details: "Develop AI-integrated web and mobile applications tailored to your business needs, ready to scale.",
+    gradient: "from-indigo-500/10 to-transparent",
+    hoverGradient: "from-indigo-500/5 to-transparent"
+  }
+];
 
 export default function Services() {
-  const { company } = useCompany();
-  const currentServices = company === "tech" ? services.tech : services.studio;
-  const isTech = company === "tech";
-
-  if (!isTech) return null;
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   return (
-    <section className={`relative py-32 ${isTech ? 'bg-black' : ''}`}>
-      {/* Gradient overlay for smooth transition */}
+    <section className="relative py-32 bg-black" ref={containerRef}>
+      {/* Background gradient overlay for smooth transition */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black to-black pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto">
-        {/* First Row: Title */}
+      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="grid lg:grid-cols-2 gap-16 mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2
-              className={`text-5xl font-semibold leading-[1.2] ${
-                isTech ? "text-white" : "text-gray-900"
-              }`}
-            >
-              Pioneering Tomorrow&apos;s Solutions Today
+            <h2 className="text-5xl font-semibold leading-[1.2] text-white">
+              Pioneering Tomorrow's Solutions Today
             </h2>
           </motion.div>
         </div>
 
-        {/* Second Row: Description + Button and Service Cards */}
-        <div className="grid lg:grid-cols-12 md:grid-cols-2 gap-8 lg:gap-16">
-          {/* Left Column - Description and Button (2/6) */}
+        {/* Description and Services Grid */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
+          {/* Left Column - Description and Button */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 0.9, y: 1 }}
             viewport={{ once: true }}
-            className="lg:col-span-4 md:col-span-1"
+            className="lg:col-span-3"
           >
-            <div className="flex flex-col justify-between h-full">
-              <div className="space-y-8">
-                <p
-                  className={`text-xl leading-relaxed font-normal ${
-                    isTech ? "text-gray-300" : "text-gray-600"
-                  } leading-[1.8]`}
-                >
-                  Transform your business operations with our enterprise-grade
-                  automation solutions. We specialize in developing intelligent
-                  systems that reduce operational costs, eliminate human error,
-                  and accelerate growth.
-                </p>
+            <div className="space-y-8">
+              <p className="text-xl leading-[1.8] text-gray-300">
+                Transform your business operations with our enterprise-grade
+                automation solutions. We specialize in developing intelligent
+                systems that reduce operational costs, eliminate human error,
+                and accelerate growth.
+              </p>
 
-                <div
-                  className={`text-lg leading-relaxed ${
-                    isTech ? "text-gray-400" : "text-gray-500"
-                  }`}
-                >
-                  <p className="mb-6">
-                    Our solutions have helped companies achieve:
-                  </p>
-                  <ul className="space-y-3">
-                    <li className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-yellow-400" />
-                      80% reduction in manual tasks
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-yellow-400" />
-                      60% faster processing times
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-yellow-400" />
-                      99.9% accuracy in automated processes
-                    </li>
-                  </ul>
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="group relative px-8 py-3 rounded-full font-medium 
-                    bg-yellow-500 text-black overflow-hidden
-                    transition-all duration-300 mt-20"
-                >
-                  <div className="relative z-10 flex items-center gap-2">
-                    See Our Services
-                    <motion.div
-                      initial={{ x: -4, opacity: 0.5 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 1,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      →
-                    </motion.div>
-                  </div>
-
-                  <motion.div
-                    className="absolute inset-0 -z-10 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600"
-                    animate={{
-                      transform: ["translateX(-100%)", "translateX(100%)"],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  />
-                </motion.button>
+              <div className="text-lg leading-[1.6] text-gray-400">
+                <p className="mb-6">Our solutions have helped companies achieve:</p>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-yellow-400" />
+                    80% reduction in manual tasks
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-yellow-400" />
+                    60% faster processing times
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-yellow-400" />
+                    99.9% accuracy in automated processes
+                  </li>
+                </ul>
               </div>
+
+              <motion.a
+                href="/contact"
+                className={cn(
+                  "inline-flex items-center px-6 py-3 rounded-full",
+                  "text-white font-medium text-lg",
+                  "bg-gradient-to-r from-yellow-500/20 to-yellow-500/10",
+                  "border border-yellow-500/20 hover:border-yellow-500/40",
+                  "transition-all duration-300 mt-12"
+                )}
+              >
+                <div className="relative z-10 flex items-center gap-2">
+                  Contact us
+                  <motion.div
+                    initial={{ x: -4, opacity: 0.5 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{
+                      repeat: Infinity,
+                      repeatType: "mirror",
+                      duration: 1,
+                    }}
+                  >
+                    →
+                  </motion.div>
+                </div>
+              </motion.a>
             </div>
           </motion.div>
 
-          {/* Empty Column (1/6) */}
-          <div className="hidden lg:block lg:col-span-2" />
+          {/* Empty Column for spacing */}
+          <div className="hidden lg:block lg:col-span-1" />
 
-          {/* Right Column - Services Grid (3/6) */}
-          <div className="lg:col-span-6 md:col-span-1 grid md:grid-cols-2 gap-6">
-            {currentServices.map((service, index) => (
+          {/* Right Column - Services Grid */}
+          <div className="lg:col-span-8 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {services.map((service, index) => (
               <motion.div
-                key={service.title}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{
-                  backdropFilter: "blur(12px)",
-                }}
-                className={`p-6 rounded-2xl backdrop-blur-lg transition-all duration-700 
-                  bg-gradient-to-br ${service.gradient}
-                  hover:bg-gradient-to-br hover:${service.hoverGradient}
-                  ${
-                    isTech
-                      ? "border border-blue-500/10"
-                      : "border border-gray-200/30"
-                  }`}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={cn(
+                  "group relative p-5 rounded-2xl backdrop-blur-lg",
+                  "border border-white/10",
+                  `bg-gradient-to-br ${service.gradient}`,
+                  "hover:border-white/20 transition-all duration-500"
+                )}
               >
-                <service.icon
-                  className={`w-8 h-8 mb-4 ${
-                    isTech ? "text-yellow-400" : "text-indigo-500"
-                  }`}
-                />
-                <h3
-                  className={`text-xl font-semibold mb-2 ${
-                    isTech ? "text-white" : "text-gray-900"
-                  }`}
-                >
-                  {service.title}
-                </h3>
-                <p
-                  className={`mb-4 font-normal ${
-                    isTech ? "text-gray-400" : "text-gray-600"
-                  }`}
-                >
-                  {service.description}
-                </p>
-                <ul
-                  className={`space-y-2 font-normal ${
-                    isTech ? "text-gray-400" : "text-gray-600"
-                  }`}
-                >
-                  {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <div
-                        className={`w-1 h-1 rounded-full ${
-                          isTech ? "bg-yellow-400" : "bg-indigo-500"
-                        }`}
-                      />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                <div className="relative z-10">
+                  <service.icon className="w-6 h-6 mb-3 text-yellow-400" />
+                  <h3 className="text-base font-semibold text-white mb-2 leading-snug">
+                    {service.title}
+                  </h3>
+                  <p className="text-yellow-400/90 mb-3 leading-relaxed text-sm">
+                    {service.description}
+                  </p>
+                  <p className="text-gray-400 leading-relaxed text-sm">
+                    {service.details}
+                  </p>
+                </div>
+
+                {/* Hover gradient effect */}
+                <div className={cn(
+                  "absolute inset-0 rounded-2xl",
+                  `bg-gradient-to-b ${service.hoverGradient}`,
+                  "opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                )} />
               </motion.div>
             ))}
           </div>

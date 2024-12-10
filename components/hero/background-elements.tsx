@@ -1,18 +1,12 @@
 "use client";
 
 import { motion, MotionValue } from "framer-motion";
-import dynamic from "next/dynamic";
 import { AuroraBackground } from "../ui/aurora-background";
 import { Spotlight } from "../ui/spotlight";
 import { useDevice } from "@/hooks/use-device";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import GridBackground from "../shapes/grid-background";
 import TechParticles from "../shapes/tech-particles";
-
-const StudioShape = dynamic(() => import("../shapes/studio-shape"), {
-  ssr: false,
-});
-const TechShape = dynamic(() => import("../shapes/tech-shape"), { ssr: false });
 
 interface BackgroundElementsProps {
   isStudio: boolean;
@@ -31,8 +25,7 @@ export function BackgroundElements({
   // Detect low performance devices
   useEffect(() => {
     const checkPerformance = () => {
-      // Check if device has a low refresh rate or is thermal throttling
-      const isLowRefreshRate = window.screen.availWidth * window.screen.availHeight > 2073600; // > 1080p
+      const isLowRefreshRate = window.screen.availWidth * window.screen.availHeight > 2073600;
       setIsLowPerformance(isLowRefreshRate || isMobile);
     };
     
@@ -40,21 +33,6 @@ export function BackgroundElements({
     window.addEventListener('resize', checkPerformance);
     return () => window.removeEventListener('resize', checkPerformance);
   }, [isMobile]);
-
-  // Render 3D scene with proper fallbacks
-  const render3DScene = () => {
-    if (isLoading || isMobile || !isStudio) return null;
-    
-    return (
-      <Suspense fallback={
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/10 to-transparent" />
-      }>
-        <div className="absolute inset-0 shape-layer z-[11]">
-          <StudioShape quality={isLowPerformance ? "low" : "high"} />
-        </div>
-      </Suspense>
-    );
-  };
 
   return (
     <>
@@ -73,14 +51,14 @@ export function BackgroundElements({
         </>
       ) : (
         <>
-          <GridBackground />
-          <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute inset-0">
+            <GridBackground />
+          </div>
+          <div className="absolute inset-0 pointer-events-none">
             <TechParticles />
           </div>
         </>
       )}
-
-      {render3DScene()}
 
       {/* Mobile fallback background */}
       {isMobile && (
@@ -100,7 +78,6 @@ export function BackgroundElements({
           style={{ opacity: auroraOpacity }}
         >
           <AuroraBackground>
-            {/* Empty div as children to satisfy prop requirement */}
             <div />
           </AuroraBackground>
         </motion.div>

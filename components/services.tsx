@@ -126,8 +126,13 @@ export default function Services() {
   const currentServices = company === "tech" ? services.tech : services.studio;
   const isTech = company === "tech";
 
+  if (!isTech) return null;
+
   return (
-    <section className="relative py-32 px-4 border-t border-blue-500/20">
+    <section className={`relative py-32 ${isTech ? 'bg-black' : ''}`}>
+      {/* Gradient overlay for smooth transition */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black to-black pointer-events-none" />
+      
       <div className="max-w-7xl mx-auto">
         {/* First Row: Title */}
         <div className="grid lg:grid-cols-2 gap-16 mb-24">

@@ -1,0 +1,24 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.gridContainer {
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+.gridBackground {
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px);
+  background-size: 100px 100px;
+  --grid-color: rgba(79, 70, 229, 0.3);
+}
+
+:global(.dark) .gridBackground {
+  --grid-color: rgba(79, 70, 229, 0.4);
+}

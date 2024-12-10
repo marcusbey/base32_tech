@@ -6,6 +6,8 @@ import { AuroraBackground } from "../ui/aurora-background";
 import { Spotlight } from "../ui/spotlight";
 import { useDevice } from "@/hooks/use-device";
 import { Suspense, useEffect, useState } from "react";
+import GridBackground from "../shapes/grid-background";
+import TechParticles from "../shapes/tech-particles";
 
 const StudioShape = dynamic(() => import("../shapes/studio-shape"), {
   ssr: false,
@@ -61,12 +63,21 @@ export function BackgroundElements({
         <Spotlight className="!-top-[20%] !-left-[20%] fill-yellow-400/20" />
       )}
 
-      {/* Grid Background for Studio */}
-      {isStudio && (
-        <motion.div
-          className="hero-grid shadow-lg"
-          style={{ opacity: gridOpacity }}
-        />
+      {isStudio ? (
+        <>
+          {/* Grid Background for Studio */}
+          <motion.div
+            className="hero-grid shadow-lg"
+            style={{ opacity: gridOpacity }}
+          />
+        </>
+      ) : (
+        <>
+          <GridBackground />
+          <div className="fixed inset-0 pointer-events-none">
+            <TechParticles />
+          </div>
+        </>
       )}
 
       {render3DScene()}

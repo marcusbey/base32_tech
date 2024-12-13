@@ -1,12 +1,17 @@
-"use client";
+'use client';
 
 import { motion, MotionValue } from "framer-motion";
 import { AuroraBackground } from "../ui/aurora-background";
 import { Spotlight } from "../ui/spotlight";
 import { useDevice } from "@/hooks/use-device";
-import { useEffect, useState } from "react";
 import GridBackground from "../shapes/grid-background";
-import TechParticles from "../shapes/tech-particles";
+import dynamic from "next/dynamic";
+import { Suspense, useEffect, useState } from "react";
+
+const StudioShape = dynamic(() => import("../shapes/studio-shape"), {
+  ssr: false,
+});
+const TechShape = dynamic(() => import("../shapes/tech-shape"), { ssr: false });
 
 interface BackgroundElementsProps {
   isStudio: boolean;
@@ -21,18 +26,46 @@ export function BackgroundElements({
 }: BackgroundElementsProps) {
   const { isMobile, isLoading } = useDevice();
   const [isLowPerformance, setIsLowPerformance] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // Detect low performance devices
   useEffect(() => {
+    setMounted(true);
     const checkPerformance = () => {
-      const isLowRefreshRate = window.screen.availWidth * window.screen.availHeight > 2073600;
-      setIsLowPerformance(isLowRefreshRate || isMobile);
+      if (typeof window !== 'undefined') {
+        const isLowRefreshRate = window.screen.availWidth * window.screen.availHeight > 2073600;
+        setIsLowPerformance(isLowRefreshRate || isMobile);
+      }
     };
     
     checkPerformance();
     window.addEventListener('resize', checkPerformance);
     return () => window.removeEventListener('resize', checkPerformance);
   }, [isMobile]);
+
+  // Return a consistent structure during SSR
+  if (!mounted) {
+    return (
+      <div className="relative">
+        <div className="absolute inset-0" />
+      </div>
+    );
+  }
+
+    // Render 3D scene with proper fallbacks
+    const render3DScene = () => {
+      if (isLoading || isMobile || !isStudio) return null;
+      
+      return (
+        <Suspense fallback={
+          <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/10 to-transparent" />
+        }>
+          <div className="absolute inset-0 shape-layer z-[11]">
+            <StudioShape quality={isLowPerformance ? "low" : "high"} />
+          </div>
+        </Suspense>
+      );
+    };
 
   return (
     <>
@@ -48,14 +81,12 @@ export function BackgroundElements({
             className="hero-grid shadow-lg"
             style={{ opacity: gridOpacity }}
           />
+            {render3DScene()}
         </>
       ) : (
         <>
           <div className="absolute inset-0">
             <GridBackground />
-          </div>
-          <div className="absolute inset-0 pointer-events-none">
-            <TechParticles />
           </div>
         </>
       )}

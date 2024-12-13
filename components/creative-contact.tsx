@@ -11,6 +11,7 @@ export default function CreativeContact() {
   const isTech = company === "tech";
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isValid, setIsValid] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [errors, setErrors] = useState({
     vision: "",
     email: "",
@@ -28,6 +29,11 @@ export default function CreativeContact() {
     author: isTech ? "Sarah Chen" : "David Park",
     role: isTech ? "CTO, InnovateTech" : "Founder, Nexus Innovations",
   };
+
+  // Handle client-side mounting
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const validateForm = () => {
     const newErrors = {
@@ -50,12 +56,14 @@ export default function CreativeContact() {
     return isValid;
   };
 
-  // Add real-time validation
+  // Client-side validation
   useEffect(() => {
-    const isFormValid = formData.vision.length >= 10 && 
-                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-    setIsValid(isFormValid);
-  }, [formData]);
+    if (mounted) {
+      const isFormValid = formData.vision.length >= 10 && 
+                         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+      setIsValid(isFormValid);
+    }
+  }, [formData, mounted]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

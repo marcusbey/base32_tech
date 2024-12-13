@@ -10,6 +10,7 @@ import { StatusBadge } from "./hero/status-badge";
 export default function Hero() {
   const { company } = useCompany();
   const { scrollYProgress } = useScroll();
+  
   const isStudio = company === "studio";
   const isTech = company === "tech";
 
@@ -29,7 +30,7 @@ export default function Hero() {
   // Tech-specific visibility control
   const techVisibility = useTransform(
     scrollYProgress,
-    [0, 0.15, 0.2], // Adjust these values to control when the fade starts and ends
+    [0, 0.15, 0.2],
     [1, 1, 0]
   );
 

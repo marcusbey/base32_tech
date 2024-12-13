@@ -1,9 +1,9 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./grid-background.module.css";
+import { motion } from "framer-motion";
 
 export default function GridBackground() {
   const { company } = useCompany();
@@ -14,7 +14,14 @@ export default function GridBackground() {
     setMounted(true);
   }, []);
 
-  if (!mounted || !isTech) return null;
+  // Return a placeholder with the same structure during SSR
+  if (!mounted) {
+    return <div className="fixed inset-0 pointer-events-none" />;
+  }
+
+  if (!isTech) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 pointer-events-none">

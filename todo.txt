@@ -1,0 +1,22 @@
+1- Improve logo display on both sites
+acc CTA on the rigtht side
+add custom 404
+add custom 500
+Change particles shape to cercle and add lighting 
+TECH: improve annimation of hero
+TECH: increase lineheight
+TECH: Change subtile 
+TECH: Avalaible now. pulse and green colors
+TECH: Menu - Navigation  
+TECH: Design system
+TECH: lineheight and font-size
+TECH: Fold3: width 
+TECH: animation and sticky
+TECH: Industrie images background and 3 cards
+TECH: Pricing
+TECH: About photo + text 
+TECH: What's yout vision? 
+TECH: Form - { name lastname  and email 
+TECH: Testimonal on}
+TECH: Remove the studio for now. 
+TECH: Footer. 

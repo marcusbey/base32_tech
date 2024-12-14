@@ -68,7 +68,7 @@ export default function Values() {
 
       {/* Content Container */}
       <div className="relative h-full flex flex-col">
-        <div className="max-w-7xl mx-auto px-8 md:px-16 py-20 flex-1 flex flex-col w-full">
+        <div className="max-w-7xl mx-auto px-4 py-24 flex-1 flex flex-col w-full">
           {/* Title Section */}
           <motion.div 
             className="flex-1 flex items-center justify-end"

@@ -131,7 +131,7 @@ export default function TetrisGrid() {
   };
 
   return (
-    <div id="pattern-container" className="absolute inset-0 overflow-hidden">
+    <div id="tetris-grid-container" className="absolute inset-0 overflow-hidden">
       <svg
         className="absolute inset-0 w-full h-full"
         style={{

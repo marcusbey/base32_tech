@@ -12,6 +12,7 @@ import Services from "@/components/services";
 import Testimonials from "@/components/testimonials";
 import ThemeSwitch from "@/components/theme-switch";
 import Values from "@/components/values";
+import About from "@/components/about";
 import { useCompany } from "@/lib/company-context";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -82,13 +83,14 @@ export default function Home() {
       <div className="relative content-layer">
         <Navigation />
         <Services />
+        <PatternBreak />
+        <Brands />
         <Values />
         <Works />
         <Testimonials />
-        <Brands />
-        <CreativeContact />
-        <PatternBreak />
         <Pricing />
+        <About />
+        <CreativeContact />
         <Footer />
       </div>
 

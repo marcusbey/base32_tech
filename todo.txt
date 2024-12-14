@@ -1,8 +1,10 @@
 // 1- Improve logo display on both sites
 // acc CTA on the rigtht side
 // Change particles shape to cercle and add lighting 
-TECH: improve annimation of hero
 TECH: increase lineheight
+
+
+TECH: improve annimation of hero
 TECH: Change subtile 
 TECH: Avalaible now. pulse and green colors
 TECH: Menu - Navigation  

@@ -1,25 +1,54 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 const techColors = {
   base: ["#3B82F6", "#2563EB", "#1D4ED8"],
-  accent: ["#60A5FA", "#3B82F6", "#2563EB"]
+  bright: ["#FFFFFF", "#93C5FD", "#60A5FA"] // Much brighter colors
 };
 
 const studioColors = {
   base: ["#6366F1", "#4F46E5", "#4338CA"],
-  accent: ["#818CF8", "#6366F1", "#4F46E5"]
+  bright: ["#FFFFFF", "#C7D2FE", "#A5B4FC"] // Much brighter colors
 };
 
 export default function TetrisGrid() {
   const { company } = useCompany();
   const isTech = company === "tech";
   const colors = isTech ? techColors : studioColors;
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const mouseX = useSpring(0);
+  const mouseY = useSpring(0);
 
   const gridSize = 60;
   const baseDotSize = 4;
+  const hoverRadius = 80; // Smaller, more focused radius
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      mouseX.set(e.clientX - rect.left);
+      mouseY.set(e.clientY - rect.top);
+    };
+
+    const handleMouseLeave = () => {
+      mouseX.set(0);
+      mouseY.set(0);
+    };
+
+    container.addEventListener("mousemove", handleMouseMove);
+    container.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [mouseX, mouseY]);
 
   const getColorVariant = (x: number, y: number, colorSet: string[]) => {
     const index = Math.abs(Math.floor((x + y) / gridSize)) % colorSet.length;
@@ -33,7 +62,6 @@ export default function TetrisGrid() {
 
     // Generate grid lines
     for (let i = 0; i <= cols; i++) {
-      const lineColor = getColorVariant(i * gridSize, 0, colors.base);
       gridElements.push(
         <motion.line
           key={`vertical-${i}`}
@@ -41,7 +69,7 @@ export default function TetrisGrid() {
           y1="0"
           x2={i * gridSize}
           y2="100%"
-          stroke={lineColor}
+          stroke={getColorVariant(i * gridSize, 0, colors.base)}
           strokeOpacity="0.15"
           strokeWidth="1"
         />
@@ -49,7 +77,6 @@ export default function TetrisGrid() {
     }
 
     for (let i = 0; i <= rows; i++) {
-      const lineColor = getColorVariant(0, i * gridSize, colors.base);
       gridElements.push(
         <motion.line
           key={`horizontal-${i}`}
@@ -57,7 +84,7 @@ export default function TetrisGrid() {
           y1={i * gridSize}
           x2="100%"
           y2={i * gridSize}
-          stroke={lineColor}
+          stroke={getColorVariant(0, i * gridSize, colors.base)}
           strokeOpacity="0.15"
           strokeWidth="1"
         />
@@ -70,21 +97,57 @@ export default function TetrisGrid() {
         const x = i * gridSize;
         const y = j * gridSize;
         
-        gridElements.push(
-          <motion.circle
-            key={`dot-${i}-${j}`}
-            cx={x}
-            cy={y}
-            r={baseDotSize}
-            fill={getColorVariant(x, y, colors.base)}
-            fillOpacity="0.2"
-            whileHover={{
-              scale: 1.2,
-              fillOpacity: 0.4,
-              transition: { duration: 0.2 }
-            }}
-          />
+        const dot = (
+          <motion.g key={`dot-${i}-${j}`}>
+            {/* Base dot */}
+            <motion.circle
+              cx={x}
+              cy={y}
+              r={baseDotSize}
+              fill={getColorVariant(x, y, colors.base)}
+              fillOpacity={0.2}
+            />
+            
+            {/* Glow effect */}
+            <motion.circle
+              cx={x}
+              cy={y}
+              r={baseDotSize}
+              animate={() => {
+                const dx = mouseX.get() - x;
+                const dy = mouseY.get() - y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < hoverRadius) {
+                  const intensity = Math.pow(1 - (distance / hoverRadius), 2); // Squared for sharper falloff
+                  return {
+                    fill: getColorVariant(x, y, colors.bright),
+                    fillOpacity: intensity,
+                    scale: 1 + (intensity * 0.5),
+                    filter: "url(#glow)",
+                  };
+                }
+                
+                return {
+                  fill: getColorVariant(x, y, colors.base),
+                  fillOpacity: 0,
+                  scale: 1,
+                  filter: "none",
+                };
+              }}
+              style={{
+                transformOrigin: `${x}px ${y}px`
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 20
+              }}
+            />
+          </motion.g>
         );
+        
+        gridElements.push(dot);
       }
     }
 
@@ -92,7 +155,10 @@ export default function TetrisGrid() {
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div 
+      ref={containerRef}
+      className="absolute inset-0 overflow-hidden cursor-none"
+    >
       <motion.svg
         className="absolute inset-0 w-full h-full"
         style={{
@@ -101,14 +167,14 @@ export default function TetrisGrid() {
       >
         <defs>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
         </defs>
-        <motion.g filter="url(#glow)">
+        <motion.g>
           {generateGrid()}
         </motion.g>
       </motion.svg>

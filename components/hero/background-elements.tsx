@@ -37,10 +37,10 @@ export function BackgroundElements({
         <Particles
           className="h-full w-full"
           quantity={100}
-          staticity={30}
-          ease={50}
-          size={1}
-          mouseForce={0.5}
+          staticity={20}
+          ease={30}
+          size={2}
+          mouseForce={1.2}
           isStudio={isStudio}
         />
       </motion.div>

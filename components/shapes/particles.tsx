@@ -125,12 +125,26 @@ export default function Particles({
     const y = Math.floor(Math.random() * canvasSize.current.h);
     const translateX = 0;
     const translateY = 0;
-    const particleSize = Math.floor(Math.random() * 2) + size;
+    
+    // More varied particle sizes with occasional larger particles
+    const sizeVariation = Math.random();
+    const particleSize = sizeVariation > 0.95 
+      ? size * (Math.random() * 3 + 2) // 5% chance of being 2-5x base size
+      : sizeVariation > 0.8
+      ? size * (Math.random() * 1.5 + 1) // 15% chance of being 1-2.5x base size
+      : size * (Math.random() * 0.5 + 0.8); // 80% chance of being 0.8-1.3x base size
+    
     const alpha = 0;
-    const targetAlpha = parseFloat((Math.random() * 0.6 + 0.1).toFixed(1));
-    const dx = (Math.random() - 0.5) * 0.2;
-    const dy = (Math.random() - 0.5) * 0.2;
-    const magnetism = 0.1 + Math.random() * 4 * mouseForce;
+    const targetAlpha = parseFloat((Math.random() * 0.6 + 0.2).toFixed(1));
+    
+    // Increased speed range for more dynamic movement
+    const dx = (Math.random() - 0.5) * 0.3;
+    const dy = (Math.random() - 0.5) * 0.3;
+    
+    // More varied magnetism for different particle behaviors
+    const magnetism = Math.random() > 0.8
+      ? 0.5 + Math.random() * 4 * mouseForce // 20% stronger magnetism
+      : 0.1 + Math.random() * 2 * mouseForce; // 80% normal magnetism
     
     return {
       x,

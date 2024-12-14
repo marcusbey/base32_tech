@@ -9,36 +9,46 @@ import { useEffect, useRef } from 'react';
 const testimonials = {
   tech: [
     {
-      quote: "BASE32.TECH's automation solutions have transformed our workflow. We've saved countless hours on repetitive tasks.",
-      author: "Sarah Chen",
-      role: "CTO, InnovateTech",
+      quote: "Base32 didn't just deliver code – they became true innovation partners. Their deep understanding of AI transformed our automation pipeline, reducing deployment time by 70%. Their strategic thinking and ownership mentality set them apart.",
+      author: "Marcus Chen",
+      role: "VP of Engineering, TechFlow",
     },
     {
-      quote: "Their AI agents are incredibly intuitive. It's like having a team of virtual assistants that actually understand our needs.",
-      author: "Michael Rodriguez",
-      role: "Operations Director, FutureScale",
+      quote: "The AI integration exceeded all expectations. Their team worked as an extension of ours, delivering features in weeks that we estimated would take quarters. The technical expertise combined with business acumen made all the difference.",
+      author: "Sarah Williams",
+      role: "CTO, InnovateAI",
     },
     {
-      quote: "The ROI we've seen from implementing their solutions has been remarkable. A game-changer for our business.",
-      author: "Emma Thompson",
-      role: "CEO, DataFlow Systems",
+      quote: "From day one, Base32 demonstrated exceptional vision and execution. They elevated our entire approach to AI implementation, and the results have exceeded our most optimistic projections by 200%.",
+      author: "David Park",
+      role: "Head of Innovation, FutureScale",
+    },
+    {
+      quote: "Their AI solutions revolutionized our workflow automation. What impressed me most was how they understood our business challenges and delivered solutions that went beyond just technology – they transformed our entire operation.",
+      author: "Jennifer Zhao",
+      role: "Director of Operations, NextGen Systems",
     },
   ],
   studio: [
     {
-      quote: "The brand identity BASE32.STUDIO created for us perfectly captures our vision. Their attention to detail is unmatched.",
-      author: "David Park",
-      role: "Founder, Nexus Innovations",
+      quote: "Working with Base32 was transformative. They didn't just design our interface – they reimagined our entire user experience. Our user engagement increased by 150% within the first month post-launch.",
+      author: "Rachel Torres",
+      role: "Product Director, DesignFirst",
     },
     {
-      quote: "Working with their team was a breeze. They transformed our complex ideas into beautiful, functional designs.",
-      author: "Lisa Morgan",
-      role: "Creative Director, ArtisanTech",
+      quote: "The level of creativity and technical precision was outstanding. They delivered a design system that not only looks beautiful but has dramatically improved our development efficiency by 80%. Every interaction was purposeful.",
+      author: "Michael Zhang",
+      role: "UX Director, CreativeFlow",
     },
     {
-      quote: "Their design system has brought consistency and efficiency to our product development process.",
-      author: "James Wilson",
-      role: "Product Lead, DesignFirst",
+      quote: "Base32 brought a perfect blend of innovation and practicality. They transformed our complex requirements into an elegant, user-friendly design that our customers love. Our user satisfaction scores jumped from 72% to 94%.",
+      author: "Emma Thompson",
+      role: "CEO, BrandScape",
+    },
+    {
+      quote: "Their approach to design thinking revolutionized how we view product development. They created a visual language that perfectly captures our brand while delivering an intuitive user experience that our customers rave about.",
+      author: "Alex Rivera",
+      role: "Creative Director, VisualScope",
     },
   ],
 };

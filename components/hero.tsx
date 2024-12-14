@@ -6,6 +6,7 @@ import { BackgroundElements } from "./hero/background-elements";
 import { HeroContent } from "./hero/hero-content";
 import { Logo } from "./hero/logo";
 import { StatusBadge } from "./hero/status-badge";
+import { CTAButton } from "./hero/cta-button";
 
 export default function Hero() {
   const { company } = useCompany();
@@ -37,6 +38,7 @@ export default function Hero() {
   return (
     <section className="fixed inset-0 h-screen flex items-center justify-center overflow-hidden">
       <Logo isStudio={isStudio} />
+      <CTAButton isStudio={isStudio} />
 
       <motion.div
         style={{ opacity: isTech ? techVisibility : 1 }}

@@ -94,12 +94,12 @@ function Pricing() {
               isTech ? "text-white" : "text-gray-900"
             }`}
           >
-            Simple, Transparent Pricing
+            Let's Build Something Great
           </h2>
           <p
             className={`text-xl ${isTech ? "text-gray-400" : "text-gray-600"}`}
           >
-            Choose the perfect plan for your business needs
+            Schedule a consultation to discuss your unique needs
           </p>
         </motion.div>
 
@@ -133,31 +133,13 @@ function Pricing() {
                       : "bg-indigo-500/10 text-indigo-500"
                   }`}
                 >
-                  {isTech ? "3 seats left" : "2 seats left"}
+                  {isTech ? "Custom Solutions" : "Tailored Design"}
                 </span>
               </div>
 
               <div className="mb-8">
-                <div className="flex items-baseline gap-1">
-                  <span
-                    className={`text-4xl font-bold ${
-                      isTech ? "text-yellow-400" : "text-indigo-500"
-                    }`}
-                  >
-                    ${isTech ? "3,989" : "4,899"}
-                  </span>
-                  <span className={isTech ? "text-gray-400" : "text-gray-600"}>
-                    /month
-                  </span>
-                </div>
-                <p
-                  className={`mt-2 text-sm ${
-                    isTech ? "text-gray-400" : "text-gray-600"
-                  }`}
-                >
-                  {isTech
-                    ? "Everything you need to automate your business"
-                    : "Complete design system for your brand"}
+                <p className={`text-lg ${isTech ? "text-gray-300" : "text-gray-700"}`}>
+                  Get a customized solution designed specifically for your business needs. Our team will work closely with you to understand your requirements and deliver exceptional results.
                 </p>
               </div>
 
@@ -199,13 +181,13 @@ function Pricing() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`w-2/3 py-3 px-6 rounded-xl font-semibold transition-colors ${
+                  className={`w-full py-4 px-8 rounded-xl font-medium transition-all ${
                     isTech
-                      ? "bg-yellow-500 hover:bg-yellow-600 text-black"
-                      : "bg-indigo-500 hover:bg-indigo-600 text-white"
+                      ? "bg-gradient-to-r from-yellow-500 to-yellow-400 text-black hover:from-yellow-400 hover:to-yellow-300"
+                      : "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white hover:from-indigo-500 hover:to-indigo-400"
                   }`}
                 >
-                  Get Started
+                  Schedule a Consultation
                 </motion.button>
               </div>
             </div>
@@ -215,110 +197,44 @@ function Pricing() {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="glass-card rounded-2xl p-8 flex flex-col justify-between md:col-span-4"
+            className="md:col-span-5 flex flex-col justify-center"
           >
-            <div>
-              <h3
-                className={`text-2xl font-bold mb-8 ${
-                  isTech ? "text-white" : "text-gray-900"
-                }`}
-              >
-                Success Metrics
-              </h3>
-
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <div
-                    className={`flex items-center gap-3 ${
-                      isTech ? "text-yellow-400" : "text-indigo-500"
-                    }`}
-                  >
-                    <Rocket className="w-5 h-5" />
-                    <span className="font-semibold">Implementation Time</span>
-                  </div>
-                  <div
-                    className={`ml-8 ${
-                      isTech ? "text-gray-400" : "text-gray-600"
-                    }`}
-                  >
-                    <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full w-[85%] ${
-                          isTech ? "bg-yellow-400" : "bg-indigo-500"
-                        }`}
-                      />
-                    </div>
-                    <p className="mt-2">
-                      85% faster than traditional solutions
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div
-                    className={`flex items-center gap-3 ${
-                      isTech ? "text-yellow-400" : "text-indigo-500"
-                    }`}
-                  >
-                    <CheckCircle2 className="w-5 h-5" />
-                    <span className="font-semibold">Success Rate</span>
-                  </div>
-                  <div
-                    className={`ml-8 ${
-                      isTech ? "text-gray-400" : "text-gray-600"
-                    }`}
-                  >
-                    <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full w-[98%] ${
-                          isTech ? "bg-yellow-400" : "bg-indigo-500"
-                        }`}
-                      />
-                    </div>
-                    <p className="mt-2">98% client satisfaction rate</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div
-                    className={`flex items-center gap-3 ${
-                      isTech ? "text-yellow-400" : "text-indigo-500"
-                    }`}
-                  >
-                    <Clock className="w-5 h-5" />
-                    <span className="font-semibold">Time Saved</span>
-                  </div>
-                  <div
-                    className={`ml-8 ${
-                      isTech ? "text-gray-400" : "text-gray-600"
-                    }`}
-                  >
-                    <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full w-[75%] ${
-                          isTech ? "bg-yellow-400" : "bg-indigo-500"
-                        }`}
-                      />
-                    </div>
-                    <p className="mt-2">Save up to 40 hours per week</p>
-                  </div>
-                </div>
+            <div className="space-y-6">
+              <div>
+                <h4
+                  className={`text-xl font-semibold mb-2 ${
+                    isTech ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Why Choose Us?
+                </h4>
+                <p className={isTech ? "text-gray-400" : "text-gray-600"}>
+                  We partner with you to create solutions that drive real business value. Our approach combines technical excellence with strategic thinking.
+                </p>
               </div>
-            </div>
-
-            <div
-              className={`mt-8 p-4 rounded-xl ${
-                isTech ? "bg-blue-950/30" : "bg-gray-50"
-              }`}
-            >
-              <p
-                className={`text-sm ${
-                  isTech ? "text-gray-400" : "text-gray-600"
-                }`}
-              >
-                &ldquo;We guarantee measurable results within the first 30 days
-                or your money back. No questions asked.&rdquo;
-              </p>
+              <div>
+                <h4
+                  className={`text-xl font-semibold mb-2 ${
+                    isTech ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Our Process
+                </h4>
+                <ul className={`space-y-3 ${isTech ? "text-gray-400" : "text-gray-600"}`}>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className={`w-5 h-5 ${isTech ? "text-yellow-400" : "text-indigo-500"}`} />
+                    Discovery Call
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className={`w-5 h-5 ${isTech ? "text-yellow-400" : "text-indigo-500"}`} />
+                    Custom Solution Design
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className={`w-5 h-5 ${isTech ? "text-yellow-400" : "text-indigo-500"}`} />
+                    Implementation & Support
+                  </li>
+                </ul>
+              </div>
             </div>
           </motion.div>
         </div>

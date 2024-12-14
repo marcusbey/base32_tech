@@ -1,8 +1,6 @@
-1- Improve logo display on both sites
-acc CTA on the rigtht side
-add custom 404
-add custom 500
-Change particles shape to cercle and add lighting 
+// 1- Improve logo display on both sites
+// acc CTA on the rigtht side
+// Change particles shape to cercle and add lighting 
 TECH: improve annimation of hero
 TECH: increase lineheight
 TECH: Change subtile 
@@ -20,3 +18,5 @@ TECH: Form - { name lastname  and email
 TECH: Testimonal on}
 TECH: Remove the studio for now. 
 TECH: Footer. 
+add custom 404
+add custom 500

@@ -29,21 +29,23 @@ export function BackgroundElements({
         </motion.div>
       )}
 
-      {/* Particles */}
-      <motion.div
-        style={{ opacity: auroraOpacity }}
-        className="absolute inset-0"
-      >
-        <Particles
-          className="h-full w-full"
-          quantity={100}
-          staticity={20}
-          ease={30}
-          size={2}
-          mouseForce={1.2}
-          isStudio={isStudio}
-        />
-      </motion.div>
+      {/* Particles - Only show on TECH page */}
+      {!isStudio && (
+        <motion.div
+          style={{ opacity: auroraOpacity }}
+          className="absolute inset-0"
+        >
+          <Particles
+            className="h-full w-full"
+            quantity={100}
+            staticity={20}
+            ease={30}
+            size={2}
+            mouseForce={1.2}
+            isStudio={isStudio}
+          />
+        </motion.div>
+      )}
     </>
   );
 }

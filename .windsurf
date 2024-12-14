@@ -1,0 +1,102 @@
+# Design System Guidelines
+
+## 1. Typography & Spacing Hierarchy
+
+### Mobile (≤480px)
+- **H1**: 
+  - Size: 24px / 1.5rem
+  - Margin-bottom: 16px / 1rem
+  - Line-height: 1.2
+  - Space after: 24px / 1.5rem
+- **H2**: 
+  - Size: 20px / 1.25rem
+  - Margin-bottom: 12px / 0.75rem
+  - Line-height: 1.3
+  - Space after: 20px / 1.25rem
+- **Body**: 
+  - Size: 14px / 0.875rem
+  - Line-height: 1.5
+  - Paragraph spacing: 16px / 1rem
+
+### Tablet (481px–1024px)
+- **H1**: 
+  - Size: 28px / 1.75rem
+  - Margin-bottom: 20px / 1.25rem
+  - Line-height: 1.2
+  - Space after: 32px / 2rem
+- **H2**: 
+  - Size: 24px / 1.5rem
+  - Margin-bottom: 16px / 1rem
+  - Line-height: 1.3
+  - Space after: 24px / 1.5rem
+- **Body**: 
+  - Size: 16px / 1rem
+  - Line-height: 1.6
+  - Paragraph spacing: 20px / 1.25rem
+
+### Desktop (>1024px)
+- **H1**: 
+  - Size: 32px / 2rem
+  - Margin-bottom: 24px / 1.5rem
+  - Line-height: 1.2
+  - Space after: 40px / 2.5rem
+- **H2**: 
+  - Size: 28px / 1.75rem
+  - Margin-bottom: 20px / 1.25rem
+  - Line-height: 1.3
+  - Space after: 32px / 2rem
+- **Body**: 
+  - Size: 18px / 1.125rem
+  - Line-height: 1.6
+  - Paragraph spacing: 24px / 1.5rem
+
+## 2. Layout and Container Rules
+
+### Global Container Rules
+- **Default max-width**: 1280px (max-w-7xl)
+- **Full-width sections**: 100% viewport width
+- **Content sections**: max-w-7xl with centered alignment
+
+### Mobile (≤480px)
+- **Container padding**: 16px
+- **Section spacing**: 32px / 2rem
+- **Content width**: 100% (max-w-7xl)
+- **Single-column layout**
+  - Vertical stack
+  - Content margin: 16px
+
+### Tablet (481px–1024px)
+- **Container padding**: 24px
+- **Section spacing**: 48px / 3rem
+- **Content width**: 100% (max-w-7xl)
+- **Grid system**: 
+  - 12 columns
+  - Gutter: 16px
+  - 2-column layouts for content
+
+### Desktop (>1024px)
+- **Container padding**: 32px
+- **Section spacing**: 64px / 4rem
+- **Content width**: 100% (max-w-7xl)
+- **Grid system**: 
+  - 12 columns
+  - Gutter: 24px
+  - Up to 4-column layouts
+
+## 3. Section Types and Width Rules
+
+### Full-width Sections
+- Hero sections
+- Background color blocks
+- Full-bleed images
+- Footer
+
+### Contained Sections (max-w-7xl)
+- Main content areas
+- Article content
+- Card grids
+- Feature sections
+- Contact forms
+- Navigation menus (when not full-width)
+
+[Previous rules for Buttons/Components, Images/Media, Navigation, Animation, and Accessibility remain unchanged]

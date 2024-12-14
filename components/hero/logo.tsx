@@ -6,7 +6,7 @@
           <motion.div
             whileHover={{ rotate: 180 }}
             transition={{ duration: 0.5 }}
-            className={`p-4 rounded-2xl ${
+            className={`p-2 rounded-2xl ${
               isStudio 
                 ? 'bg-white/20 shadow-lg backdrop-blur-xl hover:bg-white/30'
                 : 'bg-black/30 shadow-lg backdrop-blur-xl hover:bg-black/40'

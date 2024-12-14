@@ -1,4 +1,4 @@
-"use client"; import { motion } from 'framer-motion'; import Image from 'next/image'; import Link from 'next/link'; interface LogoProps { isStudio: boolean; } export function Logo({ isStudio }: LogoProps) { return ( <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="absolute top-8 left-8 z-30" > <Link href="/"> <motion.div 
+"use client"; import { motion } from 'framer-motion'; import Image from 'next/image'; import Link from 'next/link'; interface LogoProps { isStudio: boolean; } export function Logo({ isStudio }: LogoProps) { return ( <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} > <Link href="/"> <motion.div 
           className="flex items-center gap-4"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}

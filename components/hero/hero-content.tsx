@@ -68,13 +68,13 @@ export function HeroContent({ isStudio }: HeroContentProps) {
             transition={{ duration: 0.5 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white absolute inset-0 flex flex-col items-start"
           >
-            <span className="text-indigo-200 mb-2">
+            <span className="text-indigo-200 pb-4">
               {taglines[currentTagline].line1}
             </span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-indigo-500 to-indigo-600 whitespace-nowrap mb-2">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-indigo-500 to-indigo-600 whitespace-nowrap pb-4">
               {taglines[currentTagline].highlight}
             </span>
-            <span className="text-white/90">
+            <span className="text-white/90 pb-4 mb-4">
               {taglines[currentTagline].line2}
             </span>
           </motion.div>
@@ -84,7 +84,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
-        className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none"
+        className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none pt-4"
       >
         We create intelligent agents and automation tools that understand your needs, saving you 8 hours daily - no clicks required.
       </motion.p>

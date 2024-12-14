@@ -1,9 +1,9 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { Building2, Rocket } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const sectors = {
@@ -71,12 +71,32 @@ const sectors = {
 
 export default function Brands() {
   const { company } = useCompany();
-  const [activeIndex, setActiveIndex] = useState<number>(0);
   const currentSectors = company === "tech" ? sectors.tech : sectors.studio;
   const isTech = company === "tech";
+  const sectionRef = useRef<HTMLElement>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Use scroll position to determine which card to show
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      // Switch cards when section is in the middle of the viewport
+      if (latest > 0.4 && latest < 0.8) {
+        setActiveIndex(1);
+      } else {
+        setActiveIndex(0);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [scrollYProgress]);
 
   return (
-    <section className="relative py-32 bg-black">
+    <section ref={sectionRef} className="relative py-32 bg-black">
       {/* Full section glass background */}
       <div className="absolute inset-0 -z-10">
         <div
@@ -93,28 +113,30 @@ export default function Brands() {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
           {/* Left Column - Description (4/12) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             className="lg:col-span-4 relative"
           >
-            <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
-              Partner with
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
-                Industry Leaders
-              </span>
-            </h2>
-            <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl -z-10" />
-            
-            <p className="mt-6 text-lg lg:text-xl text-gray-400">
-              {isTech
-                ? "Join forward-thinking enterprises and innovative startups who have achieved "
-                : "Join visionary companies who have transformed their digital presence with "}
-              <span className="text-yellow-400">
-                {isTech ? "80% operational efficiency gains" : "200% engagement growth"}
-              </span>
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
+                Partner with
+                <br />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
+                  Industry Leaders
+                </span>
+              </h2>
+              <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl -z-10" />
+              <p className="mt-6 text-lg lg:text-xl text-gray-400">
+                {isTech
+                  ? "Join forward-thinking enterprises and innovative startups who have achieved "
+                  : "Join visionary companies who have transformed their digital presence with "}
+                <span className="text-yellow-400">
+                  {isTech ? "80% operational efficiency gains" : "200% engagement growth"}
+                </span>
+              </p>
+            </motion.div>
           </motion.div>
 
           {/* Right Column - Cards (8/12) */}
@@ -159,8 +181,8 @@ export default function Brands() {
                   </div>
                   <h3
                     className={`text-2xl font-normal transition-colors duration-300 ${
-                      isTech 
-                        ? "text-white group-hover:text-yellow-50" 
+                      isTech
+                        ? "text-white group-hover:text-yellow-50"
                         : "text-gray-900 group-hover:text-indigo-900"
                     }`}
                   >
@@ -170,8 +192,8 @@ export default function Brands() {
 
                 <p
                   className={`mt-4 text-sm transition-colors duration-300 ${
-                    isTech 
-                      ? "text-gray-400 group-hover:text-gray-300" 
+                    isTech
+                      ? "text-gray-400 group-hover:text-gray-300"
                       : "text-gray-600 group-hover:text-gray-700"
                   }`}
                 >

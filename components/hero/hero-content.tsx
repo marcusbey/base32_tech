@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {cn} from "@/lib/utils";
 
 interface HeroContentProps {
   isStudio: boolean;
@@ -39,7 +40,13 @@ export function HeroContent({ isStudio }: HeroContentProps) {
   if (isStudio) {
     return (
       <div className="max-w-5xl">
-        <h1 className="text-7xl md:text-9xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 leading-tight">
+        <h1
+          className={cn(
+            "text-7xl md:text-9xl",
+            "font-semibold leading-none tracking-tight",
+            "bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+          )}
+        >
           Creative Design Solutions
         </h1>
         <p className="text-xl md:text-2xl text-gray-700 max-w-2xl">

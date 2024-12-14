@@ -1,11 +1,12 @@
 "use client";
 
-import { useCompany } from "@/lib/company-context";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useCompany } from "@/lib/company-context";
 import { BackgroundElements } from "./hero/background-elements";
 import { HeroContent } from "./hero/hero-content";
 import { TopMenu } from "./hero/top-menu";
 import { StatusBadge } from "./hero/status-badge";
+import TetrisGrid from "./shapes/tetris-grid";
 
 export default function Hero() {
   const { company } = useCompany();
@@ -47,6 +48,13 @@ export default function Hero() {
           gridOpacity={gridOpacity}
           auroraOpacity={auroraOpacity}
         />
+        {/* Tetris Grid */}
+        <motion.div 
+          className="absolute inset-0"
+          style={{ opacity: gridOpacity }}
+        >
+          <TetrisGrid />
+        </motion.div>
       </motion.div>
 
       <motion.div

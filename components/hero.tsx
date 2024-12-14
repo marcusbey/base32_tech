@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useCompany } from "@/lib/company-context";
-import { BackgroundElements } from "./hero/background-elements";
 import { HeroContent } from "./hero/hero-content";
 import { TopMenu } from "./hero/top-menu";
 import { StatusBadge } from "./hero/status-badge";
@@ -15,54 +14,31 @@ export default function Hero() {
   const isStudio = company === "studio";
   const isTech = company === "tech";
 
-  // Only apply scroll animations for studio page
+  // Scroll animations
   const gridOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const auroraOpacity = useTransform(scrollYProgress, [0, 0.15], [0.5, 0]);
-  
-  // Studio-only transforms
-  const studioTransform = useTransform(
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+  const contentTransform = useTransform(
     scrollYProgress,
     [0, 0.15],
     ["translate(0, 0) scale(1)", "translate(0, -100px) scale(0.7)"]
-  );
-
-  const studioOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-
-  // Tech-specific visibility control
-  const techVisibility = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.2],
-    [1, 1, 0]
   );
 
   return (
     <section className="fixed inset-0 h-screen flex items-center justify-center overflow-hidden">
       <TopMenu />
 
-      <motion.div
-        style={{ opacity: isTech ? techVisibility : 1 }}
-        className="absolute inset-0"
-      >
-        <BackgroundElements
-          isStudio={isStudio}
-          gridOpacity={gridOpacity}
-          auroraOpacity={auroraOpacity}
-        />
-        {/* Tetris Grid */}
-        <motion.div 
-          className="absolute inset-0"
-          style={{ opacity: gridOpacity }}
-        >
-          <TetrisGrid />
-        </motion.div>
+      {/* Background Grid */}
+      <motion.div className="absolute inset-0" style={{ opacity: gridOpacity }}>
+        <TetrisGrid />
       </motion.div>
 
+      {/* Content */}
       <motion.div
         style={isStudio ? {
-          transform: studioTransform,
-          opacity: studioOpacity,
+          transform: contentTransform,
+          opacity: contentOpacity,
         } : {
-          opacity: techVisibility
+          opacity: contentOpacity
         }}
         className={`relative ${
           isStudio ? "z-10" : "z-20"

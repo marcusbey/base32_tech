@@ -101,7 +101,7 @@ export default function BackgroundEffects() {
           </motion.div>
         </>
       ) : (
-        <div className="absolute inset-0 bg-white" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-950/10 to-gray-950" />
       )}
     </div>
   );

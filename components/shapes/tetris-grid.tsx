@@ -1,42 +1,27 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const techColors = {
   base: ["#3B82F6", "#2563EB", "#1D4ED8"],
-  active: ["#60A5FA", "#3B82F6", "#2563EB"],
-  glow: ["#93C5FD", "#60A5FA", "#3B82F6"]
+  accent: ["#60A5FA", "#3B82F6", "#2563EB"]
 };
 
 const studioColors = {
   base: ["#6366F1", "#4F46E5", "#4338CA"],
-  active: ["#818CF8", "#6366F1", "#4F46E5"],
-  glow: ["#A5B4FC", "#818CF8", "#6366F1"]
+  accent: ["#818CF8", "#6366F1", "#4F46E5"]
 };
 
 export default function TetrisGrid() {
   const { company } = useCompany();
   const isTech = company === "tech";
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const colors = isTech ? techColors : studioColors;
 
   const gridSize = 60;
   const baseDotSize = 4;
-  const maxDotSize = 12;
-  const maxLightRadius = 300;
-  const colors = isTech ? techColors : studioColors;
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
 
   const getColorVariant = (x: number, y: number, colorSet: string[]) => {
-    // Use position to deterministically select a color variant
     const index = Math.abs(Math.floor((x + y) / gridSize)) % colorSet.length;
     return colorSet[index];
   };
@@ -50,7 +35,7 @@ export default function TetrisGrid() {
     for (let i = 0; i <= cols; i++) {
       const lineColor = getColorVariant(i * gridSize, 0, colors.base);
       gridElements.push(
-        <line
+        <motion.line
           key={`vertical-${i}`}
           x1={i * gridSize}
           y1="0"
@@ -66,7 +51,7 @@ export default function TetrisGrid() {
     for (let i = 0; i <= rows; i++) {
       const lineColor = getColorVariant(0, i * gridSize, colors.base);
       gridElements.push(
-        <line
+        <motion.line
           key={`horizontal-${i}`}
           x1="0"
           y1={i * gridSize}
@@ -85,42 +70,18 @@ export default function TetrisGrid() {
         const x = i * gridSize;
         const y = j * gridSize;
         
-        // Calculate distance from mouse to dot
-        const dx = mousePosition.x - x;
-        const dy = mousePosition.y - y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        // Calculate intensity based on distance
-        const intensity = Math.max(0, 1 - distance / maxLightRadius);
-        
-        let dotColor;
-        let opacity = 0.2;
-        
-        // Progressive size calculation
-        const dotSize = baseDotSize + (maxDotSize - baseDotSize) * Math.pow(intensity, 1.5);
-        
-        if (distance < maxLightRadius) {
-          if (distance < maxLightRadius / 3) {
-            dotColor = getColorVariant(x, y, colors.glow);
-            opacity = 0.8;
-          } else {
-            dotColor = getColorVariant(x, y, colors.active);
-            opacity = 0.5;
-          }
-        } else {
-          dotColor = getColorVariant(x, y, colors.base);
-        }
-
         gridElements.push(
-          <circle
+          <motion.circle
             key={`dot-${i}-${j}`}
             cx={x}
             cy={y}
-            r={dotSize}
-            fill={dotColor}
-            fillOpacity={opacity}
-            style={{
-              transition: "fill 0.2s ease-out, fill-opacity 0.2s ease-out, r 0.2s ease-out",
+            r={baseDotSize}
+            fill={getColorVariant(x, y, colors.base)}
+            fillOpacity="0.2"
+            whileHover={{
+              scale: 1.2,
+              fillOpacity: 0.4,
+              transition: { duration: 0.2 }
             }}
           />
         );
@@ -131,8 +92,8 @@ export default function TetrisGrid() {
   };
 
   return (
-    <div id="tetris-grid-container" className="absolute inset-0 overflow-hidden">
-      <svg
+    <div className="absolute inset-0 overflow-hidden">
+      <motion.svg
         className="absolute inset-0 w-full h-full"
         style={{
           mask: "radial-gradient(circle at 50% 50%, black, transparent 80%)"
@@ -140,17 +101,17 @@ export default function TetrisGrid() {
       >
         <defs>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
         </defs>
-        <g filter="url(#glow)">
+        <motion.g filter="url(#glow)">
           {generateGrid()}
-        </g>
-      </svg>
+        </motion.g>
+      </motion.svg>
     </div>
   );
 }

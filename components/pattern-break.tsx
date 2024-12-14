@@ -2,6 +2,7 @@
 
 import { useCompany } from "@/lib/company-context";
 import TetrisGrid from "./shapes/tetris-grid";
+import InteractiveGrid from "./shapes/interactive-grid"; // Import InteractiveGrid
 import { motion } from "framer-motion";
 
 export default function PatternBreak() {
@@ -18,7 +19,9 @@ export default function PatternBreak() {
       
       {/* TetrisGrid background */}
       <div className="absolute inset-0">
-        <TetrisGrid />
+        <div className="relative w-full h-full"> // Update this div
+          <InteractiveGrid />
+        </div>
       </div>
 
       {/* Value proposition content */}

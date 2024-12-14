@@ -1,7 +1,6 @@
 'use client';
 
 import { useCompany } from "@/lib/company-context";
-import TetrisGrid from "../shapes/tetris-grid";
 
 interface BackgroundElementsProps {
   className?: string;
@@ -12,7 +11,7 @@ export default function BackgroundElements({ className }: BackgroundElementsProp
 
   return (
     <div className={className}>
-      <TetrisGrid />
+      {/* Background elements can be added here if needed */}
     </div>
   );
 }

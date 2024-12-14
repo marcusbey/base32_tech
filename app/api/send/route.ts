@@ -21,7 +21,7 @@ const techEmailTemplate = (vision: string) => `
       <p>In the meantime, feel free to explore our previous work and case studies at <a href="https://base32.tech" style="color: #2563eb;">base32.tech</a></p>
       <div style="margin-top: 30px;">
         <p style="margin: 0;">Best regards,</p>
-        <p style="margin: 5px 0; font-weight: bold;">The BASE32.TECH Team</p>
+        <p style="margin: 5px 0; font-weight: bold;">The BASE32 Team</p>
       </div>
     </div>
   </body>

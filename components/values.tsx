@@ -68,7 +68,7 @@ export default function Values() {
 
       {/* Content Container */}
       <div className="relative h-full flex flex-col">
-        <div className="max-w-7xl mx-auto px-4 py-24 flex-1 flex flex-col w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex-1 flex flex-col w-full">
           {/* Title Section */}
           <motion.div 
             className="flex-1 flex items-center justify-end"
@@ -106,7 +106,7 @@ export default function Values() {
 
           {/* Cards Section - Bottom Half */}
           <div className="pb-16">
-            <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+            <div className="grid md:grid-cols-3 gap-4 md:gap-6">
               {values.map((value, index) => (
                 <motion.div
                   key={value.title}
@@ -114,7 +114,7 @@ export default function Values() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2 }}
-                  className="bg-black/30 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-8 md:p-10 hover:bg-black/40 transition-all hover:border-blue-500/30 hover:scale-[1.02]"
+                  className="bg-black/30 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-6 md:p-8 hover:bg-black/40 transition-all hover:border-blue-500/30 hover:scale-[1.02]"
                 >
                   <h3 className="text-2xl font-bold text-white mb-4">{value.title}</h3>
                   <p className="text-gray-300">{value.description}</p>

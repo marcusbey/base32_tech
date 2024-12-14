@@ -15,16 +15,18 @@ export default function CreativeContact() {
   const [errors, setErrors] = useState({
     vision: "",
     email: "",
+    name: "",
   });
 
   const [formData, setFormData] = useState({
     vision: "",
     email: "",
+    name: "",
   });
 
   const currentTestimonial = {
     quote: isTech
-      ? "The automation solutions provided by BASE32.TECH have transformed our workflow completely. We're seeing incredible results."
+      ? "The automation solutions provided by BASE32 have transformed our workflow completely. We're seeing incredible results."
       : "Working with BASE32.STUDIO was a game-changer for our brand. Their attention to detail and creativity is unmatched.",
     author: isTech ? "Sarah Chen" : "David Park",
     role: isTech ? "CTO, InnovateTech" : "Founder, Nexus Innovations",
@@ -39,11 +41,17 @@ export default function CreativeContact() {
     const newErrors = {
       vision: "",
       email: "",
+      name: "",
     };
     let isValid = true;
 
     if (!formData.vision || formData.vision.length < 10) {
       newErrors.vision = "Vision must be at least 10 characters";
+      isValid = false;
+    }
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
       isValid = false;
     }
 
@@ -60,7 +68,8 @@ export default function CreativeContact() {
   useEffect(() => {
     if (mounted) {
       const isFormValid = formData.vision.length >= 10 && 
-                         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+                         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+                         formData.name.trim();
       setIsValid(isFormValid);
     }
   }, [formData, mounted]);
@@ -86,7 +95,7 @@ export default function CreativeContact() {
       if (!response.ok) throw new Error('Failed to send message');
 
       toast.success("Thank you for sharing your vision! We'll be in touch soon.");
-      setFormData({ vision: "", email: "" });
+      setFormData({ vision: "", email: "", name: "" });
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
     } finally {
@@ -213,6 +222,34 @@ export default function CreativeContact() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 items-start">
+                <div className="flex-1">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => {
+                        setFormData((prev) => ({ ...prev, name: e.target.value }));
+                        if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
+                      }}
+                      placeholder="Your name"
+                      className={`w-full px-4 py-3 rounded-xl ${
+                        isTech
+                          ? "bg-blue-950/20 border border-blue-500/20 text-white placeholder-gray-400"
+                          : "bg-white/80 text-gray-900 placeholder-gray-500"
+                      } focus:outline-none focus:ring-2 ${
+                        isTech
+                          ? "focus:ring-yellow-500/50"
+                          : "focus:ring-indigo-500/50"
+                      }`}
+                    />
+                    {errors.name && (
+                      <p className={`absolute -bottom-5 left-0 text-sm ${isTech ? "text-red-400" : "text-red-500"}`}>
+                        {errors.name}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
                 <div className="flex-1">
                   <div className="relative">
                     <input

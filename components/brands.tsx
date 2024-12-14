@@ -4,6 +4,7 @@ import { useCompany } from "@/lib/company-context";
 import { AnimatePresence, motion } from "framer-motion";
 import { Building2, Rocket } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const sectors = {
   tech: [
@@ -75,7 +76,7 @@ export default function Brands() {
   const isTech = company === "tech";
 
   return (
-    <section className="relative py-48 px-4">
+    <section className="relative py-32 bg-black">
       {/* Full section glass background */}
       <div className="absolute inset-0 -z-10">
         <div
@@ -87,43 +88,37 @@ export default function Brands() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Grid container for title and content */}
-        <div className="grid lg:grid-cols-12 md:grid-cols-2 gap-8 lg:gap-16">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
           {/* Left Column - Description (4/12) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-4 md:col-span-1"
+            className="lg:col-span-4 relative"
           >
-            <div className="flex flex-col justify-between h-full">
-              <div className="space-y-6 md:text-center lg:text-left">
-                <h2
-                  className={`text-5xl font-semibold leading-[1.2] ${
-                    isTech ? "text-white" : "text-gray-900"
-                  }`}
-                >
-                  Trusted By Industry Leaders
-                </h2>
-                <p
-                  className={`text-xl leading-relaxed ${
-                    isTech ? "text-gray-300" : "text-gray-600"
-                  }`}
-                >
-                  {isTech
-                    ? "We partner with forward-thinking enterprises and innovative startups to transform their operations through intelligent automation and AI solutions."
-                    : "We collaborate with visionary companies to create exceptional digital experiences and memorable brand identities that stand out."}
-                </p>
-              </div>
-            </div>
+            <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
+              Partner with
+              <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
+                Industry Leaders
+              </span>
+            </h2>
+            <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl -z-10" />
+            
+            <p className="mt-6 text-lg lg:text-xl text-gray-400">
+              {isTech
+                ? "Join forward-thinking enterprises and innovative startups who have achieved "
+                : "Join visionary companies who have transformed their digital presence with "}
+              <span className="text-yellow-400">
+                {isTech ? "80% operational efficiency gains" : "200% engagement growth"}
+              </span>
+            </p>
           </motion.div>
 
-          {/* Empty Column (2/12) */}
-          <div className="hidden lg:block lg:col-span-2" />
-
-          {/* Right Column - Cards (6/12) */}
-          <div className="lg:col-span-6 md:col-span-1 space-y-4">
+          {/* Right Column - Cards (8/12) */}
+          <div className="lg:col-span-8 space-y-4">
             {currentSectors.map((sector, index) => (
               <motion.div
                 key={sector.name}
@@ -136,10 +131,10 @@ export default function Brands() {
                     ? "linear-gradient(135deg, rgba(0,0,0,0.4), rgba(59,130,246,0.2))"
                     : "linear-gradient(135deg, rgba(255,255,255,0.4), rgba(99,102,241,0.2))",
                 }}
-                className={`p-6 rounded-2xl backdrop-blur-lg transition-all duration-300 ${
+                className={`group cursor-pointer p-6 rounded-2xl backdrop-blur-lg transition-all duration-300 ${
                   isTech
-                    ? "bg-black/30 border border-blue-500/20"
-                    : "bg-white/30 border border-gray-200"
+                    ? "bg-black/30 border border-blue-500/20 hover:border-blue-400/30"
+                    : "bg-white/30 border border-gray-200 hover:border-indigo-400/30"
                 }`}
                 onClick={() =>
                   setActiveIndex(activeIndex === index ? -1 : index)
@@ -147,21 +142,26 @@ export default function Brands() {
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className={`p-3 rounded-xl ${
-                      isTech ? "bg-yellow-500/10" : "bg-indigo-500/10"
+                    className={`p-3 rounded-xl transition-colors duration-300 ${
+                      isTech
+                        ? "bg-yellow-500/10 group-hover:bg-yellow-500/20"
+                        : "bg-indigo-500/10 group-hover:bg-indigo-500/20"
                     }`}
                   >
                     <sector.icon
-                      className={
+                      className={cn(
+                        "w-8 h-8 transition-transform duration-300 group-hover:scale-110",
                         isTech
-                          ? "text-yellow-400 w-8 h-8"
-                          : "text-indigo-500 w-8 h-8"
-                      }
+                          ? "text-yellow-400 group-hover:text-yellow-300"
+                          : "text-indigo-500 group-hover:text-indigo-400"
+                      )}
                     />
                   </div>
                   <h3
-                    className={`text-2xl font-normal ${
-                      isTech ? "text-white" : "text-gray-900"
+                    className={`text-2xl font-normal transition-colors duration-300 ${
+                      isTech 
+                        ? "text-white group-hover:text-yellow-50" 
+                        : "text-gray-900 group-hover:text-indigo-900"
                     }`}
                   >
                     {sector.name}
@@ -169,8 +169,10 @@ export default function Brands() {
                 </div>
 
                 <p
-                  className={`mt-4 text-sm ${
-                    isTech ? "text-gray-400" : "text-gray-600"
+                  className={`mt-4 text-sm transition-colors duration-300 ${
+                    isTech 
+                      ? "text-gray-400 group-hover:text-gray-300" 
+                      : "text-gray-600 group-hover:text-gray-700"
                   }`}
                 >
                   {activeIndex === index

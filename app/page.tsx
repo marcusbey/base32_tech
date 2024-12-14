@@ -6,7 +6,9 @@ import CreativeContact from "@/components/creative-contact";
 import Footer from "@/components/footer";
 import Hero from "@/components/hero";
 import Navigation from "@/components/navigation";
+import PatternBreak from "@/components/pattern-break";
 import Pricing from "@/components/pricing";
+import Services from "@/components/services";
 import Testimonials from "@/components/testimonials";
 import ThemeSwitch from "@/components/theme-switch";
 import Values from "@/components/values";
@@ -54,10 +56,6 @@ const TechParticles = dynamic(
     loading: () => null,
   }
 );
-
-const Services = dynamic(() => import("@/components/services"), {
-  loading: () => null,
-});
 
 const Works = dynamic(() => import("@/components/works"), {
   loading: () => null,
@@ -115,6 +113,7 @@ export default function Home() {
             <div className="relative">
               <Works />
               <Services />
+              <PatternBreak />
               <Brands />
               <div className="py-24">
                 <Pricing />
@@ -127,6 +126,7 @@ export default function Home() {
         ) : (
           <div className="relative">
             <Services />
+            <PatternBreak />
             <Brands />
             <Values />
             <div className="relative">

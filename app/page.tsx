@@ -27,6 +27,8 @@ function useDeviceCapabilities() {
 
   useEffect(() => {
     const checkCapabilities = () => {
+      if (typeof window === 'undefined') return;
+      
       const isMobile = window.innerWidth <= 768;
       const cores = navigator.hardwareConcurrency || 4;
       const isLowEnd = cores <= 4;

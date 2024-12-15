@@ -102,10 +102,17 @@ export default function Testimonials() {
     return colorSet[index];
   };
 
-  const generateGrid = () => {
-    const gridElements = [];
+  const calculateGrid = () => {
+    if (typeof window === 'undefined') return { cols: 0, rows: 0 };
+    
     const cols = Math.ceil(window.innerWidth / gridSize) + 1;
     const rows = Math.ceil(window.innerHeight / gridSize) + 1;
+    return { cols, rows };
+  };
+
+  const generateGrid = () => {
+    const gridElements = [];
+    const { cols, rows } = calculateGrid();
 
     // Generate intersection dots
     for (let i = 0; i <= cols; i++) {

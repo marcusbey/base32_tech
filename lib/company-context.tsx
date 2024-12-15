@@ -30,6 +30,8 @@ export function CompanyProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     // Get the hostname from window.location
     const hostname = window.location.hostname;
     const detectedCompany = getCompanyFromHostname(hostname);
@@ -40,22 +42,27 @@ export function CompanyProvider({ children }: { children: ReactNode }) {
     const newCompany = company === "tech" ? "studio" : "tech";
     setCompany(newCompany);
 
-    // Handle domain change if needed
-    const currentHostname = window.location.hostname;
-    const protocol = window.location.protocol;
-    const pathname = window.location.pathname;
+    const handleCompanyChange = (newCompany: string) => {
+      if (typeof window === 'undefined') return;
+      
+      const currentHostname = window.location.hostname;
+      const protocol = window.location.protocol;
+      const pathname = window.location.pathname;
 
-    let newDomain;
-    if (newCompany === "tech") {
-      newDomain = currentHostname.replace("base32.studio", "base32.tech");
-    } else {
-      newDomain = currentHostname.replace("base32.tech", "base32.studio");
-    }
+      let newDomain;
+      if (newCompany === "tech") {
+        newDomain = currentHostname.replace("base32.studio", "base32.tech");
+      } else {
+        newDomain = currentHostname.replace("base32.tech", "base32.studio");
+      }
 
-    // Only redirect if we're on a different domain
-    if (currentHostname !== newDomain) {
-      window.location.href = `${protocol}//${newDomain}${pathname}`;
-    }
+      // Only redirect if we're on a different domain
+      if (currentHostname !== newDomain) {
+        window.location.href = `${protocol}//${newDomain}${pathname}`;
+      }
+    };
+
+    handleCompanyChange(newCompany);
   };
 
   return (

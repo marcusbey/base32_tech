@@ -137,7 +137,8 @@ interface StudioShapeProps {
 const StudioShapeCanvas = ({ quality = "high" }: StudioShapeProps) => (
   <Canvas
     camera={{ position: [0, 0, 5], fov: 75 }}
-    dpr={Math.min(window.devicePixelRatio * 0.75, 2)}
+    style={{ width: '100%', height: '100%' }}
+    dpr={typeof window !== 'undefined' ? Math.min(window.devicePixelRatio * 0.75, 2) : 1}
     performance={{ min: 0.5 }}
     gl={{
       antialias: true,

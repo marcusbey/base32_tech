@@ -70,7 +70,7 @@ export default function CreativeContact() {
       const isFormValid = formData.vision.length >= 10 && 
                          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
                          formData.name.trim();
-      setIsValid(isFormValid);
+      setIsValid(Boolean(isFormValid));
     }
   }, [formData, mounted]);
 

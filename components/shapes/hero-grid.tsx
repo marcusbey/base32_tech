@@ -34,13 +34,18 @@ export default function HeroGrid() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const mouseSpeedRef = useRef({ x: 0, y: 0 });
   const lastMousePosRef = useRef({ x: 0, y: 0 });
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [dimensions, setDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1920,
+    height: typeof window !== 'undefined' ? window.innerHeight : 1080
+  });
 
   const gridSize = 60;
   const baseDotSize = 4;
   const hoverRadius = 200;
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const updateDimensions = () => {
       setDimensions({
         width: window.innerWidth,
@@ -48,13 +53,8 @@ export default function HeroGrid() {
       });
     };
 
-    // Initial dimensions
-    updateDimensions();
-
-    // Add event listener for window resize
     window.addEventListener('resize', updateDimensions);
-
-    // Cleanup
+    updateDimensions();
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 

@@ -55,10 +55,17 @@ export default function TetrisGrid() {
     return colorSet[index];
   };
 
-  const generateGrid = () => {
-    const gridElements = [];
+  const calculateGrid = () => {
+    if (typeof window === 'undefined') return { cols: 0, rows: 0 };
+    
     const cols = Math.ceil(window.innerWidth / gridSize) + 1;
     const rows = Math.ceil(window.innerHeight / gridSize) + 1;
+    return { cols, rows };
+  };
+
+  const generateGrid = () => {
+    const gridElements = [];
+    const { cols, rows } = calculateGrid();
 
     // Generate grid lines
     for (let i = 0; i <= cols; i++) {
@@ -113,35 +120,39 @@ export default function TetrisGrid() {
               cx={x}
               cy={y}
               r={baseDotSize}
-              animate={() => {
-                const dx = mouseX.get() - x;
-                const dy = mouseY.get() - y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < hoverRadius) {
-                  const intensity = Math.pow(1 - (distance / hoverRadius), 2); // Squared for sharper falloff
-                  return {
-                    fill: getColorVariant(x, y, colors.bright),
-                    fillOpacity: intensity,
-                    scale: 1 + (intensity * 0.5),
-                    filter: "url(#glow)",
-                  };
-                }
-                
-                return {
-                  fill: getColorVariant(x, y, colors.base),
-                  fillOpacity: 0,
-                  scale: 1,
-                  filter: "none",
-                };
+              animate={{
+                fill: (() => {
+                  const dx = mouseX.get() - x;
+                  const dy = mouseY.get() - y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  return distance < hoverRadius ? "#FFD700" : "#4B5563";
+                })(),
+                fillOpacity: (() => {
+                  const dx = mouseX.get() - x;
+                  const dy = mouseY.get() - y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  return distance < hoverRadius ? 0.8 : 0.5;
+                })(),
+                scale: (() => {
+                  const dx = mouseX.get() - x;
+                  const dy = mouseY.get() - y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  return distance < hoverRadius ? 1.2 : 1;
+                })(),
+                filter: (() => {
+                  const dx = mouseX.get() - x;
+                  const dy = mouseY.get() - y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  return distance < hoverRadius ? "blur(0px)" : "blur(1px)";
+                })()
               }}
               style={{
                 transformOrigin: `${x}px ${y}px`
               }}
               transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 20
+                type: "tween",
+                ease: "easeInOut",
+                duration: 0.2
               }}
             />
           </motion.g>

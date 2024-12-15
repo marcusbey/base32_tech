@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Twitter, Linkedin } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
+import { LinkedinIcon, TwitterIcon } from "@/components/icons";
 
 export default function About() {
   const { company } = useCompany();
@@ -145,30 +147,22 @@ export default function About() {
               </h3>
               <p className="text-gray-300 mb-4">Founder, Tech Lead</p>
               <div className="flex gap-4">
-                <a
-                  href="https://twitter.com/romainboboe"
+                <Link
+                  href="https://www.linkedin.com/in/romainboboe/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-2 rounded-lg transition-colors ${
-                    isTech
-                      ? "bg-blue-500/20 hover:bg-blue-500/30"
-                      : "bg-indigo-500/20 hover:bg-indigo-500/30"
-                  }`}
+                  className="text-gray-400 hover:text-blue-400 transition-colors"
                 >
-                  <Twitter className="w-5 h-5 text-white" />
-                </a>
-                <a
-                  href="https://linkedin.com/in/romainboboe"
+                  <LinkedinIcon className="w-6 h-6" />
+                </Link>
+                <Link
+                  href="https://x.com/romainbey"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-2 rounded-lg transition-colors ${
-                    isTech
-                      ? "bg-blue-500/20 hover:bg-blue-500/30"
-                      : "bg-indigo-500/20 hover:bg-indigo-500/30"
-                  }`}
+                  className="text-gray-400 hover:text-blue-400 transition-colors"
                 >
-                  <Linkedin className="w-5 h-5 text-white" />
-                </a>
+                  <TwitterIcon className="w-6 h-6" />
+                </Link>
               </div>
             </motion.div>
           </motion.div>

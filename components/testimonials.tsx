@@ -208,7 +208,11 @@ export default function Testimonials() {
         </svg>
       </div>
 
-      <section className="relative py-32">
+      <section id="testimonials-section" className="relative py-32">
+        {/* Yellow gradient background */}
+        <div className="absolute inset-0 bg-gradient-radial from-yellow-500/[0.15] via-yellow-500/[0.05] to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-yellow-500/[0.1] via-yellow-500/[0.05] to-transparent pointer-events-none" />
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
             <motion.div

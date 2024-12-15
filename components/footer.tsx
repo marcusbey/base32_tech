@@ -157,9 +157,9 @@ export default function Footer() {
       { name: 'Contact', href: `${siteConfig.baseUrl}/#contact-section` },
     ],
     links: [
-      { name: 'Twitter', href: siteConfig.links.twitter, icon: Twitter },
-      { name: 'GitHub', href: siteConfig.links.github, icon: Github },
-      { name: 'LinkedIn', href: siteConfig.links.linkedin, icon: Linkedin },
+      { name: 'Twitter', href: 'https://x.com/romainbey', icon: Twitter },
+      { name: 'GitHub', href: 'https://github.com/marcusbey', icon: Github },
+      { name: 'LinkedIn', href: 'https://linkedin.com/company/base32-tech/', icon: Linkedin },
     ],
   };
 
@@ -239,29 +239,34 @@ export default function Footer() {
             </div>
 
             {/* Social Links */}
-            <div>
-              <h3 className={`text-sm font-semibold uppercase tracking-wider mb-4 ${
-                isTech ? 'text-gray-300' : 'text-gray-300'
-              }`}>
-                Connect
-              </h3>
-              <ul className="space-y-3">
-                {navigation.links.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className={`text-sm flex items-center gap-2 hover:underline transition-colors ${
-                        isTech 
-                          ? 'text-gray-400 hover:text-white' 
-                          : 'text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      <link.icon className="w-4 h-4" />
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            <div className="flex space-x-6">
+              <a
+                href="https://x.com/romainbey"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-300"
+              >
+                <span className="sr-only">Twitter</span>
+                <Twitter className="h-6 w-6" aria-hidden="true" />
+              </a>
+              <a
+                href="https://github.com/marcusbey"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-300"
+              >
+                <span className="sr-only">GitHub</span>
+                <Github className="h-6 w-6" aria-hidden="true" />
+              </a>
+              <a
+                href="https://linkedin.com/company/base32-tech/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-300"
+              >
+                <span className="sr-only">LinkedIn</span>
+                <Linkedin className="h-6 w-6" aria-hidden="true" />
+              </a>
             </div>
           </div>
         </div>

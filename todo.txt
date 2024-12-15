@@ -1,19 +1,19 @@
 // 1- Improve logo display on both sites
 // acc CTA on the rigtht side
 // Change particles shape to cercle and add lighting 
-TECH: increase lineheight
+// TECH: increase lineheight
 
 
-TECH: improve annimation of hero
-TECH: Change subtile 
-TECH: Avalaible now. pulse and green colors
-TECH: Menu - Navigation  
-TECH: Design system
-TECH: lineheight and font-size
-TECH: Fold3: width 
-TECH: animation and sticky
-TECH: Industrie images background and 3 cards
-TECH: Pricing
+// TECH: improve annimation of hero
+// TECH: Change subtile 
+// TECH: Avalaible now. pulse and green colors
+// TECH: Menu - Navigation  
+// TECH: Design system
+// TECH: lineheight and font-size
+// TECH: Fold3: width 
+// TECH: animation and sticky
+// TECH: Industrie images background and 3 cards
+// TECH: Pricing
 TECH: About photo + text 
 TECH: What's yout vision? 
 TECH: Form - { name lastname  and email 

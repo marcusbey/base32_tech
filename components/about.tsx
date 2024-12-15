@@ -4,10 +4,21 @@ import { useCompany } from "@/lib/company-context";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Twitter, Linkedin } from "lucide-react";
+import { useState } from "react";
 
 export default function About() {
   const { company } = useCompany();
   const isTech = company === "tech";
+
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   return (
     <section id="about-section" className="relative overflow-hidden pb-48">
@@ -101,6 +112,18 @@ export default function About() {
                 sizes="(max-width: 768px) 100vw, 400px"
                 priority
               />
+              {/* Offset grid pattern div */}
+              <div 
+                className="absolute -bottom-32 -right-20 w-[300px] h-[200px] z-20"
+              >
+                <div className="absolute inset-0" style={{
+                  backgroundImage: 
+                    `linear-gradient(to right, ${isTech ? 'rgba(59, 130, 246, 0.3)' : 'rgba(99, 102, 241, 0.3)'} 1px, transparent 1px),
+                     linear-gradient(to bottom, ${isTech ? 'rgba(59, 130, 246, 0.3)' : 'rgba(99, 102, 241, 0.3)'} 1px, transparent 1px)`,
+                  backgroundSize: '40px 40px',
+                  opacity: 0.7,
+                }} />
+              </div>
             </div>
             {/* Profile Info and Social Links */}
             <motion.div

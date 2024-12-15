@@ -86,7 +86,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         transition={{ delay: 0.3, duration: 0.5 }}
         className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none pt-4"
       >
-        We create intelligent agents and automation tools that understand your needs, saving you 8 hours daily - no clicks required.
+        AI automation cuts development costs by 60% and ships products 10x faster. Seamlessly integrate intelligent agents into your workflow and deliver value to your customers in days not months.
       </motion.p>
     </div>
   );

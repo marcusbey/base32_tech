@@ -100,3 +100,6 @@
 - Navigation menus (when not full-width)
 
 [Previous rules for Buttons/Components, Images/Media, Navigation, Animation, and Accessibility remain unchanged]
+
+
+- Don't accidently chagne elements src or import paths. 

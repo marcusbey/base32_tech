@@ -51,7 +51,14 @@ export default function Hero() {
           className="space-y-8"
         >
           <StatusBadge isStudio={isStudio} />
-          <HeroContent isStudio={isStudio} />
+          <HeroContent isStudio={isStudio}>
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+              {company === "tech" ? "BASE32 Tech" : "BASE32 Studio"}
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-gray-300">
+              AI automation that cuts development costs by 60% and ships products 10x faster. Seamlessly integrate intelligent agents into your workflow and deliver value to your customers in days not months.
+            </p>
+          </HeroContent>
         </motion.div>
       </motion.div>
     </section>

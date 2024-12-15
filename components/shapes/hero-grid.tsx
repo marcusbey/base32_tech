@@ -166,6 +166,7 @@ const HeroGrid = () => {
       className="absolute inset-0 overflow-hidden cursor-none"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
       onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseMove}
     >
       <motion.svg
         className="absolute inset-0 w-full h-full"

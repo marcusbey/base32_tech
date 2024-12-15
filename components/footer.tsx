@@ -22,7 +22,7 @@ export default function Footer() {
   const hoverRadius = 150;
 
   const techColors = {
-    base: ["#1E40AF", "#1D4ED8", "#2563EB"],
+    base: ["#1E3A8A", "#1E40AF", "#1D4ED8"], // Darker blue
     bright: ["#3B82F6", "#60A5FA", "#93C5FD"],
   };
 
@@ -170,7 +170,7 @@ export default function Footer() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       className={`relative overflow-hidden ${
-        isTech ? 'bg-gradient-to-b from-gray-900 to-black' : 'bg-gradient-to-b from-gray-900 to-black'
+        isTech ? 'bg-gradient-to-b from-[#1E3A8A] to-[#1E40AF]' : 'bg-gradient-to-b from-gray-900 to-black'
       } border-t ${
         isTech ? 'border-blue-500/20' : 'border-gray-200/20'
       }`}

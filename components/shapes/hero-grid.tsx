@@ -118,31 +118,35 @@ export default function HeroGrid() {
 
     // Generate grid lines
     for (let i = 0; i <= cols; i++) {
+      const x = i * gridSize;
       gridElements.push(
         <motion.line
           key={`vertical-${i}`}
-          x1={i * gridSize}
-          y1="0"
-          x2={i * gridSize}
+          x1={x}
+          y1={0}
+          x2={x}
           y2="100%"
-          stroke={getColorVariant(i * gridSize, 0, colors.base)}
+          stroke={getColorVariant(x, 0, colors.base)}
           strokeOpacity="0.15"
           strokeWidth="1"
+          initial={false}
         />
       );
     }
 
     for (let i = 0; i <= rows; i++) {
+      const y = i * gridSize;
       gridElements.push(
         <motion.line
           key={`horizontal-${i}`}
-          x1="0"
-          y1={i * gridSize}
+          x1={0}
+          y1={y}
           x2="100%"
-          y2={i * gridSize}
-          stroke={getColorVariant(0, i * gridSize, colors.base)}
+          y2={y}
+          stroke={getColorVariant(0, y, colors.base)}
           strokeOpacity="0.15"
           strokeWidth="1"
+          initial={false}
         />
       );
     }
@@ -152,34 +156,31 @@ export default function HeroGrid() {
       for (let j = 0; j <= rows; j++) {
         const x = i * gridSize;
         const y = j * gridSize;
-        
         const dx = mousePos.x - x;
         const dy = mousePos.y - y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const isNearMouse = distance < hoverRadius;
         const intensity = isNearMouse ? Math.pow(1 - (distance / hoverRadius), 1.5) : 0;
-        
+
         gridElements.push(
           <motion.circle
             key={`dot-${i}-${j}`}
             cx={x}
             cy={y}
             r={baseDotSize}
-            initial={{
-              fill: getColorVariant(x, y, colors.base),
-              fillOpacity: 0.2
-            }}
+            fill={getColorVariant(x, y, colors.base)}
+            fillOpacity={0.2}
+            initial={false}
             animate={{
-              fill: getDynamicColor(x, y, intensity),
+              fill: isNearMouse ? colors.bright[Math.floor(Math.random() * colors.bright.length)] : getColorVariant(x, y, colors.base),
               fillOpacity: 0.2 + (intensity * 0.8),
-              scale: 1 + (intensity * 0.8),
-              filter: isNearMouse ? "url(#glow)" : "none"
+              scale: 1 + (intensity * 0.5),
             }}
             transition={{
-              duration: 0.1,
               type: "spring",
-              stiffness: 200,
-              damping: 10
+              stiffness: 300,
+              damping: 30,
+              mass: 0.5,
             }}
           />
         );
@@ -191,28 +192,24 @@ export default function HeroGrid() {
 
   return (
     <div 
-      ref={containerRef}
+      ref={containerRef} 
       className="absolute inset-0 overflow-hidden cursor-none"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
     >
       <motion.svg
         className="absolute inset-0 w-full h-full"
-        style={{
-          mask: "radial-gradient(circle at 50% 50%, black, transparent 80%)"
-        }}
+        initial={false}
       >
         <defs>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
         </defs>
-        <motion.g>
-          {generateGrid()}
-        </motion.g>
+        <g>{generateGrid()}</g>
       </motion.svg>
     </div>
   );

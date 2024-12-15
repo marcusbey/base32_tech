@@ -90,14 +90,17 @@ export default function About() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="relative lg:col-span-7 h-[700px] lg:h-[800px] -mt-16"
           >
-            <Image
-              src="/images/about-profile2.jpg"
-              alt="Base32 Team"
-              fill
-              className="object-cover object-top rounded-xl"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority
-            />
+            <div className="relative w-full h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
+              <div className="absolute inset-0 bg-black/50 z-10" />
+              <Image
+                src="/images/about-profile2.jpg"
+                alt="Base32 Team"
+                fill
+                className="object-cover object-top rounded-xl"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
+            </div>
           </motion.div>
         </div>
       </div>

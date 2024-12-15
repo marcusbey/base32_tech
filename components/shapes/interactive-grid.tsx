@@ -1,7 +1,7 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
 
 const techColors = {
@@ -30,6 +30,27 @@ export default function InteractiveGrid() {
   const maxLightRadius = 300;
   const colors = isTech ? techColors : studioColors;
 
+  // Initial fixed dimensions for SSR
+  const [dimensions, setDimensions] = useState({ 
+    width: 1920, 
+    height: 1080 
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const updateDimensions = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -47,15 +68,13 @@ export default function InteractiveGrid() {
   }, [mouseX, mouseY]);
 
   const getColorVariant = (x: number, y: number, colorSet: string[]) => {
-    const index = Math.abs(Math.floor((x + y) / gridSize)) % colorSet.length;
+    const index = Math.abs(Math.floor((x + y) / (gridSize * 2)) % colorSet.length);
     return colorSet[index];
   };
 
   const calculateGrid = () => {
-    if (typeof window === 'undefined') return { cols: 0, rows: 0 };
-    
-    const cols = Math.ceil(window.innerWidth / gridSize) + 1;
-    const rows = Math.ceil(window.innerHeight / gridSize) + 1;
+    const cols = Math.ceil(dimensions.width / gridSize) + 1;
+    const rows = Math.ceil(dimensions.height / gridSize) + 1;
     return { cols, rows };
   };
 
@@ -79,21 +98,13 @@ export default function InteractiveGrid() {
             whileHover={{
               fill: getColorVariant(x, y, colors.glow),
               fillOpacity: 0.9,
-              transition: { duration: 0.2 }
+              scale: 1.5,
             }}
-            animate={(mouseX.get() > x - maxLightRadius && mouseX.get() < x + maxLightRadius &&
-                     mouseY.get() > y - maxLightRadius && mouseY.get() < y + maxLightRadius)
-              ? {
-                  fill: getColorVariant(x, y, colors.active),
-                  fillOpacity: 0.6,
-                  transition: { duration: 0.3 }
-                }
-              : {
-                  fill: getColorVariant(x, y, colors.base),
-                  fillOpacity: 0.2,
-                  transition: { duration: 0.3 }
-                }
-            }
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 30
+            }}
           />
         );
 

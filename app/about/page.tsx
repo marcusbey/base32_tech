@@ -5,6 +5,7 @@ import { useCompany } from "@/lib/company-context";
 import Navigation from "@/components/navigation";
 // import ThemeSwitch from "@/components/theme-switch";
 import BackgroundEffects from "@/components/background-effects";
+import Image from 'next/image';
 
 export default function About() {
   const { company } = useCompany();
@@ -58,6 +59,16 @@ export default function About() {
                 </p>
               </>
             )}
+          </div>
+          <div className="relative w-full h-[300px] lg:h-[400px] rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-black/30 z-10" />
+            <Image
+              src="/images/about-hero.jpg"
+              alt="About Base32"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
         </motion.div>
       </div>

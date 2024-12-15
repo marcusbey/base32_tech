@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useCompany } from '@/lib/company-context';
 import { CircuitBoard, Palette, Github, Twitter, Linkedin } from 'lucide-react';
+import { siteConfig } from "@/config/site";
 
 export default function Footer() {
   const { company } = useCompany();
@@ -27,15 +28,15 @@ export default function Footer() {
 
   const navigation = {
     company: [
-      { name: 'Services', href: '#services-section' },
-      { name: 'Pricing', href: '#pricing-section' },
-      { name: 'About', href: '#about-section' },
-      { name: 'Contact', href: '#contact-section' },
+      { name: 'Services', href: `${siteConfig.baseUrl}/#services-section` },
+      { name: 'Pricing', href: `${siteConfig.baseUrl}/#pricing-section` },
+      { name: 'About', href: `${siteConfig.baseUrl}/#about-section` },
+      { name: 'Contact', href: `${siteConfig.baseUrl}/#contact-section` },
     ],
     links: [
-      { name: 'Twitter', href: '#', icon: Twitter },
-      { name: 'GitHub', href: '#', icon: Github },
-      { name: 'LinkedIn', href: '#', icon: Linkedin },
+      { name: 'Twitter', href: siteConfig.links.twitter, icon: Twitter },
+      { name: 'GitHub', href: siteConfig.links.github, icon: Github },
+      { name: 'LinkedIn', href: siteConfig.links.linkedin, icon: Linkedin },
     ],
   };
 

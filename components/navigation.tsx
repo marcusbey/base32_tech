@@ -7,13 +7,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Image from 'next/image';
+import { siteConfig } from "@/config/site";
 
 export default function Navigation() {
   const { company, toggleCompany } = useCompany();
-  const pathname = usePathname();
-  const isStudio = company === 'studio';
+  const isStudio = company === "studio";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+  const pathname = usePathname();
+
   // Get scroll progress
   const { scrollYProgress } = useScroll();
   
@@ -25,6 +26,12 @@ export default function Navigation() {
   );
 
   const scrollToSection = (sectionId: string) => {
+    // If we're not on the homepage, navigate there first
+    if (pathname !== '/') {
+      window.location.href = `${siteConfig.baseUrl}/#${sectionId}`;
+      return;
+    }
+
     const section = document.getElementById(sectionId);
     if (section) {
       const headerOffset = 80;
@@ -40,9 +47,24 @@ export default function Navigation() {
   };
 
   const navItems = [
-    { name: 'Services', id: 'services-section', action: () => scrollToSection('services-section') },
-    { name: 'Pricing', id: 'pricing-section', action: () => scrollToSection('pricing-section') },
-    { name: 'About', id: 'about-section', action: () => scrollToSection('about-section') },
+    { 
+      name: 'Services', 
+      id: 'services-section', 
+      href: `${siteConfig.baseUrl}/#services-section`,
+      action: () => scrollToSection('services-section') 
+    },
+    { 
+      name: 'Pricing', 
+      id: 'pricing-section', 
+      href: `${siteConfig.baseUrl}/#pricing-section`,
+      action: () => scrollToSection('pricing-section') 
+    },
+    { 
+      name: 'About', 
+      id: 'about-section', 
+      href: `${siteConfig.baseUrl}/#about-section`,
+      action: () => scrollToSection('about-section') 
+    },
   ];
 
   return (
@@ -95,14 +117,16 @@ export default function Navigation() {
                         transition={{ delay: index * 0.1 }}
                         className="text-center"
                       >
-                        <button
-                          onClick={item.action}
-                          className={`text-3xl font-medium ${
-                            isStudio ? 'text-gray-900' : 'text-white'
-                          }`}
-                        >
-                          {item.name}
-                        </button>
+                        <Link href={item.href}>
+                          <button
+                            onClick={item.action}
+                            className={`text-3xl font-medium ${
+                              isStudio ? 'text-gray-900' : 'text-white'
+                            }`}
+                          >
+                            {item.name}
+                          </button>
+                        </Link>
                       </motion.div>
                     ))}
                     
@@ -113,21 +137,22 @@ export default function Navigation() {
                       transition={{ delay: navItems.length * 0.1 }}
                       className="text-center pt-4"
                     >
-                      <button
-                        onClick={() => scrollToSection('contact')}
-                        className={`relative px-6 py-3 rounded-full text-sm uppercase tracking-wide border ${
-                          isStudio 
-                            ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
-                            : 'border-white/20 text-white hover:border-yellow-400'
-                        } transition-colors`}
-                      >
-                        Contact
-                        <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
-                          isStudio
-                            ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
-                            : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
-                        }`} />
-                      </button>
+                      <Link href={`${siteConfig.baseUrl}/#contact`}>
+                        <button
+                          className={`relative px-6 py-3 rounded-full text-sm uppercase tracking-wide border ${
+                            isStudio 
+                              ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
+                              : 'border-white/20 text-white hover:border-yellow-400'
+                          } transition-colors`}
+                        >
+                          Contact
+                          <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
+                            isStudio
+                              ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
+                              : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
+                          }`} />
+                        </button>
+                      </Link>
                     </motion.div>
                   </nav>
                 </div>
@@ -175,42 +200,45 @@ export default function Navigation() {
             <div className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
                 <motion.div key={item.name}>
-                  <button
-                    onClick={item.action}
-                    className={`relative text-xs uppercase tracking-wide ${
-                      isStudio ? 'text-gray-800' : 'text-white'
-                    }`}
-                  >
-                    {item.name}
-                    <motion.div
-                      className={`absolute -bottom-1 left-0 w-full h-0.5 ${
-                        isStudio ? 'bg-gray-800' : 'bg-white'
-                      } opacity-50`}
-                      initial={{ scaleX: 0 }}
-                      whileHover={{ scaleX: 1 }}
-                    />
-                  </button>
+                  <Link href={item.href}>
+                    <button
+                      onClick={item.action}
+                      className={`relative text-xs uppercase tracking-wide ${
+                        isStudio ? 'text-gray-800' : 'text-white'
+                      }`}
+                    >
+                      {item.name}
+                      <motion.div
+                        className={`absolute -bottom-1 left-0 w-full h-0.5 ${
+                          isStudio ? 'bg-gray-800' : 'bg-white'
+                        } opacity-50`}
+                        initial={{ scaleX: 0 }}
+                        whileHover={{ scaleX: 1 }}
+                      />
+                    </button>
+                  </Link>
                 </motion.div>
               ))}
 
               {/* Contact Button */}
-              <motion.button
-                onClick={() => scrollToSection('contact')}
-                className={`relative px-4 py-2 rounded-full text-xs uppercase tracking-wide border ${
-                  isStudio 
-                    ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
-                    : 'border-white/20 text-white hover:border-yellow-400'
-                } transition-colors`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Contact
-                <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
-                  isStudio
-                    ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
-                    : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
-                }`} />
-              </motion.button>
+              <Link href={`${siteConfig.baseUrl}/#contact`}>
+                <motion.button
+                  className={`relative px-4 py-2 rounded-full text-xs uppercase tracking-wide border ${
+                    isStudio 
+                      ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
+                      : 'border-white/20 text-white hover:border-yellow-400'
+                  } transition-colors`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Contact
+                  <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
+                    isStudio
+                      ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
+                      : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
+                  }`} />
+                </motion.button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button - Visible only on Mobile */}

@@ -1,9 +1,12 @@
 "use client";
 
+import React from 'react';
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import BookingModal from "./booking-modal";
+
 import {
   Bot,
   Workflow,
@@ -69,6 +72,8 @@ export default function Services() {
     });
   };
 
+  const [isBookingOpen, setIsBookingOpen] = React.useState(false);
+
   return (
     <section id="services-section" className="relative py-48 overflow-hidden bg-black" ref={containerRef}>
       {/* Background gradient overlay for smooth transition */}
@@ -133,32 +138,12 @@ export default function Services() {
                 </ul>
               </div>
 
-              <motion.a
-                href="/contact"
-                onClick={scrollToContact}
-                className={cn(
-                  "inline-flex items-center px-6 py-3 rounded-full",
-                  "text-white font-medium text-base lg:text-lg",
-                  "bg-gradient-to-r from-yellow-500/20 to-yellow-500/10",
-                  "border border-yellow-500/20 hover:border-yellow-500/40",
-                  "transition-all duration-300 mt-8 lg:mt-12"
-                )}
+              <button 
+                className="inline-flex items-center px-6 py-3 rounded-full text-white font-medium text-base lg:text-lg bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300 mt-8 lg:mt-12"
+                onClick={() => setIsBookingOpen(true)}
               >
-                <div className="relative z-10 flex items-center gap-2">
-                  Contact us
-                  <motion.div
-                    initial={{ x: -4, opacity: 0.5 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{
-                      repeat: Infinity,
-                      repeatType: "mirror",
-                      duration: 1,
-                    }}
-                  >
-                    →
-                  </motion.div>
-                </div>
-              </motion.a>
+                Book a Call
+              </button>
             </div>
           </motion.div>
 
@@ -219,6 +204,10 @@ export default function Services() {
           </div>
         </div>
       </div>
+      <BookingModal 
+        isOpen={isBookingOpen} 
+        onClose={() => setIsBookingOpen(false)} 
+      />
     </section>
   );
 }

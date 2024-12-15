@@ -2,6 +2,8 @@
 
 import { useCompany } from "@/lib/company-context";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import BookingModal from "./booking-modal";
 import {
   Bot,
   Brain,
@@ -21,28 +23,28 @@ const pricingFeatures = {
   tech: [
     {
       icon: Bot,
-      title: "Custom AI Agents",
-      description: "Intelligent automation tailored to your needs",
+      title: "60% Cost Reduction",
+      description: "Slash operational costs with smart automation",
     },
     {
       icon: Workflow,
-      title: "Process Automation",
-      description: "Streamline your entire workflow",
+      title: "3x Faster Growth",
+      description: "Accelerate your business with AI-powered solutions",
     },
     {
       icon: Brain,
-      title: "Machine Learning",
-      description: "Self-improving algorithms",
+      title: "24/7 AI Operations",
+      description: "Non-stop intelligent automation working for you",
     },
     {
       icon: Shield,
-      title: "Enterprise Security",
-      description: "Bank-grade data protection",
+      title: "99.9% Accuracy",
+      description: "Enterprise-grade precision in every task",
     },
     {
       icon: Clock,
-      title: "24/7 Monitoring",
-      description: "Round-the-clock system oversight",
+      title: "Instant Scaling",
+      description: "Grow your operations without growing overhead",
     },
   ],
   studio: [
@@ -79,7 +81,8 @@ function Pricing() {
   const currentFeatures =
     company === "tech" ? pricingFeatures.tech : pricingFeatures.studio;
   const isTech = company === "tech";
-
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  
   return (
     <section id="pricing-section" className="relative min-h-screen py-32 overflow-hidden flex items-center">
       <div className="relative z-10 container mx-auto px-4">
@@ -177,15 +180,12 @@ function Pricing() {
                 ))}
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex justify-start">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`w-full py-4 px-8 rounded-xl font-medium transition-all ${
-                    isTech
-                      ? "bg-gradient-to-r from-yellow-500 to-yellow-400 text-black hover:from-yellow-400 hover:to-yellow-300"
-                      : "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white hover:from-indigo-500 hover:to-indigo-400"
-                  }`}
+                  onClick={() => setIsBookingOpen(true)}
+                  className="inline-flex items-center px-6 py-3 rounded-full text-white font-medium text-base lg:text-lg bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300"
                 >
                   Schedule a Consultation
                 </motion.button>
@@ -239,6 +239,10 @@ function Pricing() {
           </motion.div>
         </div>
       </div>
+      <BookingModal 
+        isOpen={isBookingOpen} 
+        onClose={() => setIsBookingOpen(false)} 
+      />   
     </section>
   );
 }

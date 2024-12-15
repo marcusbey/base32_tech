@@ -262,33 +262,39 @@ export default function Values() {
 
           {/* Cards Section - Bottom Half */}
           <div className="pb-16">
+            <style jsx>{`
+              .number-outline {
+                -webkit-text-stroke: 2px ${isTech ? '#3B82F6' : '#6366F1'};
+                color: transparent;
+                font-size: 3rem;
+                font-weight: bold;
+                text-shadow: 
+                  -1px -1px 0 ${isTech ? '#3B82F6' : '#6366F1'},
+                  1px -1px 0 ${isTech ? '#3B82F6' : '#6366F1'},
+                  -1px 1px 0 ${isTech ? '#3B82F6' : '#6366F1'},
+                  1px 1px 0 ${isTech ? '#3B82F6' : '#6366F1'};
+              }
+            `}</style>
             <div className="grid md:grid-cols-3 gap-4 md:gap-6">
               {values.map((value, index) => (
                 <motion.div
                   key={value.title}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ 
-                    duration: 0.8, 
-                    delay: 0.2 + (index * 0.1), 
-                    ease: "easeOut" 
-                  }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2 }}
                   whileHover={{
-                    y: -5,
-                    backgroundColor: isTech
-                      ? "rgba(59, 130, 246, 0.1)"
-                      : "rgba(99, 102, 241, 0.1)",
+                    scale: 1.02,
+                    transition: { duration: 0.2 }
+                  }}
+                  style={{
+                    background: `linear-gradient(135deg, ${colors.base[0]}10, ${colors.base[2]}05)`,
+                    borderColor: `${colors.base[1]}20`,
                   }}
                   className="backdrop-blur-lg p-6 md:p-8 rounded-2xl transition-all duration-300 relative"
                 >
-                  <span className={`absolute -top-8 -left-4 text-8xl font-bold opacity-20 ${
-                    isTech ? 'text-blue-500' : 'text-indigo-500'
-                  }`}>
-                    {(index + 1).toString().padStart(2, '0')}
-                  </span>
                   <h3 className="text-2xl font-semibold text-white mb-4">{value.title}</h3>
-                  <p className="text-gray-300 font-normal">{value.description}</p>
+                  <p className="text-gray-400">{value.description}</p>
                 </motion.div>
               ))}
             </div>

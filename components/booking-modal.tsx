@@ -41,7 +41,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl p-8 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-4xl min-h-[80vh] transform overflow-hidden rounded-2xl p-8 text-left align-middle shadow-xl transition-all">
                 <div className="absolute right-4 top-4">
                   <button
                     type="button"

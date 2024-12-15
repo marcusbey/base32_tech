@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useCompany } from '@/lib/company-context';
-import { CircuitBoard, Palette, Github, Twitter, Linkedin } from 'lucide-react';
+import { Github, Twitter, Linkedin } from 'lucide-react';
+import { Logo } from '@/components/hero/logo';
 import { siteConfig } from "@/config/site";
 
 export default function Footer() {
@@ -52,16 +53,8 @@ export default function Footer() {
           {/* Logo and description */}
           <div className="lg:max-w-sm">
             <div className="flex items-center gap-2 mb-6">
-              {isTech ? (
-                <CircuitBoard className="w-8 h-8 text-blue-400" />
-              ) : (
-                <Palette className="w-8 h-8 text-indigo-500" />
-              )}
-              <span className={`text-xl font-bold ${
-                isTech ? 'text-white' : 'text-gray-900'
-              }`}>
-                {isTech ? 'BASE32' : 'BASE32.STUDIO'}
-              </span>
+              
+                <Logo isStudio={false} />
             </div>
             <p className={`text-base leading-relaxed ${
               isTech ? 'text-gray-400' : 'text-gray-600'

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Calendar, Send, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import BookingModal from "./booking-modal";
 
 export default function CreativeContact() {
   const { company } = useCompany();
@@ -23,6 +24,8 @@ export default function CreativeContact() {
     email: "",
     name: "",
   });
+
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const currentTestimonial = {
     quote: isTech
@@ -278,33 +281,35 @@ export default function CreativeContact() {
                   </div>
                 </div>
 
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting || !isValid}
-                  whileHover={{ scale: isValid ? 1.02 : 1 }}
-                  className={`w-full sm:w-[180px] py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
-                    isTech
-                      ? "bg-blue-500 hover:bg-blue-600 text-white"
-                      : "bg-indigo-500 text-white hover:bg-indigo-600"
-                  } transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      >
-                        <Calendar className="w-5 h-5" />
-                      </motion.div>
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      <span>Send Message</span>
-                    </>
-                  )}
-                </motion.button>
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                  <motion.button
+                    type="submit"
+                    disabled={isSubmitting}
+                    whileHover={{ scale: 1.02 }}
+                    className={`w-full max-w-[300px] md:max-w-[180px] py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+                      isTech
+                        ? "bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                        : "bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                    } transition-all duration-300`}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        >
+                          <Send className="w-5 h-5" />
+                        </motion.div>
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        Send Message
+                      </>
+                    )}
+                  </motion.button>
+                </div>
               </div>
             </div>
 
@@ -371,7 +376,8 @@ export default function CreativeContact() {
                   Ready to discuss your project in detail?
                 </p>
                 <motion.button
-                  type="submit"
+                  type="button"
+                  onClick={() => setIsBookingOpen(true)}
                   whileHover={{ scale: 1.02 }}
                   className={`w-full max-w-[300px] md:max-w-none py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
                     isTech
@@ -387,6 +393,11 @@ export default function CreativeContact() {
           </form>
         </div>
       </div>
+      
+      <BookingModal 
+        isOpen={isBookingOpen} 
+        onClose={() => setIsBookingOpen(false)} 
+      />
     </section>
   );
 }

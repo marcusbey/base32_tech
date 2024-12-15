@@ -62,6 +62,13 @@ export default function Services() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
+  const scrollToContact = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <section id="services-section" className="relative py-48 overflow-hidden bg-black" ref={containerRef}>
       {/* Background gradient overlay for smooth transition */}
@@ -128,6 +135,7 @@ export default function Services() {
 
               <motion.a
                 href="/contact"
+                onClick={scrollToContact}
                 className={cn(
                   "inline-flex items-center px-6 py-3 rounded-full",
                   "text-white font-medium text-base lg:text-lg",

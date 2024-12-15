@@ -172,11 +172,10 @@ export default function Navigation() {
         >
           <div className="flex items-center justify-between">
             {/* Logo Side */}
-            <Link href={`${siteConfig.baseUrl}/#hero-section`}>
+            <Link href={`${siteConfig.baseUrl}/`}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={toggleCompany}
                 className={`flex items-center gap-2 ${
                   isStudio ? 'text-gray-800' : 'text-white'
                 }`}

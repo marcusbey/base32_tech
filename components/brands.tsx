@@ -153,7 +153,9 @@ export default function Brands() {
                     ? isTech
                       ? "linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(59, 130, 246, 0.15))"
                       : "linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.15))"
-                    : "none"
+                    : isTech
+                      ? "linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(29, 78, 216, 0.02))"
+                      : "linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(79, 70, 229, 0.02))"
                 }}
                 whileHover={{
                   background: isTech
@@ -162,8 +164,8 @@ export default function Brands() {
                 }}
                 className={`group cursor-pointer p-6 rounded-2xl backdrop-blur-lg transition-all duration-300 ${
                   isTech
-                    ? "bg-black/30 border border-blue-500/20 hover:border-blue-400/30"
-                    : "bg-white/30 border border-gray-200 hover:border-indigo-400/30"
+                    ? "border border-blue-500/20 hover:border-blue-400/30"
+                    : "border border-gray-200 hover:border-indigo-400/30"
                 } ${
                   activeIndex === index
                     ? isTech

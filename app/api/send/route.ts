@@ -39,7 +39,7 @@ const studioEmailTemplate = (vision: string) => `
         <p style="margin: 0;">${vision}</p>
       </div>
       <p>Our creative team will review your project and reach out soon to discuss how we can bring your vision to life through our design expertise.</p>
-      <p>While you wait, check out our portfolio at <a href="https://base32.tech" style="color: #6366f1;">base32.tech</a></p>
+      <p>While you wait, check out our portfolio at <a href="https://base32.studio" style="color: #6366f1;">base32.studio</a></p>
       <div style="margin-top: 30px;">
         <p style="margin: 0;">Best regards,</p>
         <p style="margin: 5px 0; font-weight: bold;">The BASE32.STUDIO Team</p>
@@ -62,12 +62,15 @@ export async function POST(request: Request) {
 
     const template = company === 'tech' ? techEmailTemplate : studioEmailTemplate;
     const fromName = company === 'tech' ? 'BASE32.TECH' : 'BASE32.STUDIO';
+    const fromEmail = company === 'tech' ? 'contact@base32.tech' : 'contact@base32.studio';
+    const replyTo = company === 'tech' ? 'contact@base32.tech' : 'contact@base32.studio';
 
     const data = await resend.emails.send({
-      from: `${fromName} <onboarding@resend.dev>`,
-      to: [email],
+      from: `${fromName} <${fromEmail}>`,
+      to: [email, replyTo],
       subject: `Thank you for connecting with ${fromName}!`,
       html: template(vision),
+      reply_to: replyTo
     });
 
     return NextResponse.json(data);

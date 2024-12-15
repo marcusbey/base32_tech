@@ -2,10 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { useCompany } from '@/lib/company-context';
-import { Github, Twitter, Linkedin } from 'lucide-react';
+import { cn } from "@/lib/utils";
+import { Github, Linkedin, Twitter } from 'lucide-react';
 import { Logo } from '@/components/hero/logo';
 import { siteConfig } from "@/config/site";
 import { useEffect, useRef, useState } from 'react';
+import { XIcon } from "./icons/x-icon";
 
 export default function Footer() {
   const { company } = useCompany();
@@ -157,7 +159,7 @@ export default function Footer() {
       { name: 'Contact', href: `${siteConfig.baseUrl}/#contact-section` },
     ],
     links: [
-      { name: 'Twitter', href: 'https://x.com/romainbey', icon: Twitter },
+      { name: 'X', href: 'https://x.com/romainbey', icon: XIcon },
       { name: 'GitHub', href: 'https://github.com/marcusbey', icon: Github },
       { name: 'LinkedIn', href: 'https://linkedin.com/company/base32-tech/', icon: Linkedin },
     ],
@@ -239,34 +241,18 @@ export default function Footer() {
             </div>
 
             {/* Social Links */}
-            <div className="flex space-x-6">
-              <a
-                href="https://x.com/romainbey"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-gray-300"
-              >
-                <span className="sr-only">Twitter</span>
-                <Twitter className="h-6 w-6" aria-hidden="true" />
-              </a>
-              <a
-                href="https://github.com/marcusbey"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-gray-300"
-              >
-                <span className="sr-only">GitHub</span>
-                <Github className="h-6 w-6" aria-hidden="true" />
-              </a>
-              <a
-                href="https://linkedin.com/company/base32-tech/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-gray-300"
-              >
-                <span className="sr-only">LinkedIn</span>
-                <Linkedin className="h-6 w-6" aria-hidden="true" />
-              </a>
+            <div className="flex gap-4">
+              {navigation.links.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-blue-400 transition-colors"
+                >
+                  <link.icon className="w-6 h-6" />
+                </a>
+              ))}
             </div>
           </div>
         </div>

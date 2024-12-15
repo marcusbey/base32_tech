@@ -1,12 +1,13 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { Twitter, Linkedin } from "lucide-react";
+import { Linkedin } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import { LinkedinIcon, TwitterIcon } from "@/components/icons";
+import { XIcon } from "./icons/x-icon";
+import { motion } from "framer-motion";
 
 export default function About() {
   const { company } = useCompany();
@@ -153,7 +154,7 @@ export default function About() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-400 transition-colors"
                 >
-                  <LinkedinIcon className="w-6 h-6" />
+                  <Linkedin className="w-6 h-6" />
                 </Link>
                 <Link
                   href="https://x.com/romainbey"
@@ -161,7 +162,7 @@ export default function About() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-400 transition-colors"
                 >
-                  <TwitterIcon className="w-6 h-6" />
+                  <XIcon className="w-6 h-6" />
                 </Link>
               </div>
             </motion.div>

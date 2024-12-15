@@ -102,7 +102,7 @@ export default function Brands() {
         <div
           className={`w-full h-full ${
             isTech
-              ? "bg-black/30 backdrop-blur-xl border-y border-blue-500/20"
+              ? "bg-black/30 backdrop-blur-xl"
               : "bg-white/30 backdrop-blur-xl border-y border-gray-200"
           }`}
         />
@@ -164,14 +164,8 @@ export default function Brands() {
                 }}
                 className={`group cursor-pointer p-6 rounded-2xl backdrop-blur-lg transition-all duration-300 ${
                   isTech
-                    ? "border border-blue-500/20 hover:border-blue-400/30"
-                    : "border border-gray-200 hover:border-indigo-400/30"
-                } ${
-                  activeIndex === index
-                    ? isTech
-                      ? "border-yellow-500/30"
-                      : "border-indigo-500/30"
-                    : ""
+                    ? "hover:bg-blue-950/20"
+                    : "hover:bg-indigo-50/50"
                 }`}
                 onClick={() =>
                   setActiveIndex(activeIndex === index ? -1 : index)

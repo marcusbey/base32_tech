@@ -208,12 +208,39 @@ export default function Testimonials() {
         </svg>
       </div>
 
-      <section id="testimonials-section" className="relative py-32">
-        {/* Yellow gradient background */}
-        <div className="absolute inset-0 bg-gradient-radial from-yellow-500/[0.15] via-yellow-500/[0.05] to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-yellow-500/[0.1] via-yellow-500/[0.05] to-transparent pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="testimonials-section" className="relative overflow-hidden py-32">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        >
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="max-w-2xl mx-auto text-center mb-16"
+          >
+            <h2 className={`text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400`}>
+              Client Success
+              <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
+                Stories
+              </span>
+            </h2>
+            <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl -z-10" />
+            <p className="mt-6 text-lg lg:text-xl text-gray-400">
+              {isTech
+                ? "Join companies who have achieved "
+                : "Join businesses who have transformed with "}
+              <span className="text-yellow-400">
+                {isTech ? "95% customer satisfaction" : "150% productivity boost"}
+              </span>
+            </p>
+          </motion.div>
+
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
             <motion.div
               className="lg:col-span-4 relative"
@@ -222,8 +249,9 @@ export default function Testimonials() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               >
-                <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
+                <h2 className={`text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400`}>
                   Client Success
                   <br />
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
@@ -328,7 +356,7 @@ export default function Testimonials() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

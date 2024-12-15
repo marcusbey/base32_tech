@@ -9,7 +9,7 @@ export default function AIBanner() {
   const isTech = company === "tech";
 
   return (
-    <div className={`w-full pt-4 ${
+    <div className={`w-full pt-4 pointer-events-none ${
       isTech ? "bg-blue-500/10" : "bg-indigo-500/10"
     }`}>
       <motion.div 

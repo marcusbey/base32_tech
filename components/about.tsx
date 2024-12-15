@@ -21,22 +21,29 @@ export default function About() {
   };
 
   return (
-    <section id="about-section" className="relative overflow-hidden pb-48">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about-section" className="relative overflow-hidden py-32">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
           {/* Left column - Text content */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="lg:col-span-5 space-y-8"
           >
             <div className="pt-16 relative">
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
                 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-blue-400"
               >
                 About
@@ -49,8 +56,8 @@ export default function About() {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
                 className="mt-6 text-lg lg:text-xl text-gray-400"
               >
                 Transforming ideas into digital excellence with
@@ -61,8 +68,8 @@ export default function About() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
               className="space-y-6 pb-16"
             >
               <div>
@@ -95,11 +102,11 @@ export default function About() {
           </motion.div>
 
           {/* Right column - Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             className="relative lg:col-span-7 h-[700px] lg:h-[800px] -mt-16 flex justify-center"
           >
             <div className="relative w-[400px] h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
@@ -129,8 +136,8 @@ export default function About() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
               className="absolute bottom-8 left-8 z-20"
             >
               <h3 className="text-2xl font-semibold text-white mb-1">
@@ -166,7 +173,7 @@ export default function About() {
             </motion.div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

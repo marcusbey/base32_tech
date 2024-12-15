@@ -166,13 +166,13 @@ export default function Values() {
   };
 
   return (
-    <section id="values-section" className="relative py-48 overflow-hidden">
+    <section id="values-section" className="relative py-32 overflow-hidden">
       {/* Animated Background Images */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentBg}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 w-full h-full"
@@ -216,45 +216,48 @@ export default function Values() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black pointer-events-none" />
 
       {/* Content Container */}
-      <div className="relative h-full flex flex-col">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="relative h-full flex flex-col"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex-1 flex flex-col w-full">
           {/* Title Section */}
           <motion.div 
-            className="flex-1 flex items-center justify-end"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="text-right"
           >
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="text-right"
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className={`text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r ${
+                isTech 
+                  ? "from-blue-600 via-blue-500 to-blue-400"
+                  : "from-indigo-600 via-indigo-500 to-indigo-400"
+              } bg-clip-text text-transparent text-right ml-auto py-4 leading-loose `}
             >
-              <motion.h2 
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className={`text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r ${
-                  isTech 
-                    ? "from-blue-600 via-blue-500 to-blue-400"
-                    : "from-indigo-600 via-indigo-500 to-indigo-400"
-                } bg-clip-text text-transparent text-right ml-auto py-4 leading-loose `}
-              >
-                Committed to Your Success,
-                <br />
-                Every Step of the Way
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-xl md:text-2xl text-gray-300 leading-relaxed text-right ml-auto mb-20"
-              >
-                Beyond service providers, we're your
-                <br />
-                dedicated partners in technological advancement
-              </motion.p>
-            </motion.div>
+              Committed to Your Success,
+              <br />
+              Every Step of the Way
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+              className="text-xl md:text-2xl text-gray-300 leading-relaxed text-right ml-auto mb-20"
+            >
+              Beyond service providers, we're your
+              <br />
+              dedicated partners in technological advancement
+            </motion.p>
           </motion.div>
 
           {/* Cards Section - Bottom Half */}
@@ -263,10 +266,14 @@ export default function Values() {
               {values.map((value, index) => (
                 <motion.div
                   key={value.title}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ 
+                    duration: 0.8, 
+                    delay: 0.2 + (index * 0.1), 
+                    ease: "easeOut" 
+                  }}
                   whileHover={{
                     y: -5,
                     backgroundColor: isTech
@@ -287,7 +294,7 @@ export default function Values() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

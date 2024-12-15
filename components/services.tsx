@@ -15,46 +15,46 @@ import {
 
 const services = [
   {
-    icon: Bot,
+    icon: Brain,
     title: "Intelligent Agents",
     description: "Accelerate production with AI-driven efficiency.",
     details: "We create tailored digital agents that streamline your operations, saving time and optimizing workflows.",
-    gradient: "from-blue-600/15"
+    gradient: "from-blue-600/20 via-cyan-500/10 to-transparent"
   },
   {
     icon: Workflow,
-    title: "Custom Workflow Automation",
+    title: "Process Automation",
     description: "Simplify processes and maximize productivity.",
     details: "Transform repetitive tasks into seamless workflows with smart automation built to adapt to your business.",
-    gradient: "from-purple-600/15"
+    gradient: "from-purple-600/20 via-pink-500/10 to-transparent"
   },
   {
     icon: Brain,
-    title: "AI-Powered Prototyping",
+    title: "Rapid Prototyping",
     description: "From concept to MVP, faster than ever.",
     details: "Rapidly develop and iterate MVPs with AI-driven solutions that reduce costs and speed up delivery.",
-    gradient: "from-green-600/15"
+    gradient: "from-emerald-600/20 via-teal-500/10 to-transparent"
   },
   {
     icon: Zap,
-    title: "Advanced AI Integration",
+    title: "AI Integration",
     description: "Empower your systems with intelligent automation.",
     details: "Integrate cutting-edge AI into your operations to enhance decision-making and improve scalability.",
-    gradient: "from-orange-600/15"
+    gradient: "from-amber-600/20 via-orange-500/10 to-transparent"
   },
   {
     icon: FileCode,
-    title: "Content Creation with AI",
+    title: "Content Generation",
     description: "Fuel your creativity with AI-driven insights.",
     details: "Leverage AI to generate, refine, and optimize content for blogs, campaigns, and social platforms.",
-    gradient: "from-pink-600/15"
+    gradient: "from-rose-600/20 via-pink-500/10 to-transparent"
   },
   {
     icon: AppWindow,
-    title: "AI Application Development",
+    title: "AI Applications",
     description: "Build smarter, scalable applications fast.",
     details: "Develop AI-integrated web and mobile applications tailored to your business needs, ready to scale.",
-    gradient: "from-indigo-600/15"
+    gradient: "from-indigo-600/20 via-violet-500/10 to-transparent"
   }
 ];
 
@@ -174,13 +174,23 @@ export default function Services() {
                 <div className={cn(
                   "absolute inset-0 rounded-2xl",
                   "bg-gradient-to-tr",
-                  service.gradient === "from-blue-600/15" ? "from-blue-600/15 via-blue-500/10 to-transparent" :
-                  service.gradient === "from-purple-600/15" ? "from-purple-600/15 via-purple-500/10 to-transparent" :
-                  service.gradient === "from-green-600/15" ? "from-green-600/15 via-green-500/10 to-transparent" :
-                  service.gradient === "from-orange-600/15" ? "from-orange-600/15 via-orange-500/10 to-transparent" :
-                  service.gradient === "from-pink-600/15" ? "from-pink-600/15 via-pink-500/10 to-transparent" :
-                  "from-indigo-600/15 via-indigo-500/10 to-transparent",
+                  service.gradient,
                   "-z-10"
+                )} />
+
+                {/* Hover gradient effect */}
+                <div className={cn(
+                  "absolute inset-0 rounded-2xl",
+                  "bg-gradient-to-tr from-white/20 via-white/10 to-transparent",
+                  "opacity-0 group-hover:opacity-100",
+                  "transition-all duration-500",
+                  "group-hover:bg-gradient-to-tr",
+                  service.gradient.includes("blue") ? "group-hover:from-blue-400/30 group-hover:via-cyan-400/20 group-hover:to-transparent" :
+                  service.gradient.includes("purple") ? "group-hover:from-purple-400/30 group-hover:via-pink-400/20 group-hover:to-transparent" :
+                  service.gradient.includes("emerald") ? "group-hover:from-emerald-400/30 group-hover:via-teal-400/20 group-hover:to-transparent" :
+                  service.gradient.includes("amber") ? "group-hover:from-amber-400/30 group-hover:via-orange-400/20 group-hover:to-transparent" :
+                  service.gradient.includes("rose") ? "group-hover:from-rose-400/30 group-hover:via-pink-400/20 group-hover:to-transparent" :
+                  "group-hover:from-indigo-400/30 group-hover:via-violet-400/20 group-hover:to-transparent"
                 )} />
 
                 {/* Content */}
@@ -196,14 +206,6 @@ export default function Services() {
                     {service.details}
                   </p>
                 </div>
-
-                {/* Hover gradient effect */}
-                <div className={cn(
-                  "absolute inset-0 rounded-2xl",
-                  "bg-gradient-to-tr from-white/25 via-white/15 to-transparent",
-                  "opacity-0 group-hover:opacity-100",
-                  "transition-all duration-500"
-                )} />
               </motion.div>
             ))}
           </div>

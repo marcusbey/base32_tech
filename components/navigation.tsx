@@ -27,22 +27,22 @@ export default function Navigation() {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      const offset = 200; // 200px offset
-      const elementPosition = section.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      const headerOffset = 80;
+      const elementPosition = section.offsetTop;
+      const offsetPosition = elementPosition - headerOffset;
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
+      setIsMenuOpen(false);
     }
-    setIsMenuOpen(false);
   };
 
   const navItems = [
-    { name: 'Services', id: 'services', action: () => scrollToSection('services-section') },
-    { name: 'Pricing', id: 'pricing', action: () => scrollToSection('pricing-section') },
-    { name: 'About', id: 'about', action: () => scrollToSection('about-section') },
+    { name: 'Services', id: 'services-section', action: () => scrollToSection('services-section') },
+    { name: 'Pricing', id: 'pricing-section', action: () => scrollToSection('pricing-section') },
+    { name: 'About', id: 'about-section', action: () => scrollToSection('about-section') },
   ];
 
   return (

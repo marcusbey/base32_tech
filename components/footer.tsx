@@ -12,14 +12,15 @@ export default function Footer() {
     e.preventDefault();
     const sectionId = href.replace('#', '');
     const section = document.getElementById(sectionId);
+    
     if (section) {
-      const offset = 200; // 200px offset
-      const elementPosition = section.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      const headerOffset = 80;
+      const elementPosition = section.offsetTop;
+      const offsetPosition = elementPosition - headerOffset;
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };

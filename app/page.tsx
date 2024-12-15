@@ -10,7 +10,7 @@ import PatternBreak from "@/components/pattern-break";
 import Pricing from "@/components/pricing";
 import Services from "@/components/services";
 import Testimonials from "@/components/testimonials";
-import ThemeSwitch from "@/components/theme-switch";
+// import ThemeSwitch from "@/components/theme-switch";
 import Values from "@/components/values";
 import About from "@/components/about";
 import { useCompany } from "@/lib/company-context";
@@ -96,7 +96,7 @@ export default function Home() {
 
       {/* Theme switch */}
       <div className="fixed bottom-8 right-8 z-50">
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
       </div>
     </main>
   );

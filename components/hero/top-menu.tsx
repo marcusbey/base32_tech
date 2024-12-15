@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Logo } from './logo';
-import ThemeSwitch from '../theme-switch';
 import Link from 'next/link';
 import { useCompany } from '@/lib/company-context';
 import { siteConfig } from '@/config/site';
@@ -31,11 +30,6 @@ export function TopMenu() {
         {/* Left Side - Logo */}
         <div className="flex-1">
           <Logo isStudio={isStudio} />
-        </div>
-
-        {/* Center - Theme Switch */}
-        <div className="flex-1 flex justify-center">
-          <ThemeSwitch />
         </div>
 
         {/* Right Side - Contact Button */}

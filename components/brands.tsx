@@ -96,7 +96,7 @@ export default function Brands() {
   }, [scrollYProgress]);
 
   return (
-    <section id="brands" className="relative py-32 overflow-hidden">
+    <section id="brands" className="relative py-48 overflow-hidden">
       {/* Full section glass background */}
       <div className="absolute inset-0 -z-10">
         <div
@@ -108,7 +108,7 @@ export default function Brands() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         {/* Grid container for title and content */}
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
           {/* Left Column - Description (4/12) */}

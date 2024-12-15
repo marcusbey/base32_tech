@@ -69,11 +69,11 @@ export default function Services() {
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   return (
-    <section id="services-section" className="relative py-32 overflow-hidden bg-black" ref={containerRef}>
+    <section id="services-section" className="relative py-48 overflow-hidden bg-black" ref={containerRef}>
       {/* Background gradient overlay for smooth transition */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black to-black pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         {/* Header */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16 lg:mb-24">
           <motion.div

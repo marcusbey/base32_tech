@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useCompany } from "@/lib/company-context";
 import Navigation from "@/components/navigation";
-import ThemeSwitch from "@/components/theme-switch";
+// import ThemeSwitch from "@/components/theme-switch";
 import BackgroundEffects from "@/components/background-effects";
 
 export default function About() {
@@ -12,7 +12,7 @@ export default function About() {
   return (
     <main className="min-h-screen relative">
       <BackgroundEffects />
-      <ThemeSwitch />
+      {/* <ThemeSwitch /> */}
       
       <div className="relative z-10 pt-32 px-4">
         <motion.div

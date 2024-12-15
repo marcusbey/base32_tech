@@ -34,10 +34,29 @@ export default function HeroGrid() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const mouseSpeedRef = useRef({ x: 0, y: 0 });
   const lastMousePosRef = useRef({ x: 0, y: 0 });
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   const gridSize = 60;
   const baseDotSize = 4;
   const hoverRadius = 200;
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    // Initial dimensions
+    updateDimensions();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', updateDimensions);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -94,8 +113,8 @@ export default function HeroGrid() {
 
   const generateGrid = () => {
     const gridElements = [];
-    const cols = Math.ceil(window.innerWidth / gridSize) + 1;
-    const rows = Math.ceil(window.innerHeight / gridSize) + 1;
+    const cols = Math.ceil(dimensions.width / gridSize) + 1;
+    const rows = Math.ceil(dimensions.height / gridSize) + 1;
 
     // Generate grid lines
     for (let i = 0; i <= cols; i++) {

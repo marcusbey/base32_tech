@@ -172,7 +172,7 @@ export default function Navigation() {
         >
           <div className="flex items-center justify-between">
             {/* Logo Side */}
-            <Link href="/">
+            <Link href={`${siteConfig.baseUrl}/#hero-section`}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

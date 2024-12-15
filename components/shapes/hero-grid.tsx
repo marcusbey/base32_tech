@@ -48,8 +48,8 @@ const HeroGrid = () => {
   const [dimensions, setDimensions] = useState(defaultDimensions);
 
   const gridSize = 60;
-  const hoverRadius = 120;
   const baseDotSize = 2;
+  const hoverRadius = 150;
 
   useEffect(() => {
     setIsClient(true);
@@ -95,7 +95,7 @@ const HeroGrid = () => {
   const rows = Math.ceil(dimensions.height / gridSize) + 1;
   const gridElements = [];
 
-  // Generate lines
+  // Generate grid lines
   for (let i = 0; i <= cols; i++) {
     const x = i * gridSize;
     gridElements.push(
@@ -130,7 +130,7 @@ const HeroGrid = () => {
     );
   }
 
-  // Generate dots
+  // Generate dots with enhanced interactivity
   for (let i = 0; i <= cols; i++) {
     for (let j = 0; j <= rows; j++) {
       const x = i * gridSize;
@@ -151,7 +151,7 @@ const HeroGrid = () => {
           initial={{ fillOpacity: 0.2, scale: 1 }}
           animate={{
             fillOpacity: 0.2 + (intensity * 0.8),
-            scale: 1 + (intensity * 0.5),
+            scale: 1 + (intensity * 2),
             fill: isNearMouse ? colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length] : getColorVariant(x, y, colors.base),
           }}
           transition={{ type: "spring", stiffness: 1000, damping: 50, mass: 0.1 }}
@@ -163,7 +163,7 @@ const HeroGrid = () => {
   return (
     <div 
       ref={containerRef} 
-      className="absolute inset-0 overflow-hidden cursor-none"
+      className="absolute inset-0 overflow-hidden"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseMove}

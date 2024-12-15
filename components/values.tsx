@@ -39,7 +39,7 @@ export default function Values() {
   }, []);
 
   return (
-    <section className="relative h-[54vh] overflow-hidden">
+    <section id="values" className="relative h-[54vh] overflow-hidden">
       {/* Animated Background Images */}
       <AnimatePresence mode="wait">
         <motion.div

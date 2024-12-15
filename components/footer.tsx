@@ -8,29 +8,39 @@ export default function Footer() {
   const { company } = useCompany();
   const isTech = company === 'tech';
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const sectionId = href.replace('#', '');
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const offset = 200; // 200px offset
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     }
   };
 
-  const navigationItems = [
-    { name: 'About', id: 'about' },
-    { name: 'Services', id: 'services' },
-    { name: 'Values', id: 'values' },
-    { name: 'Contact', id: 'contact' }
-  ];
-
-  const socialLinks = [
-    { name: 'GitHub', icon: Github, href: '#' },
-    { name: 'Twitter', icon: Twitter, href: '#' },
-    { name: 'LinkedIn', icon: Linkedin, href: '#' }
-  ];
+  const navigation = {
+    company: [
+      { name: 'Services', href: '#services' },
+      { name: 'Values', href: '#values' },
+      { name: 'About', href: '#about' },
+      { name: 'Contact', href: '#contact' },
+    ],
+    links: [
+      { name: 'Twitter', href: '#', icon: Twitter },
+      { name: 'GitHub', href: '#', icon: Github },
+      { name: 'LinkedIn', href: '#', icon: Linkedin },
+    ],
+  };
 
   return (
     <footer className={`relative overflow-hidden ${
-      isTech ? 'bg-black/50' : 'bg-white/50'
+      isTech ? 'bg-gray-900' : 'bg-black'
     } backdrop-blur-lg border-t ${
       isTech ? 'border-blue-500/20' : 'border-gray-200'
     }`}>
@@ -68,10 +78,11 @@ export default function Footer() {
                 Navigation
               </h3>
               <ul className="space-y-3">
-                {navigationItems.map((item) => (
+                {navigation.company.map((item) => (
                   <li key={item.name}>
-                    <button
-                      onClick={() => scrollToSection(item.id)}
+                    <a
+                      href={item.href}
+                      onClick={(e) => scrollToSection(e, item.href)}
                       className={`text-sm hover:underline transition-colors ${
                         isTech 
                           ? 'text-gray-400 hover:text-white' 
@@ -79,7 +90,7 @@ export default function Footer() {
                       }`}
                     >
                       {item.name}
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -93,7 +104,7 @@ export default function Footer() {
                 Connect
               </h3>
               <ul className="space-y-3">
-                {socialLinks.map((link) => (
+                {navigation.links.map((link) => (
                   <li key={link.name}>
                     <a
                       href={link.href}
@@ -125,7 +136,7 @@ export default function Footer() {
           
           {/* Social icons for mobile */}
           <div className="flex gap-6 sm:hidden">
-            {socialLinks.map((link) => (
+            {navigation.links.map((link) => (
               <a
                 key={link.name}
                 href={link.href}

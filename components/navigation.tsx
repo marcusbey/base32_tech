@@ -25,19 +25,25 @@ export default function Navigation() {
   );
 
   const scrollToSection = (sectionId: string) => {
-    if (pathname === '/') {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const offset = 200; // 200px offset
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     }
     setIsMenuOpen(false);
   };
 
   const navItems = [
-    { name: 'Services', path: '/#services', action: () => scrollToSection('services') },
-    { name: 'Pricing', path: '/#pricing', action: () => scrollToSection('pricing') },
-    { name: 'About', path: '/about' },
+    { name: 'Services', id: 'services', action: () => scrollToSection('services') },
+    { name: 'Values', id: 'values', action: () => scrollToSection('values') },
+    { name: 'About', id: 'about', action: () => scrollToSection('about') },
+    { name: 'Contact', id: 'contact', action: () => scrollToSection('contact') },
   ];
 
   return (
@@ -87,7 +93,7 @@ export default function Navigation() {
 
               {/* Navigation Links */}
               <nav className="space-y-8">
-                {[...navItems, { name: 'Contact', path: '/#contact', action: () => scrollToSection('contact') }].map((item, index) => (
+                {navItems.map((item, index) => (
                   <motion.div
                     key={item.name}
                     initial={{ opacity: 0, y: 20 }}
@@ -95,26 +101,14 @@ export default function Navigation() {
                     transition={{ delay: index * 0.1 }}
                     className="text-center"
                   >
-                    {item.action ? (
-                      <button
-                        onClick={item.action}
-                        className={`text-3xl font-medium ${
-                          isStudio ? 'text-gray-900' : 'text-white'
-                        }`}
-                      >
-                        {item.name}
-                      </button>
-                    ) : (
-                      <Link
-                        href={item.path}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`text-2xl font-medium font-semibold ${
-                          isStudio ? 'text-gray-900' : 'text-white'
-                        }`}
-                      >
-                        {item.name}
-                      </Link>
-                    )}
+                    <button
+                      onClick={item.action}
+                      className={`text-3xl font-medium ${
+                        isStudio ? 'text-gray-900' : 'text-white'
+                      }`}
+                    >
+                      {item.name}
+                    </button>
                   </motion.div>
                 ))}
               </nav>
@@ -161,59 +155,23 @@ export default function Navigation() {
             <div className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
                 <motion.div key={item.name}>
-                  {item.action ? (
-                    <button
-                      onClick={item.action}
-                      className={`relative text-xs uppercase tracking-wide ${
-                        isStudio ? 'text-gray-800' : 'text-white'
-                      }`}
-                    >
-                      {item.name}
-                      <motion.div
-                        className={`absolute -bottom-1 left-0 w-full h-0.5 ${
-                          isStudio ? 'bg-gray-800' : 'bg-white'
-                        } opacity-50`}
-                        initial={{ scaleX: 0 }}
-                        whileHover={{ scaleX: 1 }}
-                      />
-                    </button>
-                  ) : (
-                    <Link href={item.path}>
-                      <span className={`relative text-xs uppercase tracking-wide ${
-                        isStudio ? 'text-gray-800' : 'text-white'
-                      }`}>
-                        {item.name}
-                        <motion.div
-                          className={`absolute -bottom-1 left-0 w-full h-0.5 ${
-                            isStudio ? 'bg-gray-800' : 'bg-white'
-                          } opacity-50`}
-                          initial={{ scaleX: 0 }}
-                          whileHover={{ scaleX: 1 }}
-                        />
-                      </span>
-                    </Link>
-                  )}
+                  <button
+                    onClick={item.action}
+                    className={`relative text-xs uppercase tracking-wide ${
+                      isStudio ? 'text-gray-800' : 'text-white'
+                    }`}
+                  >
+                    {item.name}
+                    <motion.div
+                      className={`absolute -bottom-1 left-0 w-full h-0.5 ${
+                        isStudio ? 'bg-gray-800' : 'bg-white'
+                      } opacity-50`}
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                    />
+                  </button>
                 </motion.div>
               ))}
-              
-              {/* Contact Button */}
-              <motion.button
-                onClick={() => scrollToSection('contact')}
-                className={`relative px-4 py-2 rounded-full text-xs uppercase tracking-wide border ${
-                  isStudio 
-                    ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
-                    : 'border-white/20 text-white hover:border-yellow-400'
-                } transition-colors`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Contact
-                <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
-                  isStudio
-                    ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
-                    : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
-                }`} />
-              </motion.button>
             </div>
 
             {/* Mobile Menu Button - Visible only on Mobile */}

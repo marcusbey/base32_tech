@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useMotionTemplate, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useCompany } from "@/lib/company-context";
 
 const values = [
   {
@@ -27,8 +28,29 @@ const backgrounds = [
   "/images/city-background.webp",
 ];
 
+const techColors = {
+  base: ["#3B82F6", "#2563EB", "#1D4ED8"],
+  bright: ["#60A5FA", "#3B82F6", "#2563EB"],
+};
+
+const studioColors = {
+  base: ["#6366F1", "#4F46E5", "#4338CA"],
+  bright: ["#818CF8", "#6366F1", "#4F46E5"],
+};
+
 export default function Values() {
+  const { company } = useCompany();
+  const isTech = company === "tech";
+  const colors = isTech ? techColors : studioColors;
+  const containerRef = useRef<HTMLDivElement>(null);
   const [currentBg, setCurrentBg] = useState(0);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isClient, setIsClient] = useState(false);
+
+  const gridSize = 60;
+  const baseDotSize = 2;
+  const hoverRadius = 120;
 
   // Background image rotation
   useEffect(() => {
@@ -37,6 +59,111 @@ export default function Values() {
     }, 7000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    setIsClient(true);
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        setDimensions({
+          width: containerRef.current.offsetWidth,
+          height: containerRef.current.offsetHeight
+        });
+      }
+    };
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (rect) {
+      setMousePos({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+    }
+  };
+
+  const getColorVariant = (x: number, y: number, colorSet: string[]) => {
+    const index = Math.abs(Math.floor((x + y) / gridSize)) % colorSet.length;
+    return colorSet[index];
+  };
+
+  const generateGrid = () => {
+    if (!isClient) return [];
+
+    const gridElements = [];
+    const cols = Math.ceil(dimensions.width / gridSize) + 1;
+    const rows = Math.ceil(dimensions.height / gridSize) + 1;
+
+    // Generate lines
+    for (let i = 0; i <= cols; i++) {
+      const x = i * gridSize;
+      gridElements.push(
+        <motion.line
+          key={`v-${i}`}
+          x1={x}
+          y1={0}
+          x2={x}
+          y2="100%"
+          stroke={getColorVariant(x, 0, colors.base)}
+          strokeOpacity={0.15}
+          strokeWidth={1}
+          initial={false}
+        />
+      );
+    }
+
+    for (let i = 0; i <= rows; i++) {
+      const y = i * gridSize;
+      gridElements.push(
+        <motion.line
+          key={`h-${i}`}
+          x1={0}
+          y1={y}
+          x2="100%"
+          y2={y}
+          stroke={getColorVariant(0, y, colors.base)}
+          strokeOpacity={0.15}
+          strokeWidth={1}
+          initial={false}
+        />
+      );
+    }
+
+    // Generate dots
+    for (let i = 0; i <= cols; i++) {
+      for (let j = 0; j <= rows; j++) {
+        const x = i * gridSize;
+        const y = j * gridSize;
+        const dx = mousePos.x - x;
+        const dy = mousePos.y - y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const isNearMouse = distance < hoverRadius;
+        const intensity = isNearMouse ? Math.pow(1 - (distance / hoverRadius), 2) : 0;
+        
+        gridElements.push(
+          <motion.circle
+            key={`dot-${i}-${j}`}
+            cx={x}
+            cy={y}
+            r={baseDotSize}
+            fill={getColorVariant(x, y, colors.base)}
+            initial={{ fillOpacity: 0.2, scale: 1 }}
+            animate={{
+              fillOpacity: 0.2 + (intensity * 0.8),
+              scale: 1 + (intensity * 0.5),
+              fill: isNearMouse ? colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length] : getColorVariant(x, y, colors.base),
+            }}
+            transition={{ type: "spring", stiffness: 1000, damping: 50, mass: 0.1 }}
+          />
+        );
+      }
+    }
+
+    return gridElements;
+  };
 
   return (
     <section id="values-section" className="relative py-48 overflow-hidden">
@@ -60,11 +187,33 @@ export default function Values() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Dark Blue Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-900/80 via-blue-900/70 to-black/90" />
+      {/* Interactive Grid Overlay */}
+      <div 
+        ref={containerRef} 
+        className="absolute inset-0 overflow-hidden cursor-none bg-black/60 backdrop-blur-sm"
+        onMouseMove={handleMouseMove}
+      >
+        <motion.svg
+          className="absolute inset-0 w-full h-full"
+          initial={false}
+        >
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <g>
+            {generateGrid()}
+          </g>
+        </motion.svg>
+      </div>
 
-      {/* Blur Layer */}
-      <div className="absolute inset-0 backdrop-blur-sm bg-black/20" />
+      {/* Gradient Overlay for Section Transition */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black pointer-events-none" />
 
       {/* Content Container */}
       <div className="relative h-full flex flex-col">
@@ -84,7 +233,11 @@ export default function Values() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text text-transparent leading-tight text-right ml-auto"
+                className={`text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r ${
+                  isTech 
+                    ? "from-blue-600 via-blue-500 to-blue-400"
+                    : "from-indigo-600 via-indigo-500 to-indigo-400"
+                } bg-clip-text text-transparent leading-tight text-right ml-auto`}
               >
                 Committed to Your Success,
                 <br />
@@ -114,7 +267,13 @@ export default function Values() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2 }}
-                  className="bg-black/30 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-6 md:p-8 hover:bg-black/40 transition-all hover:border-blue-500/30 hover:scale-[1.02]"
+                  whileHover={{
+                    y: -5,
+                    backgroundColor: isTech
+                      ? "rgba(59, 130, 246, 0.1)"
+                      : "rgba(99, 102, 241, 0.1)",
+                  }}
+                  className="backdrop-blur-lg p-6 md:p-8 rounded-2xl transition-all duration-300"
                 >
                   <h3 className="text-2xl font-bold text-white mb-4">{value.title}</h3>
                   <p className="text-gray-300">{value.description}</p>

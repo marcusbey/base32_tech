@@ -148,6 +148,13 @@ export default function Brands() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
+                animate={{
+                  background: activeIndex === index
+                    ? isTech
+                      ? "linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(59, 130, 246, 0.15))"
+                      : "linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.15))"
+                    : "none"
+                }}
                 whileHover={{
                   background: isTech
                     ? "linear-gradient(135deg, rgba(0,0,0,0.4), rgba(59,130,246,0.2))"
@@ -157,6 +164,12 @@ export default function Brands() {
                   isTech
                     ? "bg-black/30 border border-blue-500/20 hover:border-blue-400/30"
                     : "bg-white/30 border border-gray-200 hover:border-indigo-400/30"
+                } ${
+                  activeIndex === index
+                    ? isTech
+                      ? "border-yellow-500/30"
+                      : "border-indigo-500/30"
+                    : ""
                 }`}
                 onClick={() =>
                   setActiveIndex(activeIndex === index ? -1 : index)

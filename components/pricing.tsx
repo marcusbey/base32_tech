@@ -81,7 +81,7 @@ function Pricing() {
   const isTech = company === "tech";
 
   return (
-    <section className="relative min-h-screen py-32 overflow-hidden flex items-center">
+    <section id="pricing-section" className="relative min-h-screen py-32 overflow-hidden flex items-center">
       <div className="relative z-10 container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

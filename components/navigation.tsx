@@ -40,10 +40,9 @@ export default function Navigation() {
   };
 
   const navItems = [
-    { name: 'Services', id: 'services', action: () => scrollToSection('services') },
-    { name: 'Values', id: 'values', action: () => scrollToSection('values') },
-    { name: 'About', id: 'about', action: () => scrollToSection('about') },
-    { name: 'Contact', id: 'contact', action: () => scrollToSection('contact') },
+    { name: 'Services', id: 'services', action: () => scrollToSection('services-section') },
+    { name: 'Pricing', id: 'pricing', action: () => scrollToSection('pricing-section') },
+    { name: 'About', id: 'about', action: () => scrollToSection('about-section') },
   ];
 
   return (
@@ -55,63 +54,84 @@ export default function Navigation() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40"
+            className={`fixed inset-0 z-50 ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           >
             {/* Backdrop */}
-            <motion.div 
-              className="absolute inset-0 backdrop-blur-xl"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <div className={`absolute inset-0 ${
-                isStudio ? 'bg-white/80' : 'bg-black/80'
-              }`} />
-            </motion.div>
-
-            {/* Menu Content */}
             <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 20 }}
-              className="absolute inset-0 flex flex-col items-center justify-center p-8"
-            >
-              {/* Close Button */}
-              <motion.button
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setIsMenuOpen(false)}
-                className={`absolute top-8 right-8 p-3 rounded-full ${
-                  isStudio
-                    ? 'bg-gray-100 text-gray-900'
-                    : 'bg-gray-900 text-white'
-                }`}
-              >
-                <X className="w-6 h-6" />
-              </motion.button>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isMenuOpen ? 1 : 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setIsMenuOpen(false)}
+            />
 
-              {/* Navigation Links */}
-              <nav className="space-y-8">
-                {navItems.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="text-center"
-                  >
-                    <button
-                      onClick={item.action}
-                      className={`text-3xl font-medium ${
-                        isStudio ? 'text-gray-900' : 'text-white'
-                      }`}
+            {/* Content */}
+            <motion.div
+              initial={{ opacity: 0, x: '100%' }}
+              animate={{ opacity: isMenuOpen ? 1 : 0, x: isMenuOpen ? 0 : '100%' }}
+              transition={{ type: 'spring', damping: 20 }}
+              className={`absolute right-0 top-0 bottom-0 w-full sm:w-96 ${
+                isStudio ? 'bg-white' : 'bg-gray-900'
+              } shadow-2xl`}
+            >
+              <div className="relative flex flex-col h-full p-6">
+                {/* Close Button */}
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`absolute top-4 right-4 p-2 rounded-full ${
+                    isStudio ? 'hover:bg-gray-100' : 'hover:bg-gray-800'
+                  }`}
+                >
+                  <X className={isStudio ? 'text-gray-900' : 'text-white'} />
+                </button>
+
+                <div className="flex-1 flex flex-col items-center justify-center">
+                  {/* Navigation Links */}
+                  <nav className="space-y-8">
+                    {navItems.map((item, index) => (
+                      <motion.div
+                        key={item.name}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="text-center"
+                      >
+                        <button
+                          onClick={item.action}
+                          className={`text-3xl font-medium ${
+                            isStudio ? 'text-gray-900' : 'text-white'
+                          }`}
+                        >
+                          {item.name}
+                        </button>
+                      </motion.div>
+                    ))}
+                    
+                    {/* Contact Button */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: navItems.length * 0.1 }}
+                      className="text-center pt-4"
                     >
-                      {item.name}
-                    </button>
-                  </motion.div>
-                ))}
-              </nav>
+                      <button
+                        onClick={() => scrollToSection('contact')}
+                        className={`relative px-6 py-3 rounded-full text-sm uppercase tracking-wide border ${
+                          isStudio 
+                            ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
+                            : 'border-white/20 text-white hover:border-yellow-400'
+                        } transition-colors`}
+                      >
+                        Contact
+                        <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
+                          isStudio
+                            ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
+                            : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
+                        }`} />
+                      </button>
+                    </motion.div>
+                  </nav>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}
@@ -151,7 +171,7 @@ export default function Navigation() {
               </motion.button>
             </Link>
 
-            {/* Navigation Items - Hidden on Mobile */}
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
                 <motion.div key={item.name}>
@@ -172,6 +192,25 @@ export default function Navigation() {
                   </button>
                 </motion.div>
               ))}
+
+              {/* Contact Button */}
+              <motion.button
+                onClick={() => scrollToSection('contact')}
+                className={`relative px-4 py-2 rounded-full text-xs uppercase tracking-wide border ${
+                  isStudio 
+                    ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
+                    : 'border-white/20 text-white hover:border-yellow-400'
+                } transition-colors`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Contact
+                <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
+                  isStudio
+                    ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
+                    : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
+                }`} />
+              </motion.button>
             </div>
 
             {/* Mobile Menu Button - Visible only on Mobile */}

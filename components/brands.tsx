@@ -96,7 +96,7 @@ export default function Brands() {
   }, [scrollYProgress]);
 
   return (
-    <section ref={sectionRef} className="relative py-48 min-h-[70vh] bg-black">
+    <section id="brands" className="relative py-32 overflow-hidden">
       {/* Full section glass background */}
       <div className="absolute inset-0 -z-10">
         <div

@@ -26,10 +26,10 @@ export default function Footer() {
 
   const navigation = {
     company: [
-      { name: 'Services', href: '#services' },
-      { name: 'Values', href: '#values' },
-      { name: 'About', href: '#about' },
-      { name: 'Contact', href: '#contact' },
+      { name: 'Services', href: '#services-section' },
+      { name: 'Pricing', href: '#pricing-section' },
+      { name: 'About', href: '#about-section' },
+      { name: 'Contact', href: '#contact-section' },
     ],
     links: [
       { name: 'Twitter', href: '#', icon: Twitter },

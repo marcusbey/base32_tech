@@ -9,7 +9,7 @@ export default function About() {
   const isTech = company === "tech";
 
   return (
-    <section id="about" className="relative overflow-hidden pb-48">
+    <section id="about-section" className="relative overflow-hidden pb-48">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
           {/* Left column - Text content */}

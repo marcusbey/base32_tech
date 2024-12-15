@@ -223,22 +223,8 @@ export default function Testimonials() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="max-w-2xl mx-auto text-center mb-16"
           >
-            <h2 className={`text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400`}>
-              Client Success
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
-                Stories
-              </span>
-            </h2>
-            <div className="absolute -left-12 -inset-y-2 w-[160%] bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl -z-10" />
-            <p className="mt-6 text-lg lg:text-xl text-gray-400">
-              {isTech
-                ? "Join companies who have achieved "
-                : "Join businesses who have transformed with "}
-              <span className="text-yellow-400">
-                {isTech ? "95% customer satisfaction" : "150% productivity boost"}
-              </span>
-            </p>
+            <div className="absolute -left-24 -inset-y-2 w-[200%] opacity-60 bg-gradient-to-r from-yellow-400/20 via-yellow-300/10 to-transparent blur-2xl -z-10" />
+
           </motion.div>
 
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
@@ -258,7 +244,6 @@ export default function Testimonials() {
                     Stories
                   </span>
                 </h2>
-                <div className="absolute -left-12 -inset-y-2 w-[160%] bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl -z-10" />
                 <p className="mt-6 text-lg lg:text-xl text-gray-400">
                   {isTech
                     ? "Join companies who have achieved "

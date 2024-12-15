@@ -3,6 +3,7 @@
 import { useCompany } from "@/lib/company-context";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Twitter, Linkedin } from "lucide-react";
 
 export default function About() {
   const { company } = useCompany();
@@ -88,19 +89,58 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="relative lg:col-span-7 h-[700px] lg:h-[800px] -mt-16"
+            className="relative lg:col-span-7 h-[700px] lg:h-[800px] -mt-16 flex justify-center"
           >
-            <div className="relative w-full h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
+            <div className="relative w-[400px] h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
               <div className="absolute inset-0 bg-black/50 z-10" />
               <Image
                 src="/images/about-profile2.jpg"
                 alt="Base32 Team"
                 fill
-                className="object-cover object-top rounded-xl"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-center rounded-xl"
+                sizes="(max-width: 768px) 100vw, 400px"
                 priority
               />
             </div>
+            {/* Profile Info and Social Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="absolute bottom-8 left-8 z-20"
+            >
+              <h3 className="text-2xl font-semibold text-white mb-1">
+                Romain BOBOE
+              </h3>
+              <p className="text-gray-300 mb-4">Founder, Tech Lead</p>
+              <div className="flex gap-4">
+                <a
+                  href="https://twitter.com/romainboboe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg transition-colors ${
+                    isTech
+                      ? "bg-blue-500/20 hover:bg-blue-500/30"
+                      : "bg-indigo-500/20 hover:bg-indigo-500/30"
+                  }`}
+                >
+                  <Twitter className="w-5 h-5 text-white" />
+                </a>
+                <a
+                  href="https://linkedin.com/in/romainboboe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg transition-colors ${
+                    isTech
+                      ? "bg-blue-500/20 hover:bg-blue-500/30"
+                      : "bg-indigo-500/20 hover:bg-indigo-500/30"
+                  }`}
+                >
+                  <Linkedin className="w-5 h-5 text-white" />
+                </a>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

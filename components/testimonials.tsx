@@ -76,9 +76,9 @@ export default function Testimonials() {
   const mouseY = useMotionValue(0);
   const maskImage = useMotionTemplate`radial-gradient(circle at ${mouseX}px ${mouseY}px, black 10%, transparent 80%)`;
 
-  const gridSize = 60;
-  const baseDotSize = 4;
-  const maxLightRadius = 300;
+  const gridSize = 40; 
+  const baseDotSize = 2; 
+  const maxLightRadius = 150; 
   const colors = isTech ? techColors : studioColors;
 
   useEffect(() => {
@@ -97,88 +97,86 @@ export default function Testimonials() {
     return () => container.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  const getColorVariant = (x: number, y: number, colorSet: string[]) => {
-    const index = Math.abs(Math.floor((x + y) / gridSize)) % colorSet.length;
-    return colorSet[index];
-  };
-
-  const calculateGrid = () => {
-    if (typeof window === 'undefined') return { cols: 0, rows: 0 };
-    
-    const cols = Math.ceil(window.innerWidth / gridSize) + 1;
-    const rows = Math.ceil(window.innerHeight / gridSize) + 1;
-    return { cols, rows };
-  };
-
   const generateGrid = () => {
-    const gridElements = [];
-    const { cols, rows } = calculateGrid();
+    if (!containerRef.current) return [];
 
-    // Generate intersection dots
+    const width = containerRef.current.offsetWidth;
+    const height = containerRef.current.offsetHeight;
+    const cols = Math.ceil(width / gridSize);
+    const rows = Math.ceil(height / gridSize);
+
+    const mouseXValue = mouseX.get();
+    const mouseYValue = mouseY.get();
+
+    const gridElements = [];
+
     for (let i = 0; i <= cols; i++) {
       for (let j = 0; j <= rows; j++) {
         const x = i * gridSize;
         const y = j * gridSize;
 
+        const dx = mouseXValue - x;
+        const dy = mouseYValue - y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const isNearMouse = distance < maxLightRadius;
+
+        const intensity = isNearMouse 
+          ? Math.pow(1 - (distance / maxLightRadius), 3)
+          : 0;
+
+        const dotColor = isNearMouse
+          ? colors.active[Math.floor((x + y) / gridSize) % colors.active.length]
+          : colors.base[Math.floor((x + y) / gridSize) % colors.base.length];
+
         gridElements.push(
           <motion.circle
-            key={`dot-${i}-${j}`}
+            key={`${i}-${j}`}
             cx={x}
             cy={y}
             r={baseDotSize}
-            initial={{ fill: getColorVariant(x, y, colors.base), fillOpacity: 0.2 }}
-            whileHover={{
-              fill: getColorVariant(x, y, colors.glow),
-              fillOpacity: 0.9,
-              transition: { duration: 0.2 }
+            fill={dotColor}
+            initial={{ opacity: 0.15 }}
+            animate={{
+              opacity: 0.15 + (intensity * 0.85),
+              scale: 1 + (intensity * 0.3),
+              fill: dotColor
             }}
-            animate={(mouseX.get() > x - maxLightRadius && mouseX.get() < x + maxLightRadius &&
-                     mouseY.get() > y - maxLightRadius && mouseY.get() < y + maxLightRadius)
-              ? {
-                  fill: getColorVariant(x, y, colors.active),
-                  fillOpacity: 0.6,
-                  transition: { duration: 0.3 }
-                }
-              : {
-                  fill: getColorVariant(x, y, colors.base),
-                  fillOpacity: 0.2,
-                  transition: { duration: 0.3 }
-                }
-            }
+            transition={{ duration: 0.2 }}
           />
         );
 
-        // Add grid lines
-        if (j === 0) {
+        if (isNearMouse && intensity > 0.3 && i < cols && j < rows) {
+          const nextX = (i + 1) * gridSize;
+          const nextY = (j + 1) * gridSize;
+
           gridElements.push(
             <motion.line
-              key={`vertical-${i}`}
+              key={`h-${i}-${j}`}
               x1={x}
-              y1="0"
-              x2={x}
-              y2="100%"
-              stroke={getColorVariant(x, 0, colors.base)}
-              strokeOpacity={0.1}
-              strokeWidth={1}
-            />
-          );
-        }
-        if (i === 0) {
-          gridElements.push(
-            <motion.line
-              key={`horizontal-${j}`}
-              x1="0"
               y1={y}
-              x2="100%"
+              x2={nextX}
               y2={y}
-              stroke={getColorVariant(0, y, colors.base)}
-              strokeOpacity={0.1}
+              stroke={colors.active[Math.floor((x + y) / gridSize) % colors.active.length]}
+              strokeOpacity={intensity * 0.2}
               strokeWidth={1}
+              initial={false}
+            />,
+            <motion.line
+              key={`v-${i}-${j}`}
+              x1={x}
+              y1={y}
+              x2={x}
+              y2={nextY}
+              stroke={colors.active[Math.floor((x + y) / gridSize) % colors.active.length]}
+              strokeOpacity={intensity * 0.2}
+              strokeWidth={1}
+              initial={false}
             />
           );
         }
       }
     }
+
     return gridElements;
   };
 

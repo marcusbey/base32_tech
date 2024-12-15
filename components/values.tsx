@@ -190,7 +190,7 @@ export default function Values() {
       {/* Interactive Grid Overlay */}
       <div 
         ref={containerRef} 
-        className="absolute inset-0 overflow-hidden cursor-none bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 overflow-hidden cursor-none bg-black/60"
         onMouseMove={handleMouseMove}
       >
         <motion.svg
@@ -237,7 +237,7 @@ export default function Values() {
                   isTech 
                     ? "from-blue-600 via-blue-500 to-blue-400"
                     : "from-indigo-600 via-indigo-500 to-indigo-400"
-                } bg-clip-text text-transparent leading-tight text-right ml-auto`}
+                } bg-clip-text text-transparent text-right ml-auto py-4 leading-loose `}
               >
                 Committed to Your Success,
                 <br />
@@ -273,10 +273,15 @@ export default function Values() {
                       ? "rgba(59, 130, 246, 0.1)"
                       : "rgba(99, 102, 241, 0.1)",
                   }}
-                  className="backdrop-blur-lg p-6 md:p-8 rounded-2xl transition-all duration-300"
+                  className="backdrop-blur-lg p-6 md:p-8 rounded-2xl transition-all duration-300 relative"
                 >
-                  <h3 className="text-2xl font-bold text-white mb-4">{value.title}</h3>
-                  <p className="text-gray-300">{value.description}</p>
+                  <span className={`absolute -top-8 -left-4 text-8xl font-bold opacity-20 ${
+                    isTech ? 'text-blue-500' : 'text-indigo-500'
+                  }`}>
+                    {(index + 1).toString().padStart(2, '0')}
+                  </span>
+                  <h3 className="text-2xl font-semibold text-white mb-4">{value.title}</h3>
+                  <p className="text-gray-300 font-normal">{value.description}</p>
                 </motion.div>
               ))}
             </div>

@@ -234,8 +234,8 @@ export default function CreativeContact() {
                       placeholder="Your name"
                       className={`w-full px-4 py-3 rounded-xl ${
                         isTech
-                          ? "bg-blue-950/20 border border-blue-500/20 text-white placeholder-gray-400"
-                          : "bg-white/80 text-gray-900 placeholder-gray-500"
+                          ? "bg-white/5 border border-blue-400/40 text-white placeholder-gray-300"
+                          : "bg-white/95 text-gray-900 placeholder-gray-500"
                       } focus:outline-none focus:ring-2 ${
                         isTech
                           ? "focus:ring-yellow-500/50"
@@ -262,8 +262,8 @@ export default function CreativeContact() {
                       placeholder="Your email"
                       className={`w-full px-4 py-3 rounded-xl ${
                         isTech
-                          ? "bg-blue-950/20 border border-blue-500/20 text-white placeholder-gray-400"
-                          : "bg-white/80 text-gray-900 placeholder-gray-500"
+                          ? "bg-white/5 border border-blue-400/40 text-white placeholder-gray-300"
+                          : "bg-white/95 text-gray-900 placeholder-gray-500"
                       } focus:outline-none focus:ring-2 ${
                         isTech
                           ? "focus:ring-yellow-500/50"

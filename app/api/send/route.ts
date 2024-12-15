@@ -1,3 +1,5 @@
+"use client";
+
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
@@ -7,12 +9,14 @@ if (!process.env.RESEND_API_KEY) {
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const techEmailTemplate = (vision: string) => `
+// Template for the sender (confirmation email)
+const techEmailTemplate = (vision: string, name: string) => `
 <!DOCTYPE html>
 <html>
   <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
       <h1 style="color: #2563eb;">Thank you for reaching out to BASE32.TECH!</h1>
+      <p>Hi ${name},</p>
       <p>We're excited to learn about your vision:</p>
       <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0;">
         <p style="margin: 0;">${vision}</p>
@@ -28,12 +32,13 @@ const techEmailTemplate = (vision: string) => `
 </html>
 `;
 
-const studioEmailTemplate = (vision: string) => `
+const studioEmailTemplate = (vision: string, name: string) => `
 <!DOCTYPE html>
 <html>
   <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
       <h1 style="color: #6366f1;">Thank you for reaching out to BASE32.STUDIO!</h1>
+      <p>Hi ${name},</p>
       <p>We're thrilled to hear about your creative vision:</p>
       <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0;">
         <p style="margin: 0;">${vision}</p>
@@ -49,13 +54,38 @@ const studioEmailTemplate = (vision: string) => `
 </html>
 `;
 
+// Template for the base32 team (notification email)
+const teamNotificationTemplate = (vision: string, email: string, name: string, company: string) => `
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h1 style="color: ${company === 'tech' ? '#2563eb' : '#6366f1'};">New Contact Form Submission</h1>
+      <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="margin-top: 0; color: #333;">Contact Details</h2>
+        <p style="margin: 0;"><strong>Name:</strong> ${name}</p>
+        <p style="margin: 10px 0;"><strong>Email:</strong> ${email}</p>
+        <p style="margin: 10px 0 0;"><strong>Company Type:</strong> ${company === 'tech' ? 'BASE32.TECH' : 'BASE32.STUDIO'}</p>
+      </div>
+      <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="margin-top: 0; color: #333;">Project Vision</h2>
+        <p style="margin: 0;">${vision}</p>
+      </div>
+      <div style="margin-top: 20px;">
+        <p style="margin: 0; color: #666;">This message was sent from the contact form on ${company === 'tech' ? 'base32.tech' : 'base32.studio'}</p>
+      </div>
+    </div>
+  </body>
+</html>
+`;
+
 export async function POST(request: Request) {
   try {
-    const { vision, email, company } = await request.json();
+    const { vision, email, name, company } = await request.json();
 
-    if (!vision || !email) {
+    if (!vision || !email || !name) {
       return NextResponse.json(
-        { error: 'Vision and email are required' },
+        { error: 'Vision, email, and name are required' },
         { status: 400 }
       );
     }
@@ -65,15 +95,28 @@ export async function POST(request: Request) {
     const fromEmail = company === 'tech' ? 'contact@base32.tech' : 'contact@base32.studio';
     const replyTo = company === 'tech' ? 'contact@base32.tech' : 'contact@base32.studio';
 
-    const data = await resend.emails.send({
+    // Send confirmation email to the sender
+    const confirmationEmail = await resend.emails.send({
       from: `${fromName} <${fromEmail}>`,
-      to: [email, replyTo],
+      to: [email],
       subject: `Thank you for connecting with ${fromName}!`,
-      html: template(vision),
+      html: template(vision, name),
       reply_to: replyTo
     });
 
-    return NextResponse.json(data);
+    // Send notification email to the base32 team
+    const notificationEmail = await resend.emails.send({
+      from: `${fromName} Contact Form <${fromEmail}>`,
+      to: [replyTo],
+      subject: `New Contact Form Submission - ${name}`,
+      html: teamNotificationTemplate(vision, email, name, company),
+      reply_to: email // Set reply-to as the sender's email
+    });
+
+    return NextResponse.json({ 
+      confirmation: confirmationEmail,
+      notification: notificationEmail 
+    });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }

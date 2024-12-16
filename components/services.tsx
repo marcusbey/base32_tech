@@ -65,9 +65,16 @@ export default function Services() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { 
     once: true, 
-    margin: "0px 0px -20% 0px",
-    amount: 0.2
+    margin: "-100px",
+    amount: 0.2 // Only trigger when 20% of the element is in view
   });
+
+  const scrollToContact = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
+  };
 
   const [isBookingOpen, setIsBookingOpen] = React.useState(false);
 
@@ -81,8 +88,8 @@ export default function Services() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16 lg:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className="relative"
           >
             <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
@@ -145,55 +152,67 @@ export default function Services() {
           </motion.div>
 
           {/* Right Column - Services Grid */}
-          <motion.div 
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.1
-                }
-              }
-            }}
-          >
+          <div className="lg:col-span-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
             {services.map((service, index) => (
               <motion.div
-                key={service.title}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { 
-                    opacity: 1, 
-                    y: 0,
-                    transition: {
-                      duration: 0.5,
-                      ease: "easeOut"
-                    }
-                  }
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ 
+                  duration: 0.7,
+                  delay: index * 0.1,
+                  ease: [0.21, 0.45, 0.32, 0.9]
                 }}
                 className={cn(
-                  "relative p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02]",
-                  "border border-white/10 hover:border-white/20",
-                  "transform transition-transform hover:-translate-y-1"
+                  "group relative p-4 lg:p-5 rounded-2xl backdrop-blur-lg",
+                  "border border-white/10",
+                  "bg-gradient-to-tr",
+                  "hover:border-white/20 hover:shadow-lg hover:shadow-white/5",
+                  "transition-all duration-500"
                 )}
               >
-                <service.icon className="w-5 h-5 lg:w-6 lg:h-6 mb-3 text-yellow-400 group-hover:text-yellow-400/90 transition-colors duration-500" />
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold leading-tight text-gray-100">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm leading-normal sm:leading-6 text-gray-400">
-                    {service.description}
+                {/* Base gradient */}
+                <div className={cn(
+                  "absolute inset-0 rounded-2xl",
+                  "bg-gradient-to-tr",
+                  service.gradient,
+                  "-z-10"
+                )} />
+
+                {/* Hover gradient effect */}
+                <div className={cn(
+                  "absolute inset-0 rounded-2xl",
+                  "bg-gradient-to-tr from-white/20 via-white/10 to-transparent",
+                  "opacity-0 group-hover:opacity-100",
+                  "transition-all duration-500",
+                  "group-hover:bg-gradient-to-tr",
+                  service.gradient.includes("blue") ? "group-hover:from-blue-400/30 group-hover:via-cyan-400/20 group-hover:to-transparent" :
+                  service.gradient.includes("purple") ? "group-hover:from-purple-400/30 group-hover:via-pink-400/20 group-hover:to-transparent" :
+                  service.gradient.includes("emerald") ? "group-hover:from-emerald-400/30 group-hover:via-teal-400/20 group-hover:to-transparent" :
+                  service.gradient.includes("amber") ? "group-hover:from-amber-400/30 group-hover:via-orange-400/20 group-hover:to-transparent" :
+                  service.gradient.includes("rose") ? "group-hover:from-rose-400/30 group-hover:via-pink-400/20 group-hover:to-transparent" :
+                  "group-hover:from-indigo-400/30 group-hover:via-violet-400/20 group-hover:to-transparent"
+                )} />
+
+                {/* Content */}
+                <div className="relative z-10">
+                  <service.icon className="w-5 h-5 lg:w-6 lg:h-6 mb-3 text-yellow-400 group-hover:text-yellow-400/90 transition-colors duration-500" />
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold leading-tight text-gray-100">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm leading-normal sm:leading-6 text-gray-400">
+                      {service.description}
+                    </p>
+                  </div>
+                  <p className="text-gray-400 leading-relaxed text-xs lg:text-sm group-hover:text-gray-400/90">
+                    {service.details}
                   </p>
                 </div>
-                <p className="text-gray-400 leading-relaxed text-xs lg:text-sm group-hover:text-gray-400/90">
-                  {service.details}
-                </p>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
       <BookingModal 

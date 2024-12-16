@@ -56,7 +56,7 @@ export default function Values() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentBg((prev) => (prev === 0 ? 1 : 0));
-    }, 10000); // Increased interval to reduce frequency
+    }, 7000);
     return () => clearInterval(interval);
   }, []);
 
@@ -64,27 +64,15 @@ export default function Values() {
     setIsClient(true);
     const updateDimensions = () => {
       if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
         setDimensions({
-          width: rect.width,
-          height: rect.height
+          width: containerRef.current.offsetWidth,
+          height: containerRef.current.offsetHeight
         });
       }
     };
     updateDimensions();
-    
-    // Debounce resize handler
-    let timeoutId: NodeJS.Timeout;
-    const debouncedResize = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(updateDimensions, 100);
-    };
-    
-    window.addEventListener('resize', debouncedResize);
-    return () => {
-      window.removeEventListener('resize', debouncedResize);
-      clearTimeout(timeoutId);
-    };
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -179,29 +167,25 @@ export default function Values() {
 
   return (
     <section id="values-section" className="relative py-32 overflow-hidden">
-      {/* Background Images */}
-      <div className="absolute inset-0 overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentBg}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-            className="absolute inset-0"
-          >
-            <Image
-              src={backgrounds[currentBg]}
-              alt="Background"
-              fill
-              className="object-cover"
-              priority={true}
-              sizes="100vw"
-              quality={90}
-            />
-          </motion.div>
-        </AnimatePresence>
-      </div>
+      {/* Animated Background Images */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentBg}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5 }}
+          className="absolute inset-0 w-full h-full"
+        >
+          <Image
+            src={backgrounds[currentBg]}
+            alt="City Skyline"
+            fill
+            className="object-cover"
+            priority
+          />
+        </motion.div>
+      </AnimatePresence>
 
       {/* Interactive Grid Overlay */}
       <div 
@@ -297,11 +281,19 @@ export default function Values() {
                   key={value.title}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
+                  viewport={{ 
+                    once: true,
+                    amount: 0.3,
+                    margin: "-50px"
+                  }}
+                  transition={{ 
+                    duration: 0.7,
+                    delay: index * 0.15,
+                    ease: [0.21, 0.45, 0.32, 0.9]
+                  }}
                   whileHover={{
                     scale: 1.02,
-                    transition: { duration: 0.2 }
+                    transition: { duration: 0.3, ease: "easeOut" }
                   }}
                   style={{
                     background: `linear-gradient(135deg, ${colors.base[0]}10, ${colors.base[2]}05)`,

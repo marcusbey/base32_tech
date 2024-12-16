@@ -222,7 +222,7 @@ export default function Navigation() {
               ))}
 
               {/* Contact Button */}
-              <Link href={`${siteConfig.baseUrl}/#contact`}>
+              <Link href={`${siteConfig.baseUrl}/#contact-section`}>
                 <motion.button
                   className={`relative px-4 py-2 rounded-full text-xs uppercase tracking-wide border ${
                     isStudio 

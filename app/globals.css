@@ -8,14 +8,32 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-body {
-  background: #000;
-  color: #000;
-  overflow-x: hidden;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  transition: all 0.3s ease-in-out;
+@layer base {
+  body {
+    background: #000;
+    color: #000;
+    overflow-x: hidden;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    transition: all 0.3s ease-in-out;
+  }
+
+  @screen sm {
+    body {
+      line-height: 1.25;
+    }
+  }
+
+  p {
+    line-height: 1.5;
+  }
+
+  @screen sm {
+    p {
+      line-height: 1.25;
+    }
+  }
 }
 
 [data-company="studio"] body {

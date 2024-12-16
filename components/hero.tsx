@@ -42,7 +42,7 @@ export default function Hero() {
         }}
         className={`relative ${
           isStudio ? "z-10" : "z-20"
-        } w-full max-w-7xl mx-auto px-8 lg:px-16`}
+        } w-full max-w-7xl mx-auto p-4 sm:px-6 lg:px-16`}
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -52,10 +52,10 @@ export default function Hero() {
         >
           <StatusBadge isStudio={isStudio} />
           <HeroContent isStudio={isStudio}>
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+            <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold tracking-tight leading-tight text-white">
               {company === "tech" ? "BASE32 Tech" : "BASE32 Studio"}
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-300">
+            <p className="mt-4 md:mt-6 text-base md:text-lg leading-tight sm:leading-7 text-gray-300 max-w-2xl">
               AI automation that cuts development costs by 60% and ships products 10x faster. Seamlessly integrate intelligent agents into your workflow and deliver value to your customers in days not months.
             </p>
           </HeroContent>

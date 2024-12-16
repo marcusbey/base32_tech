@@ -223,7 +223,7 @@ export default function Values() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="relative h-full flex flex-col"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex-1 flex flex-col w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 flex-1 flex flex-col w-full">
           {/* Title Section */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -237,14 +237,14 @@ export default function Values() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className={`text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r ${
+              className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r ${
                 isTech 
                   ? "from-blue-600 via-blue-500 to-blue-400"
                   : "from-indigo-600 via-indigo-500 to-indigo-400"
-              } bg-clip-text text-transparent text-right ml-auto py-4 leading-loose `}
+              } bg-clip-text text-transparent text-right ml-auto py-4 leading-tight sm:leading-loose`}
             >
               Committed to Your Success,
-              <br />
+              <br className="hidden sm:block" />
               Every Step of the Way
             </motion.h2>
             <motion.p
@@ -252,10 +252,10 @@ export default function Values() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-              className="text-xl md:text-2xl text-gray-300 leading-relaxed text-right ml-auto mb-20"
+              className="text-lg sm:text-xl md:text-2xl text-gray-300 leading-normal sm:leading-relaxed text-right ml-auto mb-12 sm:mb-20"
             >
               Beyond service providers, we're your
-              <br />
+              <br className="hidden sm:block" />
               dedicated partners in technological advancement
             </motion.p>
           </motion.div>
@@ -291,10 +291,10 @@ export default function Values() {
                     background: `linear-gradient(135deg, ${colors.base[0]}10, ${colors.base[2]}05)`,
                     borderColor: `${colors.base[1]}20`,
                   }}
-                  className="backdrop-blur-lg p-6 md:p-8 rounded-2xl transition-all duration-300 relative"
+                  className="backdrop-blur-lg p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl transition-all duration-300 relative"
                 >
-                  <h3 className="text-2xl font-semibold text-white mb-4">{value.title}</h3>
-                  <p className="text-gray-400">{value.description}</p>
+                  <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3 sm:mb-4 leading-tight">{value.title}</h3>
+                  <p className="text-gray-400 leading-normal sm:leading-relaxed text-sm sm:text-base">{value.description}</p>
                 </motion.div>
               ))}
             </div>

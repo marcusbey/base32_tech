@@ -75,7 +75,7 @@ export default function Services() {
   const [isBookingOpen, setIsBookingOpen] = React.useState(false);
 
   return (
-    <section id="services-section" className="relative py-48 overflow-hidden bg-black" ref={containerRef}>
+    <section id="services-section" className="relative py-16 sm:py-24 overflow-hidden bg-black" ref={containerRef}>
       {/* Background gradient overlay for smooth transition */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black to-black pointer-events-none" />
       
@@ -189,12 +189,14 @@ export default function Services() {
                 {/* Content */}
                 <div className="relative z-10">
                   <service.icon className="w-5 h-5 lg:w-6 lg:h-6 mb-3 text-yellow-400 group-hover:text-yellow-400/90 transition-colors duration-500" />
-                  <h3 className="text-sm lg:text-base font-semibold text-white mb-2 leading-snug group-hover:text-white/95">
-                    {service.title}
-                  </h3>
-                  <p className="text-yellow-400/90 mb-3 leading-relaxed text-xs lg:text-sm group-hover:text-yellow-400/80">
-                    {service.description}
-                  </p>
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold leading-tight text-gray-100">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm leading-normal sm:leading-6 text-gray-400">
+                      {service.description}
+                    </p>
+                  </div>
                   <p className="text-gray-400 leading-relaxed text-xs lg:text-sm group-hover:text-gray-400/90">
                     {service.details}
                   </p>

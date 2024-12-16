@@ -107,7 +107,7 @@ export default function CreativeContact() {
   };
 
   return (
-    <section id="contact-section" className="relative overflow-hidden py-32">
+    <section id="contact-section" className="relative py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className={`relative rounded-[2.5rem] p-12 sm:p-16 ${
@@ -172,7 +172,7 @@ export default function CreativeContact() {
                     />
                   </motion.div>
                   <h2
-                    className={`text-3xl font-semibold ${
+                    className={`text-2xl md:text-3xl font-bold leading-tight text-center ${
                       isTech ? "text-white" : "text-gray-900"
                     }`}
                   >
@@ -184,7 +184,7 @@ export default function CreativeContact() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className={`text-lg mb-8 ${
+                  className={`text-base leading-normal sm:leading-7 ${
                     isTech ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
@@ -369,7 +369,7 @@ export default function CreativeContact() {
                 className="flex flex-col items-center md:items-end justify-end w-full md:w-[180px]"
               >
                 <p
-                  className={`text-sm font-medium mb-4 text-center md:text-right ${
+                  className={`text-base leading-normal sm:leading-7 font-medium mb-4 text-center md:text-right ${
                     isTech ? "text-gray-300" : "text-gray-700"
                   }`}
                 >

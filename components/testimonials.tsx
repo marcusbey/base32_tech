@@ -237,14 +237,14 @@ export default function Testimonials() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               >
-                <h2 className={`text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400`}>
+                 <h2 className={`text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400`}>
                   Client Success
                   <br />
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
                     Stories
                   </span>
                 </h2>
-                <p className="mt-6 text-lg lg:text-xl text-gray-400">
+                <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-gray-400">
                   {isTech
                     ? "Join companies who have achieved "
                     : "Join businesses who have transformed with "}
@@ -271,7 +271,7 @@ export default function Testimonials() {
                     <ChevronLeft className="w-6 h-6" />
                   </motion.button>
 
-                  <div className="relative w-full max-w-3xl">
+                  <div className="relative w-full lg:max-w-3xl">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={currentIndex}
@@ -279,27 +279,27 @@ export default function Testimonials() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="text-center px-8 py-12"
+                        className="text-center px-0 md:px-8 py-12"
                       >
-                        <Quote className={`w-12 h-12 mx-auto mb-8 ${
+                        <Quote className={`w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-4 sm:mb-6 ${
                           isTech ? 'text-yellow-400' : 'text-indigo-500'
                         }`} />
                         
-                        <p className={`text-2xl mb-12 leading-relaxed ${
+                        <p className={`text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 leading-normal sm:leading-relaxed ${
                           isTech ? 'text-white' : 'text-gray-800'
                         }`}>
                           {currentTestimonials[currentIndex].quote}
                         </p>
                         
                         <div>
-                          <p className={`font-semibold text-lg ${
+                          <p className={`font-semibold text-sm sm:text-base ${
                             isTech ? 'text-white' : 'text-gray-900'
                           }`}>
                             {currentTestimonials[currentIndex].author}
                           </p>
-                          <p className={
+                          <p className={`text-xs sm:text-sm ${
                             isTech ? 'text-gray-400' : 'text-gray-600'
-                          }>
+                          }`}>
                             {currentTestimonials[currentIndex].role}
                           </p>
                         </div>

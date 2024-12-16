@@ -24,7 +24,7 @@ export default function About() {
   };
 
   return (
-    <section id="about-section" className="relative overflow-hidden py-32">
+    <section id="about-section" className="relative overflow-hidden py-16 lg:py-32">
       <motion.div 
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

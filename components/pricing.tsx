@@ -84,8 +84,8 @@ function Pricing() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   
   return (
-    <section id="pricing-section" className="relative min-h-screen py-32 overflow-hidden flex items-center">
-      <div className="relative z-10 container mx-auto px-4">
+    <section id="pricing-section" className="relative py-16 sm:py-24 overflow-hidden flex items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -160,19 +160,11 @@ function Pricing() {
                         isTech ? "text-yellow-400" : "text-indigo-500"
                       }`}
                     />
-                    <div>
-                      <p
-                        className={`font-medium ${
-                          isTech ? "text-white" : "text-gray-900"
-                        }`}
-                      >
+                    <div className="space-y-2">
+                      <h3 className={`text-lg font-semibold leading-tight ${isTech ? "text-white" : "text-gray-900"}`}>
                         {feature.title}
-                      </p>
-                      <p
-                        className={`text-sm ${
-                          isTech ? "text-gray-400" : "text-gray-600"
-                        }`}
-                      >
+                      </h3>
+                      <p className={`text-sm leading-normal sm:leading-6 ${isTech ? "text-gray-400" : "text-gray-600"}`}>
                         {feature.description}
                       </p>
                     </div>

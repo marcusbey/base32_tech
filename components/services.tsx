@@ -87,9 +87,10 @@ export default function Services() {
         {/* Header */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16 lg:mb-24">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
             className="relative"
           >
             <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
@@ -111,9 +112,10 @@ export default function Services() {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
           {/* Left Column - Description and Button */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 0.9, y: 1 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
             className="lg:col-span-4"
           >
             <div className="space-y-8">
@@ -156,14 +158,10 @@ export default function Services() {
             {services.map((service, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ 
-                  duration: 0.7,
-                  delay: index * 0.1,
-                  ease: [0.21, 0.45, 0.32, 0.9]
-                }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3 }}
                 className={cn(
                   "group relative p-4 lg:p-5 rounded-2xl backdrop-blur-lg",
                   "border border-white/10",

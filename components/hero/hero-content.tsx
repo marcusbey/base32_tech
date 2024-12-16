@@ -62,10 +62,10 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentTagline}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white absolute inset-0 flex flex-col items-start"
           >
             <span className="text-indigo-200 pb-4">
@@ -81,9 +81,9 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         </AnimatePresence>
       </div>
       <motion.p 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
         className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none"
       >
         AI automation cuts development costs by 60% and ships products 10x faster. Seamlessly integrate intelligent agents into your workflow and deliver value to your customers in days not months.

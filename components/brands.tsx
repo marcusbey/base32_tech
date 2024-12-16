@@ -116,10 +116,9 @@ export default function Brands() {
             className="lg:col-span-4 relative"
           >
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.3 }}
             >
               <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
                 Partner with
@@ -145,10 +144,10 @@ export default function Brands() {
             {currentSectors.map((sector, index) => (
               <motion.div
                 key={sector.name}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.3 }}
+                transition={{ delay: index * 0.1 }}
                 animate={{
                   background: activeIndex === index
                     ? isTech
@@ -157,6 +156,11 @@ export default function Brands() {
                     : isTech
                       ? "linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(29, 78, 216, 0.02))"
                       : "linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(79, 70, 229, 0.02))"
+                }}
+                whileHover={{
+                  background: isTech
+                    ? "linear-gradient(135deg, rgba(0,0,0,0.4), rgba(59,130,246,0.2))"
+                    : "linear-gradient(135deg, rgba(255,255,255,0.4), rgba(99,102,241,0.2))",
                 }}
                 className={`group cursor-pointer p-6 rounded-2xl backdrop-blur-lg transition-all duration-300 ${
                   isTech

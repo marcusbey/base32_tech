@@ -78,23 +78,21 @@ export default function Navigation() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
             className={`fixed inset-0 z-50 ${isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           >
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: isMenuOpen ? 1 : 0 }}
-              transition={{ duration: 0.2 }}
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
               onClick={() => setIsMenuOpen(false)}
             />
 
             {/* Content */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: isMenuOpen ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, x: '100%' }}
+              animate={{ opacity: isMenuOpen ? 1 : 0, x: isMenuOpen ? 0 : '100%' }}
+              transition={{ type: 'spring', damping: 20 }}
               className={`absolute right-0 top-0 bottom-0 w-full sm:w-96 ${
                 isStudio ? 'bg-white' : 'bg-gray-900'
               } shadow-2xl`}
@@ -116,9 +114,9 @@ export default function Navigation() {
                     {navItems.map((item, index) => (
                       <motion.div
                         key={item.name}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.2 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
                         className="text-center"
                       >
                         <Link href={item.href}>
@@ -136,9 +134,9 @@ export default function Navigation() {
                     
                     {/* Contact Button */}
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.2 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: navItems.length * 0.1 }}
                       className="text-center pt-4"
                     >
                       <Link href={`${siteConfig.baseUrl}/#contact`}>
@@ -169,9 +167,8 @@ export default function Navigation() {
       {/* Bottom Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 flex justify-center items-center p-8 z-50">
         <motion.nav
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
           style={{ width }}
           className="mega-glass-card rounded-full px-8 py-4 backdrop-blur-2xl bg-opacity-20 hover-glow"
         >

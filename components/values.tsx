@@ -110,9 +110,7 @@ export default function Values() {
           stroke={getColorVariant(x, 0, colors.base)}
           strokeOpacity={0.15}
           strokeWidth={1}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          initial={false}
         />
       );
     }
@@ -129,9 +127,7 @@ export default function Values() {
           stroke={getColorVariant(0, y, colors.base)}
           strokeOpacity={0.15}
           strokeWidth={1}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          initial={false}
         />
       );
     }
@@ -154,9 +150,13 @@ export default function Values() {
             cy={y}
             r={baseDotSize}
             fill={getColorVariant(x, y, colors.base)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+            initial={{ fillOpacity: 0.2, scale: 1 }}
+            animate={{
+              fillOpacity: 0.2 + (intensity * 0.8),
+              scale: 1 + (intensity * 0.5),
+              fill: isNearMouse ? colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length] : getColorVariant(x, y, colors.base),
+            }}
+            transition={{ type: "spring", stiffness: 1000, damping: 50, mass: 0.1 }}
           />
         );
       }
@@ -171,10 +171,10 @@ export default function Values() {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentBg}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 1.5 }}
           className="absolute inset-0 w-full h-full"
         >
           <Image

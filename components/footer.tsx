@@ -91,9 +91,13 @@ export default function Footer() {
             cy={y}
             r={baseDotSize}
             fill={getColorVariant(x, y, colors.base)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0.3, scale: 1 }}
+            animate={{
+              opacity: 0.3 + (intensity * 0.7),
+              scale: 1 + (intensity * 1),
+              fill: isNearMouse ? colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length] : getColorVariant(x, y, colors.base),
+            }}
+            transition={{ type: "spring", stiffness: 1000, damping: 50, mass: 0.1 }}
           />
         );
 
@@ -112,9 +116,7 @@ export default function Footer() {
               stroke={getColorVariant(x, y, colors.bright)}
               strokeOpacity={intensity * 0.4}
               strokeWidth={1.5}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={false}
             />,
             <motion.line
               key={`line-v-${i}-${j}`}
@@ -125,9 +127,7 @@ export default function Footer() {
               stroke={getColorVariant(x, y, colors.bright)}
               strokeOpacity={intensity * 0.4}
               strokeWidth={1.5}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={false}
             />
           );
         }
@@ -169,16 +169,14 @@ export default function Footer() {
   };
 
   return (
-    <motion.footer
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-      className={cn(
-        "relative overflow-hidden",
-        isTech ? "bg-blue-950" : "bg-gray-950"
-      )}
+    <footer 
       ref={containerRef}
       onMouseMove={handleMouseMove}
+      className={`relative overflow-hidden ${
+        isTech ? 'bg-gradient-to-b from-[#1E3A8A] to-[#1E40AF]' : 'bg-gradient-to-b from-gray-900 to-black'
+      } border-t ${
+        isTech ? 'border-blue-500/20' : 'border-gray-200/20'
+      }`}
     >
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black pointer-events-none" />
@@ -285,6 +283,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }

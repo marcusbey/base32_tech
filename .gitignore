@@ -40,7 +40,7 @@ coverage/
 *.pem
 
 # Tailwind CSS
-tailwind.config.ts
+# tailwind.config.ts
 
 # TypeScript
 *.tsbuildinfo

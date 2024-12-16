@@ -10,8 +10,91 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "BASE32 | Tech & Studio",
-  description: "AI, Automation & Design Solutions",
+  metadataBase: new URL('https://base32.tech'),
+  title: {
+    default: "BASE32 | AI Software Development & Consulting",
+    template: "%s | BASE32"
+  },
+  description: "Expert AI software development, automation solutions, and tech consulting. Specializing in LLMs, machine learning, and custom AI applications for businesses.",
+  keywords: [
+    "AI software development",
+    "artificial intelligence consulting",
+    "machine learning solutions",
+    "LLM applications",
+    "custom AI development",
+    "tech automation",
+    "AI integration",
+    "software engineering",
+    "tech consulting",
+    "AI consulting",
+    "business automation",
+    "AI strategy",
+    "digital transformation",
+    "AI implementation",
+    "software solutions",
+    "tech innovation",
+    "AI architecture",
+    "system automation",
+    "AI optimization",
+    "enterprise AI",
+    "Montreal tech",
+    "Quebec AI company",
+    "Canadian tech solutions",
+    "AI development Montreal",
+    "tech consulting Quebec"
+  ],
+  creator: "BASE32",
+  publisher: "BASE32",
+  authors: [{ name: "BASE32 Team" }],
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: "BASE32 | AI Software Development & Consulting",
+    description: "Expert AI software development, automation solutions, and tech consulting. Specializing in LLMs, machine learning, and custom AI applications for businesses.",
+    url: 'https://base32.tech',
+    siteName: 'BASE32',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'BASE32 - AI Software Development & Consulting',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BASE32 | AI Software Development & Consulting',
+    description: 'Expert AI software development, automation solutions, and tech consulting services',
+    images: ['/twitter-image.jpg'],
+    creator: 'Romain BOBOE',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
+  alternates: {
+    canonical: 'https://base32.tech',
+    languages: {
+      'en-US': 'https://base32.tech',
+      'fr-CA': 'https://base32.tech/fr',
+    },
+  },
 };
 
 // These attributes are added by browser extensions and should be included in SSR

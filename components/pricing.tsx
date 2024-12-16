@@ -93,14 +93,14 @@ function Pricing() {
           className="text-center max-w-2xl mx-auto mb-16"
         >
           <h2
-            className={`text-5xl font-semibold mb-4 ${
+            className={`text-3xl lg:text-5xl font-semibold mb-4 ${
               isTech ? "text-white" : "text-gray-900"
             }`}
           >
             Let's Build Something Great
           </h2>
           <p
-            className={`text-xl ${isTech ? "text-gray-400" : "text-gray-600"}`}
+            className={`text-base lg:text-xl ${isTech ? "text-gray-400" : "text-gray-600"}`}
           >
             Schedule a consultation to discuss your unique needs
           </p>
@@ -123,14 +123,14 @@ function Pricing() {
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
                 <h3
-                  className={`text-2xl font-bold ${
+                  className={`text-xl lg:text-2xl font-bold ${
                     isTech ? "text-white" : "text-gray-900"
                   }`}
                 >
                   {isTech ? "Enterprise AI Solution" : "Full Design System"}
                 </h3>
                 <span
-                  className={`text-sm font-medium px-3 py-1 rounded-full ${
+                  className={`text-xs lg:text-sm font-medium px-4 py-2 lg:px-3 lg:py-1 text-center rounded-full ${
                     isTech
                       ? "bg-yellow-500/10 text-yellow-400"
                       : "bg-indigo-500/10 text-indigo-500"
@@ -141,7 +141,7 @@ function Pricing() {
               </div>
 
               <div className="mb-8">
-                <p className={`text-lg ${isTech ? "text-gray-300" : "text-gray-700"}`}>
+                <p className={`text-base lg:text-lg ${isTech ? "text-gray-300" : "text-gray-700"}`}>
                   Get a customized solution designed specifically for your business needs. Our team will work closely with you to understand your requirements and deliver exceptional results.
                 </p>
               </div>
@@ -161,10 +161,10 @@ function Pricing() {
                       }`}
                     />
                     <div className="space-y-2">
-                      <h3 className={`text-lg font-semibold leading-tight ${isTech ? "text-white" : "text-gray-900"}`}>
+                      <h3 className={`text-base lg:text-lg font-semibold leading-tight ${isTech ? "text-white" : "text-gray-900"}`}>
                         {feature.title}
                       </h3>
-                      <p className={`text-sm leading-normal sm:leading-6 ${isTech ? "text-gray-400" : "text-gray-600"}`}>
+                      <p className={`text-xs lg:text-sm leading-normal sm:leading-6 ${isTech ? "text-gray-400" : "text-gray-600"}`}>
                         {feature.description}
                       </p>
                     </div>
@@ -177,7 +177,7 @@ function Pricing() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setIsBookingOpen(true)}
-                  className="inline-flex items-center px-6 py-3 rounded-full text-white font-medium text-base lg:text-lg bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300"
+                  className="inline-flex items-center px-6 py-3 rounded-full text-white font-medium text-sm lg:text-base bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300"
                 >
                   Schedule a Consultation
                 </motion.button>

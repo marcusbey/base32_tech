@@ -107,10 +107,10 @@ export default function CreativeContact() {
   };
 
   return (
-    <section id="contact-section" className="relative py-16 sm:py-24">
+    <section id="contact-section" className="relative py-12 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          className={`relative rounded-[2.5rem] p-12 sm:p-16 ${
+          className={`relative rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-12 lg:p-16 ${
             isTech
               ? "bg-gradient-to-br from-blue-950/30 via-indigo-900/20 to-violet-900/30 backdrop-blur-2xl border border-blue-500/10"
               : "bg-gradient-to-br from-indigo-100/90 via-white/80 to-purple-100/90 backdrop-blur-xl shadow-[inset_0_-100px_200px_-50px_rgba(99,102,241,0.2)]"
@@ -146,13 +146,13 @@ export default function CreativeContact() {
           )}
 
           <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
-            <div className="space-y-12 mb-16">
-              <div className="space-y-6">
+            <div className="space-y-8 sm:space-y-12 mb-8 sm:mb-16">
+              <div className="space-y-4 sm:space-y-6">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="flex items-center gap-3 mb-8"
+                  className="flex items-center gap-3 mb-4 sm:mb-8"
                 >
                   <motion.div
                     animate={{
@@ -172,7 +172,7 @@ export default function CreativeContact() {
                     />
                   </motion.div>
                   <h2
-                    className={`text-2xl md:text-3xl font-bold leading-tight text-center ${
+                    className={`text-xl sm:text-2xl md:text-3xl font-bold leading-tight ${
                       isTech ? "text-white" : "text-gray-900"
                     }`}
                   >
@@ -184,7 +184,7 @@ export default function CreativeContact() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className={`text-base leading-normal sm:leading-7 ${
+                  className={`text-sm sm:text-base leading-normal sm:leading-7 ${
                     isTech ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
@@ -199,13 +199,13 @@ export default function CreativeContact() {
                 >
                   <textarea
                     id="vision"
-                    rows={4}
+                    rows={3}
                     value={formData.vision}
                     onChange={(e) => {
                       setFormData((prev) => ({ ...prev, vision: e.target.value }));
                       if (errors.vision) setErrors(prev => ({ ...prev, vision: "" }));
                     }}
-                    className={`w-full px-4 py-3 bg-transparent relative z-10 ${
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-transparent relative z-10 ${
                       isTech
                         ? "text-white placeholder-gray-400"
                         : "text-gray-900 placeholder-gray-500"
@@ -224,8 +224,8 @@ export default function CreativeContact() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 items-start">
-                <div className="flex-1">
+              <div className="flex flex-col gap-4 sm:flex-row sm:gap-4 items-start">
+                <div className="w-full sm:flex-1">
                   <div className="relative">
                     <input
                       type="text"
@@ -235,7 +235,7 @@ export default function CreativeContact() {
                         if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
                       }}
                       placeholder="Your name"
-                      className={`w-full px-4 py-3 rounded-xl ${
+                      className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl ${
                         isTech
                           ? "bg-white/5 border border-blue-400/40 text-white placeholder-gray-300"
                           : "bg-white/95 text-gray-900 placeholder-gray-500"
@@ -253,7 +253,7 @@ export default function CreativeContact() {
                   </div>
                 </div>
 
-                <div className="flex-1">
+                <div className="w-full sm:flex-1">
                   <div className="relative">
                     <input
                       type="email"
@@ -263,7 +263,7 @@ export default function CreativeContact() {
                         if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
                       }}
                       placeholder="Your email"
-                      className={`w-full px-4 py-3 rounded-xl ${
+                      className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl ${
                         isTech
                           ? "bg-white/5 border border-blue-400/40 text-white placeholder-gray-300"
                           : "bg-white/95 text-gray-900 placeholder-gray-500"
@@ -281,16 +281,16 @@ export default function CreativeContact() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                <div className="w-full sm:w-auto">
                   <motion.button
                     type="submit"
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
-                    className={`w-full max-w-[300px] md:max-w-[180px] py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+                    className={`w-full sm:w-auto py-2 sm:py-3 px-4 sm:px-6 rounded-xl font-semibold flex items-center justify-center gap-2 ${
                       isTech
                         ? "bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
                         : "bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                    } transition-all duration-300`}
+                    } transition-all duration-300 text-sm sm:text-base`}
                   >
                     {isSubmitting ? (
                       <>
@@ -317,27 +317,27 @@ export default function CreativeContact() {
             <div
               className={`h-px w-full ${
                 isTech ? "bg-blue-500/20" : "bg-indigo-200/50"
-              } mb-16`}
+              } mb-8 sm:mb-16`}
             />
 
             {/* Testimonial and Call Booking Section */}
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col md:flex-row gap-6 sm:gap-8">
               {/* Testimonial */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="flex-1 p-8"
+                className="flex-1 p-4 sm:p-8"
               >
                 <div
-                  className={`text-xl mb-4 ${
+                  className={`text-lg sm:text-xl mb-3 sm:mb-4 ${
                     isTech ? "text-yellow-400" : "text-indigo-500"
                   }`}
                 >
                   &quot;
                 </div>
                 <p
-                  className={`text-lg mb-6 ${
+                  className={`text-base sm:text-lg mb-4 sm:mb-6 ${
                     isTech ? "text-gray-300" : "text-gray-600"
                   }`}
                 >

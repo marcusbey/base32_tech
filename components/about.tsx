@@ -24,30 +24,30 @@ export default function About() {
   };
 
   return (
-    <section id="about-section" className="relative overflow-hidden py-16 lg:py-32">
+    <section id="about-section" className="relative overflow-hidden py-8 sm:py-12 lg:py-32">
       <motion.div 
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-16">
           {/* Left column - Text content */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="lg:col-span-5 space-y-8"
+            className="lg:col-span-5 w-full max-w-lg mx-auto lg:max-w-none space-y-4 sm:space-y-6 lg:space-y-8"
           >
-            <div className="pt-16 relative">
+            <div className="pt-4 sm:pt-6 lg:pt-16 relative w-full">
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-                className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-blue-400"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-blue-400"
               >
                 About
                 <br />
@@ -61,7 +61,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                className="mt-6 text-lg lg:text-xl text-gray-400"
+                className="mt-3 sm:mt-4 md:mt-6 text-sm sm:text-base md:text-lg lg:text-xl text-gray-400"
               >
                 Transforming ideas into digital excellence with
                 <span className="text-blue-400"> innovative solutions</span>
@@ -73,31 +73,31 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-              className="space-y-6 pb-16"
+              className="space-y-4 sm:space-y-6 md:space-y-8"
             >
               <div>
-                <h3 className={`text-2xl font-semibold mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-semibold mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Mission
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
                   At Base32, we're dedicated to pushing the boundaries of digital innovation. Our mission is to empower businesses with cutting-edge technology solutions that drive growth and success in the digital age.
                 </p>
               </div>
 
               <div>
-                <h3 className={`text-2xl font-semibold mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-semibold mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Vision
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
                   We envision a future where every business, regardless of size, has access to enterprise-grade technology solutions. Through innovation and expertise, we're making this vision a reality.
                 </p>
               </div>
 
               <div>
-                <h3 className={`text-2xl font-semibold mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-semibold mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Team
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
                   We're a diverse team of developers, designers, and digital strategists passionate about creating exceptional digital experiences. With decades of combined experience, we bring expertise and innovation to every project.
                 </p>
               </div>
@@ -110,27 +110,27 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="relative lg:col-span-7 h-[700px] lg:h-[800px] -mt-16 flex justify-center"
+            className="relative lg:col-span-7 h-[500px] sm:h-[600px] lg:h-[800px] mt-8 lg:-mt-16 flex justify-center"
           >
-            <div className="relative w-[400px] h-[700px] lg:h-[800px] rounded-2xl overflow-hidden">
+            <div className="relative w-full sm:w-[400px] h-[500px] sm:h-[600px] lg:h-[800px] rounded-2xl overflow-hidden">
               <div className="absolute inset-0 bg-black/50 z-10" />
               <Image
                 src="/images/about-profile2.jpg"
                 alt="Base32 Team"
                 fill
                 className="object-cover object-center rounded-xl"
-                sizes="(max-width: 768px) 100vw, 400px"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 400px, 400px"
                 priority
               />
               {/* Offset grid pattern div */}
               <div 
-                className="absolute -bottom-32 -right-20 w-[300px] h-[200px] z-20"
+                className="absolute -bottom-32 -right-20 w-[200px] sm:w-[300px] h-[150px] sm:h-[200px] z-20"
               >
                 <div className="absolute inset-0" style={{
                   backgroundImage: 
                     `linear-gradient(to right, ${isTech ? 'rgba(59, 130, 246, 0.3)' : 'rgba(99, 102, 241, 0.3)'} 1px, transparent 1px),
                      linear-gradient(to bottom, ${isTech ? 'rgba(59, 130, 246, 0.3)' : 'rgba(99, 102, 241, 0.3)'} 1px, transparent 1px)`,
-                  backgroundSize: '40px 40px',
+                  backgroundSize: '30px 30px',
                   opacity: 0.7,
                 }} />
               </div>
@@ -141,20 +141,20 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
-              className="absolute bottom-8 left-8 z-20"
+              className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 z-20"
             >
-              <h3 className="text-2xl font-semibold text-white mb-1">
+              <h3 className="text-xl sm:text-2xl font-semibold text-white mb-1">
                 Romain BOBOE
               </h3>
-              <p className="text-gray-300 mb-4">Founder, Tech Lead</p>
-              <div className="flex gap-4">
+              <p className="text-sm sm:text-base text-gray-300 mb-3 sm:mb-4">Founder, Tech Lead</p>
+              <div className="flex gap-3 sm:gap-4">
                 <Link
                   href="https://www.linkedin.com/in/romainboboe/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-400 transition-colors"
                 >
-                  <Linkedin className="w-6 h-6" />
+                  <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
                 </Link>
                 <Link
                   href="https://x.com/romainbey"
@@ -162,7 +162,7 @@ export default function About() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-400 transition-colors"
                 >
-                  <XIcon className="w-6 h-6" />
+                  <XIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </Link>
               </div>
             </motion.div>

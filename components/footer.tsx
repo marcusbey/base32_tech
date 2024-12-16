@@ -8,6 +8,8 @@ import { Logo } from '@/components/hero/logo';
 import { siteConfig } from "@/config/site";
 import { useEffect, useRef, useState } from 'react';
 import { XIcon } from "./icons/x-icon";
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Footer() {
   const { company } = useCompany();
@@ -16,6 +18,7 @@ export default function Footer() {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
 
   const gridSize = 60;
   const baseDotSize = 2;
@@ -224,9 +227,8 @@ export default function Footer() {
               <ul className="space-y-3">
                 {navigation.company.map((item) => (
                   <li key={item.name}>
-                    <a
+                    <Link
                       href={item.href}
-                      onClick={(e) => scrollToSection(e, item.href)}
                       className={`text-sm hover:underline transition-colors ${
                         isTech 
                           ? 'text-gray-400 hover:text-white' 
@@ -234,7 +236,7 @@ export default function Footer() {
                       }`}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { useCompany } from "@/lib/company-context";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Image from 'next/image';
 import { siteConfig } from "@/config/site";
@@ -14,6 +15,7 @@ export default function Navigation() {
   const isStudio = company === "studio";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   // Get scroll progress
   const { scrollYProgress } = useScroll();
@@ -28,7 +30,7 @@ export default function Navigation() {
   const scrollToSection = (sectionId: string) => {
     // If we're not on the homepage, navigate there first
     if (pathname !== '/') {
-      window.location.href = `${siteConfig.baseUrl}/#${sectionId}`;
+      router.push(`${siteConfig.baseUrl}/#${sectionId}`);
       return;
     }
 

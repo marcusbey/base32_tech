@@ -50,7 +50,7 @@ export default function About() {
                 <div className="space-y-4">
                   <h2 className="text-2xl sm:text-3xl text-white leading-tight">Our Approach</h2>
                   <p className="text-gray-300 leading-normal">
-                    We combine deep technical expertise with a thorough understanding of business processes to deliver solutions that make a real impact. Under Romain's leadership, we focus on creating custom AI solutions that perfectly align with our clients' needs and goals.
+                  We combine deep technical expertise with a thorough understanding of business processes to deliver solutions that make a real impact.
                   </p>
                 </div>
               </>
@@ -74,13 +74,13 @@ export default function About() {
               </>
             )}
           </div>
-          <div className="relative w-full h-[250px] sm:h-[300px] lg:h-[400px] mt-8 sm:mt-12 rounded-xl sm:rounded-2xl overflow-hidden">
+          <div className="relative w-full min-h-[350px] sm:h-[300px] lg:h-[600px] mt-8 sm:mt-12 rounded-xl sm:rounded-2xl overflow-hidden">
             <div className="absolute inset-0 bg-black/30 z-10" />
             <Image
-              src="/images/about-hero.jpg"
+              src="/images/about-profile2.jpg"
               alt="About Base32"
               fill
-              className="object-cover"
+              className="object-cover object-top"
               priority
             />
           </div>

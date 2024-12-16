@@ -63,8 +63,8 @@ export default function About() {
                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
                 className="mt-3 sm:mt-4 md:mt-6 text-sm sm:text-base md:text-lg lg:text-xl text-gray-400"
               >
-                Transforming ideas into digital excellence with
-                <span className="text-blue-400"> innovative solutions</span>
+                Crafting intelligent solutions at the intersection of
+                <span className="text-blue-400"> AI and innovation</span>
               </motion.p>
             </div>
 
@@ -80,7 +80,7 @@ export default function About() {
                   Our Mission
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
-                  At Base32, we're dedicated to pushing the boundaries of digital innovation. Our mission is to empower businesses with cutting-edge technology solutions that drive growth and success in the digital age.
+                  At BASE32, we harness the power of artificial intelligence to solve complex business challenges. Our mission is to make advanced AI technology accessible and impactful, helping businesses automate, innovate, and thrive in an AI-driven world.
                 </p>
               </div>
 
@@ -89,16 +89,16 @@ export default function About() {
                   Our Vision
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
-                  We envision a future where every business, regardless of size, has access to enterprise-grade technology solutions. Through innovation and expertise, we're making this vision a reality.
+                  We envision a future where AI enhances every aspect of business operations. Through cutting-edge LLMs, machine learning, and custom AI solutions, we're building intelligent systems that transform how businesses operate and compete.
                 </p>
               </div>
 
               <div>
                 <h3 className={`text-lg sm:text-xl md:text-2xl font-semibold mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
-                  Our Team
+                  Our Expertise
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
-                  We're a diverse team of developers, designers, and digital strategists passionate about creating exceptional digital experiences. With decades of combined experience, we bring expertise and innovation to every project.
+                  We specialize in developing sophisticated AI solutions, from custom LLM applications to automated workflows. Our team combines deep technical knowledge with strategic insight to deliver AI systems that drive real business value.
                 </p>
               </div>
             </motion.div>

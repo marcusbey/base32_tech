@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'BASE32 | AI Software Development & Consulting',
     description: 'Expert AI software development, automation solutions, and tech consulting services',
-    images: ['/twitter-image.jpg'],
+    images: ['/images/twitter-image.jpg'],
     creator: 'Romain BOBOE',
   },
   robots: {

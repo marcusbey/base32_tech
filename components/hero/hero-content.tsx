@@ -6,6 +6,7 @@ import {cn} from "@/lib/utils";
 
 interface HeroContentProps {
   isStudio: boolean;
+  children?: React.ReactNode;
 }
 
 const taglines = [
@@ -26,7 +27,7 @@ const taglines = [
   }
 ];
 
-export function HeroContent({ isStudio }: HeroContentProps) {
+export function HeroContent({ isStudio, children }: HeroContentProps) {
   const [currentTagline, setCurrentTagline] = useState(0);
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         <p className="text-xl md:text-2xl text-gray-700 max-w-2xl">
           We craft brands and user experiences for companies building a brighter future. Our design-driven approach transforms ideas into impactful digital experiences.
         </p>
+        {children}
       </div>
     );
   }
@@ -88,6 +90,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
       >
         AI automation cuts development costs by 60% and ships products 10x faster. Seamlessly integrate intelligent agents into your workflow and deliver value to your customers in days not months.
       </motion.p>
+      {children}
     </div>
   );
 }

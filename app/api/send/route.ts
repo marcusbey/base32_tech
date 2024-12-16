@@ -101,7 +101,7 @@ export async function POST(request: Request) {
       to: [email],
       subject: `Thank you for connecting with ${fromName}!`,
       html: template(vision, name),
-      reply_to: replyTo
+      replyTo: replyTo
     });
 
     // Send notification email to the base32 team
@@ -110,7 +110,7 @@ export async function POST(request: Request) {
       to: [replyTo],
       subject: `New Contact Form Submission - ${name}`,
       html: teamNotificationTemplate(vision, email, name, company),
-      reply_to: email // Set reply-to as the sender's email
+      replyTo: email // Set reply-to as the sender's email
     });
 
     return NextResponse.json({ 

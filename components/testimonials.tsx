@@ -223,7 +223,10 @@ export default function Testimonials() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="max-w-2xl mx-auto text-center mb-16"
           >
-            <div className="absolute -left-24 -inset-y-2 w-[200%] opacity-60 bg-gradient-to-r from-yellow-400/20 via-yellow-300/10 to-transparent blur-2xl -z-10" />
+            <div className="absolute -left-1/4 top-0 w-[150%] h-full opacity-50">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-300/30 via-yellow-200/20 to-transparent blur-3xl transform rotate-12 scale-y-150" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_50%,_var(--tw-gradient-stops))] from-yellow-400/20 via-yellow-300/10 to-transparent blur-2xl" />
+            </div>
 
           </motion.div>
 

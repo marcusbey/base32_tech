@@ -32,6 +32,12 @@ export default function Hero() {
         <HeroGrid />
       </motion.div>
 
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0" style={{
+        background: 'radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.95) 100%)',
+        pointerEvents: 'none'
+      }} />
+
       {/* Content */}
       <motion.div
         style={isStudio ? {

@@ -32,7 +32,7 @@ export default function About() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-16">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-16 items-start">
           {/* Left column - Text content */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -110,7 +110,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="relative lg:col-span-7 h-[500px] sm:h-[600px] lg:h-[800px] mt-8 lg:-mt-16 flex justify-center"
+            className="relative lg:col-span-7 lg:col-start-6 h-[500px] sm:h-[600px] lg:h-[800px] mt-16 sm:mt-24 lg:mt-32 flex justify-end"
           >
             <div className="relative w-full sm:w-[400px] h-[500px] sm:h-[600px] lg:h-[800px] rounded-2xl overflow-hidden">
               <div className="absolute inset-0 bg-black/50 z-10" />

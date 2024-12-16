@@ -6,19 +6,18 @@ import {cn} from "@/lib/utils";
 
 interface HeroContentProps {
   isStudio: boolean;
-  children?: React.ReactNode;
 }
 
 const taglines = [
   {
-    line1: "Revolutionizing Production",
-    highlight: "Digital Agents",
-    line2: "Driving Speed and Efficiency"
-  },
-  {
     line1: "Enterprise Solutions",
     highlight: "Smarter Automation",
     line2: "Faster Scaling, Greater Success"
+  },
+  {
+    line1: "Revolutionizing Production",
+    highlight: "Digital Agents",
+    line2: "Driving Speed and Efficiency"
   },
   {
     line1: "Your Application",
@@ -27,7 +26,7 @@ const taglines = [
   }
 ];
 
-export function HeroContent({ isStudio, children }: HeroContentProps) {
+export function HeroContent({ isStudio }: HeroContentProps) {
   const [currentTagline, setCurrentTagline] = useState(0);
 
   useEffect(() => {
@@ -50,10 +49,9 @@ export function HeroContent({ isStudio, children }: HeroContentProps) {
         >
           Creative Design Solutions
         </h1>
-        <p className="text-xl md:text-2xl text-gray-700 max-w-2xl">
+        <p className="text-xl md:text-2xl text-gray-700 max-w-2xl mt-6">
           We craft brands and user experiences for companies building a brighter future. Our design-driven approach transforms ideas into impactful digital experiences.
         </p>
-        {children}
       </div>
     );
   }
@@ -76,7 +74,7 @@ export function HeroContent({ isStudio, children }: HeroContentProps) {
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-indigo-500 to-indigo-600 whitespace-nowrap pb-4">
               {taglines[currentTagline].highlight}
             </span>
-            <span className="text-white/90 pb-4 mb-4">
+            <span className="text-white/90 pb-4">
               {taglines[currentTagline].line2}
             </span>
           </motion.div>
@@ -86,11 +84,10 @@ export function HeroContent({ isStudio, children }: HeroContentProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
-        className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none pt-4"
+        className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none"
       >
         AI automation cuts development costs by 60% and ships products 10x faster. Seamlessly integrate intelligent agents into your workflow and deliver value to your customers in days not months.
       </motion.p>
-      {children}
     </div>
   );
 }

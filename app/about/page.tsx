@@ -33,8 +33,14 @@ export default function About() {
             {company === 'tech' ? (
               <>
                 <p className="text-lg sm:text-xl text-gray-300 leading-normal sm:leading-relaxed">
-                  We're a team of AI specialists and automation experts dedicated to transforming how businesses operate through intelligent technology solutions.
+                  Founded by Romain BOBOE, BASE32 is a team of AI specialists and automation experts dedicated to transforming how businesses operate through intelligent technology solutions.
                 </p>
+                <div className="space-y-4">
+                  <h2 className="text-2xl sm:text-3xl text-white leading-tight">Our Founder</h2>
+                  <p className="text-gray-300 leading-normal">
+                    Romain BOBOE brings extensive experience in AI development and tech consulting to BASE32. With a passion for innovative solutions and a deep understanding of business needs, he leads our team in delivering cutting-edge AI and automation solutions.
+                  </p>
+                </div>
                 <div className="space-y-4">
                   <h2 className="text-2xl sm:text-3xl text-white leading-tight">Our Mission</h2>
                   <p className="text-gray-300 leading-normal">
@@ -44,7 +50,7 @@ export default function About() {
                 <div className="space-y-4">
                   <h2 className="text-2xl sm:text-3xl text-white leading-tight">Our Approach</h2>
                   <p className="text-gray-300 leading-normal">
-                    We combine deep technical expertise with a thorough understanding of business processes to deliver solutions that make a real impact.
+                    We combine deep technical expertise with a thorough understanding of business processes to deliver solutions that make a real impact. Under Romain's leadership, we focus on creating custom AI solutions that perfectly align with our clients' needs and goals.
                   </p>
                 </div>
               </>

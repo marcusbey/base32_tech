@@ -17,7 +17,11 @@ export const metadata: Metadata = {
   },
   description: "Expert AI software development, automation solutions, and tech consulting. Specializing in LLMs, machine learning, and custom AI applications for businesses.",
   keywords: [
+    "Romain BOBOE",
+    "BASE32",
     "AI software development",
+    "Romain BOBOE BASE32",
+    "Romain BOBOE tech consulting",
     "artificial intelligence consulting",
     "machine learning solutions",
     "LLM applications",
@@ -25,7 +29,7 @@ export const metadata: Metadata = {
     "tech automation",
     "AI integration",
     "software engineering",
-    "tech consulting",
+    "tech consulting Montreal",
     "AI consulting",
     "business automation",
     "AI strategy",
@@ -43,9 +47,12 @@ export const metadata: Metadata = {
     "AI development Montreal",
     "tech consulting Quebec"
   ],
-  creator: "BASE32",
+  creator: "Romain BOBOE",
   publisher: "BASE32",
-  authors: [{ name: "BASE32 Team" }],
+  authors: [{ 
+    name: "Romain BOBOE",
+    url: "https://romainboboe.com"
+  }],
   formatDetection: {
     email: false,
     address: false,

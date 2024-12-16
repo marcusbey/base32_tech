@@ -24,7 +24,7 @@ export function TopMenu() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       style={{ opacity }}
-      className="fixed top-0 left-0 right-0 z-30 px-4 sm:px-6 lg:px-8 py-6 sm:py-4"
+      className="fixed top-0 left-0 right-0 z-30 px-3 sm:px-6 lg:px-8 py-4 sm:py-6"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left Side - Logo */}
@@ -36,7 +36,7 @@ export function TopMenu() {
         <div className="flex-1 flex justify-end">
           <Link href={`${siteConfig.baseUrl}/#contact-section`}>
             <motion.button
-              className={`relative px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase tracking-wide border ${
+              className={`relative px-2.5 sm:px-4 py-1 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase tracking-wide border ${
                 isStudio 
                   ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
                   : 'border-white/20 text-white hover:border-yellow-400'

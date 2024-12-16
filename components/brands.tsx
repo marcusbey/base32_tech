@@ -1,7 +1,6 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { Building2, Rocket } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -73,52 +72,85 @@ export default function Brands() {
   const { company } = useCompany();
   const currentSectors = company === "tech" ? sectors.tech : sectors.studio;
   const isTech = company === "tech";
-  const sectionRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const secondCardRef = useRef<HTMLDivElement>(null);
+  const lastScrollY = useRef(0);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Use scroll position to determine which card to show
   useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (latest) => {
-      // Switch cards when section is in the middle of the viewport
-      if (latest > 0.4 && latest < 0.8) {
-        setActiveIndex(1);
-      } else {
-        setActiveIndex(0);
-      }
-    });
+    const section = sectionRef.current;
+    if (!section) return;
 
-    return () => unsubscribe();
-  }, [scrollYProgress]);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setIsInView(entries[0].isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Add scroll-based card switching that handles both directions
+  useEffect(() => {
+    const secondCard = secondCardRef.current;
+    if (!secondCard) return;
+
+    const handleScroll = () => {
+      const rect = secondCard.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const cardMiddle = rect.top + rect.height / 2;
+      const viewportMiddle = windowHeight / 2;
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > lastScrollY.current;
+      
+      // Check if second card is near viewport middle
+      const isNearMiddle = Math.abs(cardMiddle - viewportMiddle) < 100;
+      
+      if (isNearMiddle) {
+        // If scrolling down, open second card
+        if (scrollingDown) {
+          setActiveIndex(1);
+        } else {
+          // If scrolling up, open first card
+          setActiveIndex(0);
+        }
+      }
+      
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <section id="brands" className="relative py-22 lg:py-48 overflow-hidden">
-      {/* Full section glass background */}
+    <section 
+      ref={sectionRef}
+      id="brands" 
+      className="relative py-22 lg:py-48 overflow-hidden"
+    >
       <div className="absolute inset-0 -z-10">
         <div
-          className={`w-full h-full ${
+          className={cn(
+            "w-full h-full",
             isTech
               ? "bg-black/30 backdrop-blur-xl"
               : "bg-white/30 backdrop-blur-xl border-y border-gray-200"
-          }`}
+          )}
         />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        {/* Grid container for title and content */}
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
-          {/* Left Column - Description (4/12) */}
-          <motion.div
-            className="lg:col-span-4 relative"
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+          <div className="lg:col-span-4 relative">
+            <div 
+              className={cn(
+                "transition-all duration-700",
+                isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}
             >
               <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
                 Partner with
@@ -136,48 +168,33 @@ export default function Brands() {
                   {isTech ? "80% operational efficiency gains" : "200% engagement growth"}
                 </span>
               </p>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
-          {/* Right Column - Cards (8/12) */}
           <div className="lg:col-span-8 space-y-4">
             {currentSectors.map((sector, index) => (
-              <motion.div
+              <div
                 key={sector.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                animate={{
-                  background: activeIndex === index
-                    ? isTech
-                      ? "linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(59, 130, 246, 0.15))"
-                      : "linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.15))"
-                    : isTech
-                      ? "linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(29, 78, 216, 0.02))"
-                      : "linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(79, 70, 229, 0.02))"
-                }}
-                whileHover={{
-                  background: isTech
-                    ? "linear-gradient(135deg, rgba(0,0,0,0.4), rgba(59,130,246,0.2))"
-                    : "linear-gradient(135deg, rgba(255,255,255,0.4), rgba(99,102,241,0.2))",
-                }}
-                className={`group cursor-pointer p-6 rounded-2xl backdrop-blur-lg transition-all duration-300 ${
+                ref={index === 1 ? secondCardRef : null}
+                className={cn(
+                  "brand-card p-6 rounded-2xl backdrop-blur-lg cursor-pointer",
+                  activeIndex === index && "active",
+                  isInView && "animate-fade-up",
                   isTech
                     ? "hover:bg-blue-950/20"
                     : "hover:bg-indigo-50/50"
-                }`}
-                onClick={() =>
-                  setActiveIndex(activeIndex === index ? -1 : index)
-                }
+                )}
+                style={{ '--animation-delay': `${index * 150}ms` } as React.CSSProperties}
+                onClick={() => setActiveIndex(activeIndex === index ? -1 : index)}
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className={`p-3 rounded-xl transition-colors duration-300 ${
+                    className={cn(
+                      "p-3 rounded-xl transition-colors duration-300",
                       isTech
                         ? "bg-yellow-500/10 group-hover:bg-yellow-500/20"
                         : "bg-indigo-500/10 group-hover:bg-indigo-500/20"
-                    }`}
+                    )}
                   >
                     <sector.icon
                       className={cn(
@@ -189,58 +206,55 @@ export default function Brands() {
                     />
                   </div>
                   <h3
-                    className={`text-2xl font-normal transition-colors duration-300 ${
+                    className={cn(
+                      "text-2xl font-normal transition-colors duration-300",
                       isTech
                         ? "text-white group-hover:text-yellow-50"
                         : "text-gray-900 group-hover:text-indigo-900"
-                    }`}
+                    )}
                   >
                     {sector.name}
                   </h3>
                 </div>
 
                 <p
-                  className={`mt-4 text-sm transition-colors duration-300 ${
+                  className={cn(
+                    "mt-4 text-sm transition-colors duration-300",
                     isTech
                       ? "text-gray-400 group-hover:text-gray-300"
                       : "text-gray-600 group-hover:text-gray-700"
-                  }`}
+                  )}
                 >
-                  {activeIndex === index
-                    ? sector.fullDescription
-                    : sector.description}
+                  {activeIndex === index ? sector.fullDescription : sector.description}
                 </p>
 
-                <AnimatePresence>
-                  {activeIndex === index && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-6"
-                    >
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {sector.benefits.map((benefit, idx) => (
-                          <div
-                            key={idx}
-                            className={`flex items-center gap-2 ${
-                              isTech ? "text-gray-400" : "text-gray-600"
-                            }`}
-                          >
-                            <div
-                              className={`w-1.5 h-1.5 rounded-full ${
-                                isTech ? "bg-yellow-400" : "bg-indigo-500"
-                              }`}
-                            />
-                            <span>{benefit}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
+                <div
+                  className={cn(
+                    "content overflow-hidden transition-all duration-500",
+                    activeIndex === index ? "mt-6" : ""
                   )}
-                </AnimatePresence>
-              </motion.div>
+                >
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {sector.benefits.map((benefit, idx) => (
+                      <div
+                        key={idx}
+                        className={cn(
+                          "flex items-center gap-2",
+                          isTech ? "text-gray-400" : "text-gray-600"
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "w-1.5 h-1.5 rounded-full",
+                            isTech ? "bg-yellow-400" : "bg-indigo-500"
+                          )}
+                        />
+                        <span>{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>

@@ -181,6 +181,62 @@
     opacity: 0;
     animation: scale var(--animation-duration) var(--animation-delay) cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
+
+  .animate-slide-in {
+    opacity: 0;
+    animation: slide-in var(--animation-duration) var(--animation-delay) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  .value-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .value-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .brand-card {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+  
+  .brand-card.active {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(59, 130, 246, 0.15));
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  
+  .brand-card:not(.active) {
+    transform: scale(0.98);
+    opacity: 0.7;
+  }
+  
+  .brand-card .content {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top;
+  }
+  
+  .brand-card.active .content {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .brand-card:not(.active) .content {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    margin-top: 0;
+  }
+  
+  [data-company="studio"] .brand-card.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.15));
+  }
+  
+  [data-company="studio"] .brand-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(99, 102, 241, 0.2));
+  }
 }
 
 @keyframes fade-up {
@@ -214,6 +270,28 @@
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes expand {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
   }
 }
 

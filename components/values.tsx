@@ -277,33 +277,30 @@ export default function Values() {
             `}</style>
             <div className="grid md:grid-cols-3 gap-4 md:gap-6">
               {values.map((value, index) => (
-                <motion.div
+                <div
                   key={value.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ 
-                    once: true,
-                    amount: 0.3,
-                    margin: "-50px"
-                  }}
-                  transition={{ 
-                    duration: 0.7,
-                    delay: index * 0.15,
-                    ease: [0.21, 0.45, 0.32, 0.9]
-                  }}
-                  whileHover={{
-                    scale: 1.02,
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
+                  className="group backdrop-blur-lg p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl relative overflow-hidden animate-fade-up"
                   style={{
                     background: `linear-gradient(135deg, ${colors.base[0]}10, ${colors.base[2]}05)`,
                     borderColor: `${colors.base[1]}20`,
-                  }}
-                  className="backdrop-blur-lg p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl transition-all duration-300 relative"
+                    '--animation-delay': `${index * 150}ms`
+                  } as React.CSSProperties}
                 >
-                  <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3 sm:mb-4 leading-tight">{value.title}</h3>
-                  <p className="text-gray-400 leading-normal sm:leading-relaxed text-sm sm:text-base">{value.description}</p>
-                </motion.div>
+                  <div className="relative z-10">
+                    <h3 className="text-xl sm:text-2xl font-semibold text-white mb-3 sm:mb-4 leading-tight transition-transform duration-300 group-hover:translate-y-[-2px]">
+                      {value.title}
+                    </h3>
+                    <p className="text-gray-400 leading-normal sm:leading-relaxed text-sm sm:text-base transition-transform duration-300 group-hover:translate-y-[-2px]">
+                      {value.description}
+                    </p>
+                  </div>
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                    style={{
+                      background: `linear-gradient(135deg, ${colors.bright[0]}, ${colors.bright[2]})`
+                    }}
+                  />
+                </div>
               ))}
             </div>
           </div>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
+import { useRafLoop } from "react-use";
 
 interface Dimensions {
   width: number;
@@ -23,7 +24,7 @@ const techColors = {
     "#F472B6", // pink
     "#FBBF24", // amber
   ]
-};
+} as const;
 
 const studioColors = {
   base: ["#6366F1", "#4F46E5", "#4338CA"],
@@ -34,7 +35,7 @@ const studioColors = {
     "#60A5FA", // blue
     "#34D399", // emerald
   ]
-};
+} as const;
 
 const defaultDimensions = { width: 0, height: 0 };
 
@@ -43,7 +44,10 @@ const HeroGrid = () => {
   const isTech = company === "tech";
   const colors = isTech ? techColors : studioColors;
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothMouseX = useSpring(mouseX, { stiffness: 300, damping: 30 });
+  const smoothMouseY = useSpring(mouseY, { stiffness: 300, damping: 30 });
   const [isClient, setIsClient] = useState(false);
   const [dimensions, setDimensions] = useState(defaultDimensions);
 
@@ -51,35 +55,202 @@ const HeroGrid = () => {
   const baseDotSize = 2;
   const hoverRadius = 150;
 
+  // Memoize the update dimensions callback
+  const updateDimensions = useCallback(() => {
+    if (containerRef.current) {
+      setDimensions({
+        width: containerRef.current.offsetWidth,
+        height: containerRef.current.offsetHeight
+      });
+    }
+  }, []);
+
   useEffect(() => {
     setIsClient(true);
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        setDimensions({
-          width: containerRef.current.offsetWidth,
-          height: containerRef.current.offsetHeight
-        });
-      }
-    };
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
-  }, []);
+  }, [updateDimensions]);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (rect) {
-      setMousePos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      });
+      mouseX.set(e.clientX - rect.left);
+      mouseY.set(e.clientY - rect.top);
     }
-  };
+  }, [mouseX, mouseY]);
 
-  const getColorVariant = (x: number, y: number, colorSet: string[]) => {
+  const getColorVariant = useCallback((x: number, y: number, colorSet: readonly string[]) => {
     const index = Math.abs(Math.floor((x + y) / gridSize)) % colorSet.length;
     return colorSet[index];
-  };
+  }, [gridSize]);
+
+  // Generate static grid lines
+  const gridLines = useMemo(() => {
+    if (!isClient) return [];
+    
+    const cols = Math.ceil(dimensions.width / gridSize) + 1;
+    const rows = Math.ceil(dimensions.height / gridSize) + 1;
+    const lines = [];
+
+    for (let i = 0; i <= cols; i++) {
+      const x = i * gridSize;
+      lines.push(
+        <motion.line
+          key={`v-${i}`}
+          x1={x}
+          y1={0}
+          x2={x}
+          y2="100%"
+          stroke={getColorVariant(x, 0, colors.base)}
+          strokeOpacity={0.15}
+          strokeWidth={1}
+          initial={false}
+        />
+      );
+    }
+
+    for (let i = 0; i <= rows; i++) {
+      const y = i * gridSize;
+      lines.push(
+        <motion.line
+          key={`h-${i}`}
+          x1={0}
+          y1={y}
+          x2="100%"
+          y2={y}
+          stroke={getColorVariant(0, y, colors.base)}
+          strokeOpacity={0.15}
+          strokeWidth={1}
+          initial={false}
+        />
+      );
+    }
+
+    return lines;
+  }, [dimensions, gridSize, getColorVariant, colors.base, isClient]);
+
+  // Generate interactive dots with optimized performance
+  const generateDots = useCallback(() => {
+    if (!isClient) return [];
+    
+    const mousePosition = {
+      x: smoothMouseX.get(),
+      y: smoothMouseY.get()
+    };
+
+    const cols = Math.ceil(dimensions.width / gridSize) + 1;
+    const rows = Math.ceil(dimensions.height / gridSize) + 1;
+    const dots = [];
+
+    // Calculate visible area with buffer
+    const buffer = hoverRadius;
+    const minCol = Math.max(0, Math.floor((mousePosition.x - buffer) / gridSize) - 1);
+    const maxCol = Math.min(cols, Math.ceil((mousePosition.x + buffer) / gridSize) + 1);
+    const minRow = Math.max(0, Math.floor((mousePosition.y - buffer) / gridSize) - 1);
+    const maxRow = Math.min(rows, Math.ceil((mousePosition.y + buffer) / gridSize) + 1);
+
+    // Generate background dots for all intersections
+    for (let i = 0; i <= cols; i++) {
+      for (let j = 0; j <= rows; j++) {
+        const x = i * gridSize;
+        const y = j * gridSize;
+        
+        // Add static intersection shapes
+        dots.push(
+          <motion.circle
+            key={`static-dot-${i}-${j}`}
+            cx={x}
+            cy={y}
+            r={1.5}
+            fill={getColorVariant(x, y, colors.base)}
+            initial={false}
+            animate={{
+              opacity: 0.3,
+              scale: 1
+            }}
+          />
+        );
+
+        // Only process interactive dots within hover radius
+        if (i >= minCol && i <= maxCol && j >= minRow && j <= maxRow) {
+          const dx = mousePosition.x - x;
+          const dy = mousePosition.y - y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < hoverRadius) {
+            const intensity = Math.pow(1 - (distance / hoverRadius), 2);
+            dots.push(
+              <motion.circle
+                key={`dot-${i}-${j}`}
+                cx={x}
+                cy={y}
+                r={baseDotSize}
+                fill={getColorVariant(x, y, colors.base)}
+                initial={false}
+                animate={{
+                  fillOpacity: 0.2 + (intensity * 0.8),
+                  scale: 1 + (intensity * 2),
+                  fill: colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length],
+                }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 400,
+                  damping: 25,
+                  mass: 0.05,
+                  restSpeed: 0.5
+                }}
+              />
+            );
+
+            // Add connecting lines when near mouse
+            if (i < cols && j < rows) {
+              const nextX = (i + 1) * gridSize;
+              const nextY = (j + 1) * gridSize;
+              
+              dots.push(
+                <motion.line
+                  key={`line-h-${i}-${j}`}
+                  x1={x}
+                  y1={y}
+                  x2={nextX}
+                  y2={y}
+                  stroke={colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length]}
+                  strokeOpacity={intensity * 0.4}
+                  strokeWidth={1}
+                  initial={false}
+                />,
+                <motion.line
+                  key={`line-v-${i}-${j}`}
+                  x1={x}
+                  y1={y}
+                  x2={x}
+                  y2={nextY}
+                  stroke={colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length]}
+                  strokeOpacity={intensity * 0.4}
+                  strokeWidth={1}
+                  initial={false}
+                />
+              );
+            }
+          }
+        }
+      }
+    }
+
+    return dots;
+  }, [dimensions, gridSize, smoothMouseX, smoothMouseY, colors, getColorVariant, hoverRadius, baseDotSize, isClient]);
+
+  // Use RAF for smooth dot updates
+  const [dots, setDots] = useState<JSX.Element[]>([]);
+  const [stop, start] = useRafLoop(() => {
+    setDots(generateDots());
+  }, false);
+
+  useEffect(() => {
+    start();
+    return () => stop();
+  }, [start, stop]);
 
   if (!isClient) {
     return (
@@ -89,75 +260,6 @@ const HeroGrid = () => {
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
       />
     );
-  }
-
-  const cols = Math.ceil(dimensions.width / gridSize) + 1;
-  const rows = Math.ceil(dimensions.height / gridSize) + 1;
-  const gridElements = [];
-
-  // Generate grid lines
-  for (let i = 0; i <= cols; i++) {
-    const x = i * gridSize;
-    gridElements.push(
-      <motion.line
-        key={`v-${i}`}
-        x1={x}
-        y1={0}
-        x2={x}
-        y2="100%"
-        stroke={getColorVariant(x, 0, colors.base)}
-        strokeOpacity={0.15}
-        strokeWidth={1}
-        initial={false}
-      />
-    );
-  }
-
-  for (let i = 0; i <= rows; i++) {
-    const y = i * gridSize;
-    gridElements.push(
-      <motion.line
-        key={`h-${i}`}
-        x1={0}
-        y1={y}
-        x2="100%"
-        y2={y}
-        stroke={getColorVariant(0, y, colors.base)}
-        strokeOpacity={0.15}
-        strokeWidth={1}
-        initial={false}
-      />
-    );
-  }
-
-  // Generate dots with enhanced interactivity
-  for (let i = 0; i <= cols; i++) {
-    for (let j = 0; j <= rows; j++) {
-      const x = i * gridSize;
-      const y = j * gridSize;
-      const dx = mousePos.x - x;
-      const dy = mousePos.y - y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const isNearMouse = distance < hoverRadius;
-      const intensity = isNearMouse ? Math.pow(1 - (distance / hoverRadius), 2) : 0;
-      
-      gridElements.push(
-        <motion.circle
-          key={`dot-${i}-${j}`}
-          cx={x}
-          cy={y}
-          r={baseDotSize}
-          fill={getColorVariant(x, y, colors.base)}
-          initial={{ fillOpacity: 0.2, scale: 1 }}
-          animate={{
-            fillOpacity: 0.2 + (intensity * 0.8),
-            scale: 1 + (intensity * 2),
-            fill: isNearMouse ? colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length] : getColorVariant(x, y, colors.base),
-          }}
-          transition={{ type: "spring", stiffness: 1000, damping: 50, mass: 0.1 }}
-        />
-      );
-    }
   }
 
   return (
@@ -182,7 +284,8 @@ const HeroGrid = () => {
           </filter>
         </defs>
         <g>
-          {gridElements}
+          {gridLines}
+          {dots}
         </g>
       </motion.svg>
     </div>

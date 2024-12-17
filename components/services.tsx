@@ -11,7 +11,8 @@ import {
   Brain,
   Zap,
   FileCode,
-  AppWindow
+  AppWindow,
+  Database
 } from "lucide-react";
 
 const services = [
@@ -20,42 +21,42 @@ const services = [
     title: "Intelligent Agents",
     description: "Accelerate production with AI-driven efficiency.",
     details: "We create tailored digital agents that streamline your operations, saving time and optimizing workflows.",
-    gradient: "from-blue-600/20 via-cyan-500/10 to-transparent"
+    gradient: "from-blue-600/10 via-cyan-500/5 to-transparent"
   },
   {
     icon: Workflow,
     title: "Process Automation",
     description: "Simplify processes and maximize productivity.",
     details: "Transform repetitive tasks into seamless workflows with smart automation built to adapt to your business.",
-    gradient: "from-purple-600/20 via-pink-500/10 to-transparent"
+    gradient: "from-purple-600/10 via-pink-500/5 to-transparent"
   },
   {
     icon: Brain,
     title: "Rapid Prototyping",
     description: "From concept to MVP, faster than ever.",
     details: "Rapidly develop and iterate MVPs with AI-driven solutions that reduce costs and speed up delivery.",
-    gradient: "from-emerald-600/20 via-teal-500/10 to-transparent"
+    gradient: "from-emerald-600/10 via-teal-500/5 to-transparent"
   },
   {
     icon: Zap,
     title: "AI Integration",
     description: "Empower your systems with intelligent automation.",
     details: "Integrate cutting-edge AI into your operations to enhance decision-making and improve scalability.",
-    gradient: "from-amber-600/20 via-orange-500/10 to-transparent"
+    gradient: "from-amber-600/10 via-orange-500/5 to-transparent"
   },
   {
-    icon: FileCode,
-    title: "Content Generation",
-    description: "Fuel your creativity with AI-driven insights.",
-    details: "Leverage AI to generate, refine, and optimize content for blogs, campaigns, and social platforms.",
-    gradient: "from-rose-600/20 via-pink-500/10 to-transparent"
+    icon: Database,
+    title: "Data Scraping",
+    description: "Extract valuable data from any web source.",
+    details: "Automate data collection from websites, transform raw data into structured formats, and gain actionable insights.",
+    gradient: "from-blue-600/10 via-cyan-500/5 to-transparent"
   },
   {
     icon: AppWindow,
     title: "AI Applications",
     description: "Build smarter, scalable applications fast.",
     details: "Develop AI-integrated web and mobile applications tailored to your business needs, ready to scale.",
-    gradient: "from-indigo-600/20 via-violet-500/10 to-transparent"
+    gradient: "from-indigo-600/10 via-violet-500/5 to-transparent"
   }
 ];
 

@@ -125,6 +125,9 @@ export default function RootLayout({
       {...extensionAttributes}
       suppressHydrationWarning
     >
+      <head>
+        <script defer data-website-id="6745e0e710cb0518ebd02c97" data-domain="base32.tech" src="https://datafa.st/js/script.js"></script>
+      </head>
       <body suppressHydrationWarning>
         <ScrollProvider>
           <ClientLayout>
@@ -134,5 +137,6 @@ export default function RootLayout({
         </ScrollProvider>
       </body>
     </html>
-  );
+  ); 
 }
+ 

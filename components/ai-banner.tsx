@@ -29,8 +29,7 @@ export default function AIBanner() {
           transition={{ duration: 0.5 }}
         >
           <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-1.5 sm:py-2 flex items-center justify-center gap-1.5 sm:gap-2">
-            <Sparkles className={`w-3 h-3 sm:w-4 sm:h-4 ${
-              isTech ? "text-blue-400" : "text-indigo-400"
+            <Sparkles className={`w-3 h-3 sm:w-4 sm:h-4"
             }`} />
             <p className="text-xs sm:text-sm text-gray-300">
               🤖 This website was entirely generated and improved using AI prompts

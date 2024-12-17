@@ -2,8 +2,20 @@
 
 import { motion, useMotionValue, useMotionTemplate, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { useCompany } from "@/lib/company-context";
+
+// Utility function for debouncing window resize events
+function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout;
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+}
 
 const values = [
   {
@@ -29,23 +41,33 @@ const backgrounds = [
 ];
 
 const techColors = {
-  base: ["#3B82F6", "#2563EB", "#1D4ED8"],
-  bright: ["#60A5FA", "#3B82F6", "#2563EB"],
-};
+  base: ["#3B82F6", "#2563EB", "#1D4ED8"] as const,
+  bright: ["#60A5FA", "#3B82F6", "#2563EB"] as const,
+} as const;
 
 const studioColors = {
-  base: ["#6366F1", "#4F46E5", "#4338CA"],
-  bright: ["#818CF8", "#6366F1", "#4F46E5"],
-};
+  base: ["#6366F1", "#4F46E5", "#4338CA"] as const,
+  bright: ["#818CF8", "#6366F1", "#4F46E5"] as const,
+} as const;
+
+interface GridDimensions {
+  width: number;
+  height: number;
+}
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
 
 export default function Values() {
   const { company } = useCompany();
   const isTech = company === "tech";
-  const colors = isTech ? techColors : studioColors;
+  const colors = useMemo(() => isTech ? techColors : studioColors, [isTech]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentBg, setCurrentBg] = useState(0);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [dimensions, setDimensions] = useState<GridDimensions>({ width: 0, height: 0 });
+  const [mousePos, setMousePos] = useState<MousePosition>({ x: 0, y: 0 });
   const [isClient, setIsClient] = useState(false);
 
   const gridSize = 60;
@@ -55,27 +77,33 @@ export default function Values() {
   // Background image rotation
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentBg((prev) => (prev === 0 ? 1 : 0));
+      setCurrentBg(prev => (prev === 0 ? 1 : 0));
     }, 7000);
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    setIsClient(true);
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        setDimensions({
-          width: containerRef.current.offsetWidth,
-          height: containerRef.current.offsetHeight
-        });
-      }
-    };
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+  // Dimension updates
+  const updateDimensions = useCallback(() => {
+    if (containerRef.current) {
+      const { offsetWidth, offsetHeight } = containerRef.current;
+      setDimensions({
+        width: offsetWidth,
+        height: offsetHeight
+      });
+    }
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  useEffect(() => {
+    setIsClient(true);
+    updateDimensions();
+    const debouncedResize = debounce(updateDimensions, 250);
+    window.addEventListener('resize', debouncedResize);
+    return () => {
+      window.removeEventListener('resize', debouncedResize);
+    };
+  }, [updateDimensions]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (rect) {
       setMousePos({
@@ -83,14 +111,14 @@ export default function Values() {
         y: e.clientY - rect.top
       });
     }
-  };
+  }, []);
 
-  const getColorVariant = (x: number, y: number, colorSet: string[]) => {
+  const getColorVariant = useCallback((x: number, y: number, colorSet: readonly string[]) => {
     const index = Math.abs(Math.floor((x + y) / gridSize)) % colorSet.length;
     return colorSet[index];
-  };
+  }, [gridSize]);
 
-  const generateGrid = () => {
+  const generateGrid = useMemo(() => {
     if (!isClient) return [];
 
     const gridElements = [];
@@ -132,16 +160,23 @@ export default function Values() {
       );
     }
 
-    // Generate dots
+    // Generate dots with optimized calculations
+    const calculateDotProps = (x: number, y: number) => {
+      const dx = mousePos.x - x;
+      const dy = mousePos.y - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const isNearMouse = distance < hoverRadius;
+      return {
+        isNearMouse,
+        intensity: isNearMouse ? Math.pow(1 - (distance / hoverRadius), 2) : 0
+      };
+    };
+
     for (let i = 0; i <= cols; i++) {
       for (let j = 0; j <= rows; j++) {
         const x = i * gridSize;
         const y = j * gridSize;
-        const dx = mousePos.x - x;
-        const dy = mousePos.y - y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const isNearMouse = distance < hoverRadius;
-        const intensity = isNearMouse ? Math.pow(1 - (distance / hoverRadius), 2) : 0;
+        const { isNearMouse, intensity } = calculateDotProps(x, y);
         
         gridElements.push(
           <motion.circle
@@ -163,7 +198,7 @@ export default function Values() {
     }
 
     return gridElements;
-  };
+  }, [isClient, dimensions, mousePos, colors, getColorVariant, gridSize, baseDotSize, hoverRadius]);
 
   return (
     <section id="values-section" className="relative py-32 overflow-hidden">
@@ -207,7 +242,7 @@ export default function Values() {
             </filter>
           </defs>
           <g>
-            {generateGrid()}
+            {generateGrid}
           </g>
         </motion.svg>
       </div>

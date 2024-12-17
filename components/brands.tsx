@@ -2,8 +2,9 @@
 
 import { useCompany } from "@/lib/company-context";
 import { Building2, Rocket } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo, useMemo, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import { useThrottledCallback } from "@/lib/performance";
 
 const sectors = {
   tech: [
@@ -66,11 +67,114 @@ const sectors = {
       ],
     },
   ],
-};
+} as const;
 
-export default function Brands() {
+const BrandCard = memo(function BrandCard({
+  sector,
+  index,
+  isActive,
+  isTech,
+  isInView,
+  onClick,
+  ref,
+}: {
+  sector: typeof sectors.tech[0];
+  index: number;
+  isActive: boolean;
+  isTech: boolean;
+  isInView: boolean;
+  onClick: () => void;
+  ref?: React.RefObject<HTMLDivElement>;
+}) {
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "brand-card p-6 rounded-2xl backdrop-blur-lg cursor-pointer",
+        isActive && "active",
+        isInView && "animate-fade-up",
+        isTech ? "hover:bg-blue-950/20" : "hover:bg-indigo-50/50"
+      )}
+      style={{ '--animation-delay': `${index * 150}ms` } as React.CSSProperties}
+      onClick={onClick}
+    >
+      <div className="flex items-center gap-4">
+        <div
+          className={cn(
+            "p-3 rounded-xl transition-colors duration-300",
+            isTech
+              ? "bg-yellow-500/10 group-hover:bg-yellow-500/20"
+              : "bg-indigo-500/10 group-hover:bg-indigo-500/20"
+          )}
+        >
+          <sector.icon
+            className={cn(
+              "w-8 h-8 transition-transform duration-300 group-hover:scale-110",
+              isTech
+                ? "text-yellow-400 group-hover:text-yellow-300"
+                : "text-indigo-500 group-hover:text-indigo-400"
+            )}
+          />
+        </div>
+        <h3
+          className={cn(
+            "text-2xl font-normal transition-colors duration-300",
+            isTech
+              ? "text-white group-hover:text-yellow-50"
+              : "text-gray-900 group-hover:text-indigo-900"
+          )}
+        >
+          {sector.name}
+        </h3>
+      </div>
+
+      <p
+        className={cn(
+          "mt-4 text-sm transition-colors duration-300",
+          isTech
+            ? "text-gray-400 group-hover:text-gray-300"
+            : "text-gray-600 group-hover:text-gray-700"
+        )}
+      >
+        {isActive ? sector.fullDescription : sector.description}
+      </p>
+
+      <div
+        className={cn(
+          "content overflow-hidden transition-all duration-500",
+          isActive ? "mt-6" : ""
+        )}
+      >
+        <div className="grid md:grid-cols-2 gap-4">
+          {sector.benefits.map((benefit, idx) => (
+            <div
+              key={idx}
+              className={cn(
+                "flex items-center gap-2",
+                isTech ? "text-gray-400" : "text-gray-600"
+              )}
+            >
+              <div
+                className={cn(
+                  "w-1.5 h-1.5 rounded-full",
+                  isTech ? "bg-yellow-400" : "bg-indigo-500"
+                )}
+              />
+              <span>{benefit}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+});
+
+const Brands = memo(function Brands() {
   const { company } = useCompany();
-  const currentSectors = company === "tech" ? sectors.tech : sectors.studio;
+  const currentSectors = useMemo(
+    () => (company === "tech" ? sectors.tech : sectors.studio),
+    [company]
+  );
   const isTech = company === "tech";
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isInView, setIsInView] = useState(false);
@@ -93,38 +197,34 @@ export default function Brands() {
     return () => observer.disconnect();
   }, []);
 
-  // Add scroll-based card switching that handles both directions
-  useEffect(() => {
+  const handleScroll = useThrottledCallback(() => {
     const secondCard = secondCardRef.current;
     if (!secondCard) return;
 
-    const handleScroll = () => {
-      const rect = secondCard.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const cardMiddle = rect.top + rect.height / 2;
-      const viewportMiddle = windowHeight / 2;
-      const currentScrollY = window.scrollY;
-      const scrollingDown = currentScrollY > lastScrollY.current;
-      
-      // Check if second card is near viewport middle
-      const isNearMiddle = Math.abs(cardMiddle - viewportMiddle) < 100;
-      
-      if (isNearMiddle) {
-        // If scrolling down, open second card
-        if (scrollingDown) {
-          setActiveIndex(1);
-        } else {
-          // If scrolling up, open first card
-          setActiveIndex(0);
-        }
-      }
-      
-      lastScrollY.current = currentScrollY;
-    };
+    const rect = secondCard.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const cardMiddle = rect.top + rect.height / 2;
+    const viewportMiddle = windowHeight / 2;
+    const currentScrollY = window.scrollY;
+    const scrollingDown = currentScrollY > lastScrollY.current;
+    
+    const isNearMiddle = Math.abs(cardMiddle - viewportMiddle) < 100;
+    
+    if (isNearMiddle) {
+      setActiveIndex(scrollingDown ? 1 : 0);
+    }
+    
+    lastScrollY.current = currentScrollY;
+  }, 100);
 
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [handleScroll]);
+
+  const handleCardClick = useCallback((index: number) => {
+    setActiveIndex(activeIndex === index ? -1 : index);
+  }, [activeIndex]);
 
   return (
     <section 
@@ -173,92 +273,22 @@ export default function Brands() {
 
           <div className="lg:col-span-8 space-y-4">
             {currentSectors.map((sector, index) => (
-              <div
+              <BrandCard
                 key={sector.name}
-                ref={index === 1 ? secondCardRef : null}
-                className={cn(
-                  "brand-card p-6 rounded-2xl backdrop-blur-lg cursor-pointer",
-                  activeIndex === index && "active",
-                  isInView && "animate-fade-up",
-                  isTech
-                    ? "hover:bg-blue-950/20"
-                    : "hover:bg-indigo-50/50"
-                )}
-                style={{ '--animation-delay': `${index * 150}ms` } as React.CSSProperties}
-                onClick={() => setActiveIndex(activeIndex === index ? -1 : index)}
-              >
-                <div className="flex items-center gap-4">
-                  <div
-                    className={cn(
-                      "p-3 rounded-xl transition-colors duration-300",
-                      isTech
-                        ? "bg-yellow-500/10 group-hover:bg-yellow-500/20"
-                        : "bg-indigo-500/10 group-hover:bg-indigo-500/20"
-                    )}
-                  >
-                    <sector.icon
-                      className={cn(
-                        "w-8 h-8 transition-transform duration-300 group-hover:scale-110",
-                        isTech
-                          ? "text-yellow-400 group-hover:text-yellow-300"
-                          : "text-indigo-500 group-hover:text-indigo-400"
-                      )}
-                    />
-                  </div>
-                  <h3
-                    className={cn(
-                      "text-2xl font-normal transition-colors duration-300",
-                      isTech
-                        ? "text-white group-hover:text-yellow-50"
-                        : "text-gray-900 group-hover:text-indigo-900"
-                    )}
-                  >
-                    {sector.name}
-                  </h3>
-                </div>
-
-                <p
-                  className={cn(
-                    "mt-4 text-sm transition-colors duration-300",
-                    isTech
-                      ? "text-gray-400 group-hover:text-gray-300"
-                      : "text-gray-600 group-hover:text-gray-700"
-                  )}
-                >
-                  {activeIndex === index ? sector.fullDescription : sector.description}
-                </p>
-
-                <div
-                  className={cn(
-                    "content overflow-hidden transition-all duration-500",
-                    activeIndex === index ? "mt-6" : ""
-                  )}
-                >
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {sector.benefits.map((benefit, idx) => (
-                      <div
-                        key={idx}
-                        className={cn(
-                          "flex items-center gap-2",
-                          isTech ? "text-gray-400" : "text-gray-600"
-                        )}
-                      >
-                        <div
-                          className={cn(
-                            "w-1.5 h-1.5 rounded-full",
-                            isTech ? "bg-yellow-400" : "bg-indigo-500"
-                          )}
-                        />
-                        <span>{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                sector={sector}
+                index={index}
+                isActive={activeIndex === index}
+                isTech={isTech}
+                isInView={isInView}
+                onClick={() => handleCardClick(index)}
+                ref={index === 1 ? secondCardRef : undefined}
+              />
             ))}
           </div>
         </div>
       </div>
     </section>
   );
-}
+});
+
+export default Brands;

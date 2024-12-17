@@ -1,51 +1,214 @@
 "use client";
 
 import { useCompany } from "@/lib/company-context";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Send, Sparkles } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import BookingModal from "./booking-modal";
+import { useThrottledCallback } from "@/lib/performance";
 
-export default function CreativeContact() {
+interface FormData {
+  vision: string;
+  email: string;
+  name: string;
+}
+
+interface FormErrors {
+  vision: string;
+  email: string;
+  name: string;
+}
+
+const SparkleIcon = memo(function SparkleIcon({ isTech }: { isTech: boolean }) {
+  return (
+    <motion.div
+      animate={{
+        rotate: [0, 360],
+        scale: [1, 1.2, 1],
+      }}
+      transition={{
+        duration: 3,
+        repeat: Infinity,
+        ease: "linear",
+      }}
+    >
+      <Sparkles
+        className={`w-6 h-6 ${
+          isTech ? "text-yellow-400" : "text-indigo-500"
+        }`}
+      />
+    </motion.div>
+  );
+});
+
+const FormInput = memo(function FormInput({
+  type,
+  value,
+  onChange,
+  placeholder,
+  error,
+  isTech,
+}: {
+  type: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  error?: string;
+  isTech: boolean;
+}) {
+  return (
+    <div className="relative">
+      <input
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl ${
+          isTech
+            ? "bg-white/5 border border-blue-400/40 text-white placeholder-gray-300"
+            : "bg-white/95 text-gray-900 placeholder-gray-500"
+        } focus:outline-none focus:ring-2 ${
+          isTech
+            ? "focus:ring-yellow-500/50"
+            : "focus:ring-indigo-500/50"
+        }`}
+      />
+      {error && (
+        <p className={`absolute -bottom-5 left-0 text-sm ${isTech ? "text-red-400" : "text-red-500"}`}>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+});
+
+const Testimonial = memo(function Testimonial({
+  quote,
+  author,
+  role,
+  isTech,
+}: {
+  quote: string;
+  author: string;
+  role: string;
+  isTech: boolean;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      className="flex-1 p-4 sm:p-8"
+    >
+      <div
+        className={`text-lg sm:text-xl mb-3 sm:mb-4 ${
+          isTech ? "text-yellow-400" : "text-indigo-500"
+        }`}
+      >
+        &quot;
+      </div>
+      <p
+        className={`text-base sm:text-lg mb-4 sm:mb-6 ${
+          isTech ? "text-gray-300" : "text-gray-600"
+        }`}
+      >
+        {quote}
+      </p>
+      <div>
+        <p
+          className={`font-medium ${
+            isTech ? "text-white" : "text-gray-900"
+          }`}
+        >
+          {author}
+        </p>
+        <p
+          className={`text-sm ${
+            isTech ? "text-gray-400" : "text-gray-500"
+          }`}
+        >
+          {role}
+        </p>
+      </div>
+    </motion.div>
+  );
+});
+
+const SubmitButton = memo(function SubmitButton({
+  isSubmitting,
+  isTech,
+}: {
+  isSubmitting: boolean;
+  isTech: boolean;
+}) {
+  return (
+    <motion.button
+      type="submit"
+      disabled={isSubmitting}
+      whileHover={{ scale: 1.02 }}
+      className={`w-full sm:w-auto py-2 sm:py-3 px-4 sm:px-6 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+        isTech
+          ? "bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          : "bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+      } transition-all duration-300 text-sm sm:text-base`}
+    >
+      {isSubmitting ? (
+        <>
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          >
+            <Send className="w-5 h-5" />
+          </motion.div>
+          <span>Sending...</span>
+        </>
+      ) : (
+        <>
+          <Send className="w-5 h-5" />
+          Send Message
+        </>
+      )}
+    </motion.button>
+  );
+});
+
+const initialFormData: FormData = {
+  vision: "",
+  email: "",
+  name: "",
+};
+
+const initialErrors: FormErrors = {
+  vision: "",
+  email: "",
+  name: "",
+};
+
+const CreativeContact = memo(function CreativeContact() {
   const { company } = useCompany();
   const isTech = company === "tech";
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [errors, setErrors] = useState({
-    vision: "",
-    email: "",
-    name: "",
-  });
-
-  const [formData, setFormData] = useState({
-    vision: "",
-    email: "",
-    name: "",
-  });
-
+  const [errors, setErrors] = useState<FormErrors>(initialErrors);
+  const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
-  const currentTestimonial = {
+  const currentTestimonial = useMemo(() => ({
     quote: isTech
       ? "The automation solutions provided by BASE32 have transformed our workflow completely. We're seeing incredible results."
       : "Working with BASE32.STUDIO was a game-changer for our brand. Their attention to detail and creativity is unmatched.",
     author: isTech ? "Sarah Chen" : "David Park",
     role: isTech ? "CTO, InnovateTech" : "Founder, Nexus Innovations",
-  };
+  }), [isTech]);
 
-  // Handle client-side mounting
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const validateForm = () => {
-    const newErrors = {
-      vision: "",
-      email: "",
-      name: "",
-    };
+  const validateForm = useCallback(() => {
+    const newErrors = { ...initialErrors };
     let isValid = true;
 
     if (!formData.vision || formData.vision.length < 10) {
@@ -65,9 +228,8 @@ export default function CreativeContact() {
 
     setErrors(newErrors);
     return isValid;
-  };
+  }, [formData]);
 
-  // Client-side validation
   useEffect(() => {
     if (mounted) {
       const isFormValid = formData.vision.length >= 10 && 
@@ -77,7 +239,7 @@ export default function CreativeContact() {
     }
   }, [formData, mounted]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) return;
@@ -98,13 +260,22 @@ export default function CreativeContact() {
       if (!response.ok) throw new Error('Failed to send message');
 
       toast.success("Thank you for sharing your vision! We'll be in touch soon.");
-      setFormData({ vision: "", email: "", name: "" });
+      setFormData(initialFormData);
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [formData, isTech, validateForm]);
+
+  const handleInputChange = useCallback((field: keyof FormData) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData(prev => ({ ...prev, [field]: e.target.value }));
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: "" }));
+    }
+  }, [errors]);
 
   return (
     <section id="contact-section" className="relative py-12 sm:py-24">
@@ -116,7 +287,6 @@ export default function CreativeContact() {
               : "bg-gradient-to-br from-indigo-100/90 via-white/80 to-purple-100/90 backdrop-blur-xl shadow-[inset_0_-100px_200px_-50px_rgba(99,102,241,0.2)]"
           }`}
         >
-          {/* Studio-specific decorative elements */}
           {!isTech && (
             <div className="absolute inset-0 overflow-hidden">
               <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-indigo-300/30 via-transparent to-transparent rotate-12 transform-gpu" />
@@ -124,7 +294,6 @@ export default function CreativeContact() {
             </div>
           )}
 
-          {/* Animated gradient background for tech theme */}
           {isTech && (
             <motion.div
               className="absolute inset-0 -z-10"
@@ -154,23 +323,7 @@ export default function CreativeContact() {
                   viewport={{ once: true }}
                   className="flex items-center gap-3 mb-4 sm:mb-8"
                 >
-                  <motion.div
-                    animate={{
-                      rotate: [0, 360],
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  >
-                    <Sparkles
-                      className={`w-6 h-6 ${
-                        isTech ? "text-yellow-400" : "text-indigo-500"
-                      }`}
-                    />
-                  </motion.div>
+                  <SparkleIcon isTech={isTech} />
                   <h2
                     className={`text-xl sm:text-2xl md:text-3xl font-bold leading-tight ${
                       isTech ? "text-white" : "text-gray-900"
@@ -188,8 +341,7 @@ export default function CreativeContact() {
                     isTech ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
-                  Share your ideas and let&apos;s create something extraordinary
-                  together.
+                  Share your ideas and let&apos;s create something extraordinary together.
                 </motion.p>
 
                 <div
@@ -201,10 +353,7 @@ export default function CreativeContact() {
                     id="vision"
                     rows={3}
                     value={formData.vision}
-                    onChange={(e) => {
-                      setFormData((prev) => ({ ...prev, vision: e.target.value }));
-                      if (errors.vision) setErrors(prev => ({ ...prev, vision: "" }));
-                    }}
+                    onChange={handleInputChange('vision')}
                     className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-transparent relative z-10 ${
                       isTech
                         ? "text-white placeholder-gray-400"
@@ -226,142 +375,42 @@ export default function CreativeContact() {
 
               <div className="flex flex-col gap-4 sm:flex-row sm:gap-4 items-start">
                 <div className="w-full sm:flex-1">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => {
-                        setFormData((prev) => ({ ...prev, name: e.target.value }));
-                        if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
-                      }}
-                      placeholder="Your name"
-                      className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl ${
-                        isTech
-                          ? "bg-white/5 border border-blue-400/40 text-white placeholder-gray-300"
-                          : "bg-white/95 text-gray-900 placeholder-gray-500"
-                      } focus:outline-none focus:ring-2 ${
-                        isTech
-                          ? "focus:ring-yellow-500/50"
-                          : "focus:ring-indigo-500/50"
-                      }`}
-                    />
-                    {errors.name && (
-                      <p className={`absolute -bottom-5 left-0 text-sm ${isTech ? "text-red-400" : "text-red-500"}`}>
-                        {errors.name}
-                      </p>
-                    )}
-                  </div>
+                  <FormInput
+                    type="text"
+                    value={formData.name}
+                    onChange={handleInputChange('name')}
+                    placeholder="Your name"
+                    error={errors.name}
+                    isTech={isTech}
+                  />
                 </div>
 
                 <div className="w-full sm:flex-1">
-                  <div className="relative">
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => {
-                        setFormData((prev) => ({ ...prev, email: e.target.value }));
-                        if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
-                      }}
-                      placeholder="Your email"
-                      className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl ${
-                        isTech
-                          ? "bg-white/5 border border-blue-400/40 text-white placeholder-gray-300"
-                          : "bg-white/95 text-gray-900 placeholder-gray-500"
-                      } focus:outline-none focus:ring-2 ${
-                        isTech
-                          ? "focus:ring-yellow-500/50"
-                          : "focus:ring-indigo-500/50"
-                      }`}
-                    />
-                    {errors.email && (
-                      <p className={`absolute -bottom-5 left-0 text-sm ${isTech ? "text-red-400" : "text-red-500"}`}>
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
+                  <FormInput
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange('email')}
+                    placeholder="Your email"
+                    error={errors.email}
+                    isTech={isTech}
+                  />
                 </div>
 
                 <div className="w-full sm:w-auto">
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    whileHover={{ scale: 1.02 }}
-                    className={`w-full sm:w-auto py-2 sm:py-3 px-4 sm:px-6 rounded-xl font-semibold flex items-center justify-center gap-2 ${
-                      isTech
-                        ? "bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                        : "bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                    } transition-all duration-300 text-sm sm:text-base`}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        >
-                          <Send className="w-5 h-5" />
-                        </motion.div>
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        Send Message
-                      </>
-                    )}
-                  </motion.button>
+                  <SubmitButton isSubmitting={isSubmitting} isTech={isTech} />
                 </div>
               </div>
             </div>
 
-            {/* Divider */}
             <div
               className={`h-px w-full ${
                 isTech ? "bg-blue-500/20" : "bg-indigo-200/50"
               } mb-8 sm:mb-16`}
             />
 
-            {/* Testimonial and Call Booking Section */}
             <div className="flex flex-col md:flex-row gap-6 sm:gap-8">
-              {/* Testimonial */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="flex-1 p-4 sm:p-8"
-              >
-                <div
-                  className={`text-lg sm:text-xl mb-3 sm:mb-4 ${
-                    isTech ? "text-yellow-400" : "text-indigo-500"
-                  }`}
-                >
-                  &quot;
-                </div>
-                <p
-                  className={`text-base sm:text-lg mb-4 sm:mb-6 ${
-                    isTech ? "text-gray-300" : "text-gray-600"
-                  }`}
-                >
-                  {currentTestimonial.quote}
-                </p>
-                <div>
-                  <p
-                    className={`font-medium ${
-                      isTech ? "text-white" : "text-gray-900"
-                    }`}
-                  >
-                    {currentTestimonial.author}
-                  </p>
-                  <p
-                    className={`text-sm ${
-                      isTech ? "text-gray-400" : "text-gray-500"
-                    }`}
-                  >
-                    {currentTestimonial.role}
-                  </p>
-                </div>
-              </motion.div>
+              <Testimonial {...currentTestimonial} isTech={isTech} />
 
-              {/* Call Booking */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -400,4 +449,6 @@ export default function CreativeContact() {
       />
     </section>
   );
-}
+});
+
+export default CreativeContact;

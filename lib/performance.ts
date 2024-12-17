@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 
 // Preload critical resources
 export const preloadResources = () => {
@@ -23,11 +23,23 @@ export const preloadResources = () => {
 export const useDeferNonCritical = () => {
   useEffect(() => {
     const loadNonCritical = () => {
-      // Add any non-critical resource loading here
-      const script = document.createElement('script')
-      script.src = '/scripts/analytics.js'
-      script.defer = true
-      document.body.appendChild(script)
+      // Add non-critical resource loading here
+      if ('requestIdleCallback' in window) {
+        // @ts-ignore
+        window.requestIdleCallback(() => {
+          const script = document.createElement('script')
+          script.src = '/scripts/analytics.js'
+          script.defer = true
+          document.body.appendChild(script)
+        })
+      } else {
+        setTimeout(() => {
+          const script = document.createElement('script')
+          script.src = '/scripts/analytics.js'
+          script.defer = true
+          document.body.appendChild(script)
+        }, 1000)
+      }
     }
 
     if (document.readyState === 'complete') {
@@ -47,22 +59,86 @@ export const useOptimizeAnimations = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('animate')
-            observer.unobserve(entry.target)
           }
         })
       },
       { threshold: 0.1 }
     )
 
-    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
-      observer.observe(el)
-    })
+    document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el))
 
     return () => observer.disconnect()
   }, [])
 }
 
-// Optimize images
+// Optimize images with modern formats
 export const optimizeImage = (src: string, width: number, quality = 75) => {
-  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`
+  return {
+    src,
+    width,
+    quality,
+    loading: 'lazy',
+    decoding: 'async',
+    sizes: '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  }
+}
+
+// Debounce function for performance optimization
+export const debounce = <T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): ((...args: Parameters<T>) => void) => {
+  let timeout: NodeJS.Timeout
+
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func(...args), wait)
+  }
+}
+
+// Throttle function for performance optimization
+export const throttle = <T extends (...args: any[]) => any>(
+  func: T,
+  limit: number
+): ((...args: Parameters<T>) => void) => {
+  let inThrottle: boolean
+  
+  return (...args: Parameters<T>) => {
+    if (!inThrottle) {
+      func(...args)
+      inThrottle = true
+      setTimeout(() => (inThrottle = false), limit)
+    }
+  }
+}
+
+// Lazy load components
+export const useLazyLoad = (callback: () => void, options = {}) => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        callback()
+        observer.disconnect()
+      }
+    }, options)
+
+    const target = document.querySelector('[data-lazy]')
+    if (target) observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [callback])
+}
+
+// Optimize React re-renders
+export const useThrottledCallback = (callback: () => void, delay: number) => {
+  return useCallback(
+    throttle(() => {
+      if (typeof window !== 'undefined') {
+        window.requestAnimationFrame(() => {
+          callback()
+        })
+      }
+    }, delay),
+    [callback, delay]
+  )
 }

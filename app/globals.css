@@ -237,6 +237,35 @@
   [data-company="studio"] .brand-card:hover {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(99, 102, 241, 0.2));
   }
+
+  .services-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 0%,
+      rgba(234, 179, 8, 0.3) 0%,
+      rgba(234, 179, 8, 0.15) 25%,
+      transparent 60%
+    );
+    filter: blur(100px);
+    opacity: 0;
+    transition: opacity 0.8s ease-in;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .services-glow.show {
+    opacity: 1;
+  }
+
+  [data-company="studio"] .services-glow {
+    background: radial-gradient(
+      circle at 50% 0%,
+      rgba(99, 102, 241, 0.3) 0%,
+      rgba(99, 102, 241, 0.15) 25%,
+      transparent 60%
+    );
+  }
 }
 
 @keyframes fade-up {

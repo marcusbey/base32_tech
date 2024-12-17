@@ -111,76 +111,75 @@ function Pricing() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            whileHover={{
-              background: isTech
-                ? "linear-gradient(135deg, rgba(234, 179, 8, 0.1), rgba(59, 130, 246, 0.1))"
-                : "linear-gradient(135deg, rgba(219, 39, 119, 0.1), rgba(59, 130, 246, 0.1))",
-              backdropFilter: "blur(12px)",
-              transition: { duration: 0.3 },
-            }}
-            className="mega-glass-card rounded-2xl overflow-hidden relative group md:col-span-7"
+            className="mega-glass-card rounded-2xl overflow-hidden relative group md:col-span-7 bg-gradient-to-br from-blue-900/30 via-blue-800/20 to-blue-700/10"
           >
-            <div className="p-8">
-              <div className="flex items-center justify-between mb-6">
-                <h3
-                  className={`text-xl lg:text-2xl font-bold ${
-                    isTech ? "text-white" : "text-gray-900"
-                  }`}
-                >
-                  {isTech ? "Enterprise AI Solution" : "Full Design System"}
-                </h3>
-                <span
-                  className={`text-xs lg:text-sm font-medium px-4 py-2 lg:px-3 lg:py-1 text-center rounded-full ${
-                    isTech
-                      ? "bg-yellow-500/10 text-yellow-400"
-                      : "bg-indigo-500/10 text-indigo-500"
-                  }`}
-                >
-                  {isTech ? "Custom Solutions" : "Tailored Design"}
-                </span>
+            <div className="p-8 relative">
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_var(--tw-gradient-stops))] from-blue-600/20 via-blue-800/5 to-transparent animate-pulse-slow blur-3xl" />
+                <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,_var(--tw-gradient-stops))] from-blue-700/10 via-blue-600/5 to-blue-700/10 animate-spin-slower blur-2xl" />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 via-transparent to-transparent backdrop-blur-2xlxl" />
               </div>
-
-              <div className="mb-8">
-                <p className={`text-base lg:text-lg ${isTech ? "text-gray-300" : "text-gray-700"}`}>
-                  Get a customized solution designed specifically for your business needs. Our team will work closely with you to understand your requirements and deliver exceptional results.
-                </p>
-              </div>
-
-              <div className="space-y-4 mb-8">
-                {currentFeatures.map((feature, index) => (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-start gap-3"
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-6">
+                  <h3
+                    className={`text-xl lg:text-2xl font-bold ${
+                      isTech ? "text-white" : "text-gray-900"
+                    }`}
                   >
-                    <feature.icon
-                      className={`w-5 h-5 mt-0.5 ${
-                        isTech ? "text-yellow-400" : "text-indigo-500"
-                      }`}
-                    />
-                    <div className="space-y-2">
-                      <h3 className={`text-base lg:text-lg font-semibold leading-tight ${isTech ? "text-white" : "text-gray-900"}`}>
-                        {feature.title}
-                      </h3>
-                      <p className={`text-xs lg:text-sm leading-normal sm:leading-6 ${isTech ? "text-gray-400" : "text-gray-600"}`}>
-                        {feature.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                    {isTech ? "Enterprise AI Solution" : "Full Design System"}
+                  </h3>
+                  <span
+                    className={`text-xs lg:text-sm font-medium px-4 py-2 lg:px-3 lg:py-1 text-center rounded-full ${
+                      isTech
+                        ? "bg-yellow-500/10 text-yellow-400"
+                        : "bg-indigo-500/10 text-indigo-500"
+                    }`}
+                  >
+                    {isTech ? "Custom Solutions" : "Tailored Design"}
+                  </span>
+                </div>
 
-              <div className="flex justify-start">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setIsBookingOpen(true)}
-                  className="inline-flex items-center px-6 py-3 rounded-full text-white font-medium text-sm lg:text-base bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300"
-                >
-                  Schedule a Consultation
-                </motion.button>
+                <div className="mb-8">
+                  <p className={`text-base lg:text-lg ${isTech ? "text-gray-300" : "text-gray-700"}`}>
+                    Get a customized solution designed specifically for your business needs. Our team will work closely with you to understand your requirements and deliver exceptional results.
+                  </p>
+                </div>
+
+                <div className="space-y-4 mb-8">
+                  {currentFeatures.map((feature, index) => (
+                    <motion.div
+                      key={feature.title}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-start gap-3"
+                    >
+                      <feature.icon
+                        className={`w-5 h-5 mt-0.5 ${
+                          isTech ? "text-yellow-400" : "text-indigo-500"
+                        }`}
+                      />
+                      <div className="space-y-2">
+                        <h3 className={`text-base lg:text-lg font-semibold leading-tight ${isTech ? "text-white" : "text-gray-900"}`}>
+                          {feature.title}
+                        </h3>
+                        <p className={`text-xs lg:text-sm leading-normal sm:leading-6 ${isTech ? "text-gray-400" : "text-gray-600"}`}>
+                          {feature.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="flex justify-start">
+                  <motion.button
+                    whileTap={{ opacity: 0.8 }}
+                    onClick={() => setIsBookingOpen(true)}
+                    className="inline-flex items-center px-6 py-3 rounded-full text-white font-medium text-sm lg:text-base bg-gradient-to-r from-yellow-500/30 via-yellow-400/20 to-yellow-300/10 border border-yellow-500/30 hover:border-yellow-400/50 transition-all duration-300"
+                  >
+                    Schedule a Consultation
+                  </motion.button>
+                </div>
               </div>
             </div>
           </motion.div>

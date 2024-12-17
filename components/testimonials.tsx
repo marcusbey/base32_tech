@@ -224,8 +224,8 @@ export default function Testimonials() {
             className="max-w-2xl mx-auto text-center mb-16"
           >
             <div className="absolute -left-1/4 top-0 w-[150%] h-full opacity-50">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-300/30 via-yellow-200/20 to-transparent blur-3xl transform rotate-12 scale-y-150" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_50%,_var(--tw-gradient-stops))] from-yellow-400/20 via-yellow-300/10 to-transparent blur-2xl" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-300/20 via-yellow-200/10 to-transparent blur-2xl transform rotate-6 scale-y-125" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_50%,_var(--tw-gradient-stops))] from-yellow-400/15 via-yellow-300/5 to-transparent blur-xl" />
             </div>
 
           </motion.div>
@@ -240,10 +240,10 @@ export default function Testimonials() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               >
-                 <h2 className={`text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400`}>
+                 <h2 className={`text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-br from-white via-yellow-100 to-yellow-300`}>
                   Client Success
                   <br />
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-br from-yellow-300 via-yellow-200 to-white/90">
                     Stories
                   </span>
                 </h2>

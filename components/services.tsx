@@ -178,7 +178,7 @@ export default function Services() {
                 </div>
 
                 <button 
-                  className="inline-flex items-center px-6 py-3 rounded-full text-white font-medium text-base lg:text-lg bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 duration-300"
+                  className="inline-flex items-center px-12 py-3 rounded-full text-white font-medium text-base lg:text-lg bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 duration-300"
                   onClick={() => setIsBookingOpen(true)}
                 >
                   Book a Call

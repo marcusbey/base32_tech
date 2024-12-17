@@ -9,7 +9,7 @@ import { useThrottledCallback } from "@/lib/performance";
 const sectors = {
   tech: [
     {
-      name: "Startups",
+      name: "Startups" as const,
       icon: Rocket,
       description:
         "Empowering startups with agile development and cost-effective solutions. We excel in product thinking, rapid prototyping, MVP development...",
@@ -23,7 +23,7 @@ const sectors = {
       ],
     },
     {
-      name: "Enterprise",
+      name: "Enterprise" as const,
       icon: Building2,
       description:
         "Partnering with established organizations to drive digital transformation through intelligent automation. We specialize in enterprise-wide solutions, legacy system modernization...",
@@ -39,7 +39,7 @@ const sectors = {
   ],
   studio: [
     {
-      name: "Startups",
+      name: "Startups" as const,
       icon: Rocket,
       description:
         "Helping startups build memorable brands and engaging digital products. We focus on rapid iteration and scalable design solutions...",
@@ -53,7 +53,7 @@ const sectors = {
       ],
     },
     {
-      name: "Enterprise",
+      name: "Enterprise" as const,
       icon: Building2,
       description:
         "Creating sophisticated brand identities and digital experiences for established organizations. Our enterprise solutions deliver scalable design systems...",
@@ -69,6 +69,8 @@ const sectors = {
   ],
 } as const;
 
+type SectorType = typeof sectors.tech[number] | typeof sectors.studio[number];
+
 const BrandCard = memo(function BrandCard({
   sector,
   index,
@@ -78,7 +80,7 @@ const BrandCard = memo(function BrandCard({
   onClick,
   ref,
 }: {
-  sector: typeof sectors.tech[0];
+  sector: SectorType;
   index: number;
   isActive: boolean;
   isTech: boolean;

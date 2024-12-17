@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {cn} from "@/lib/utils";
 import { useScroll } from "@/context/scroll-context";
@@ -25,13 +25,24 @@ const taglines = [
     highlight: "MVP-Ready",
     line2: "Delivered Faster Than Ever"
   }
-];
+] as const;
+
+const animationVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 }
+};
+
+const descriptionVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 }
+};
 
 export function HeroContent({ isStudio }: HeroContentProps) {
   const [currentTagline, setCurrentTagline] = useState(0);
   const { gradientProgress } = useScroll();
 
-  const gradientStyle = {
+  const gradientStyle = useMemo(() => ({
     backgroundImage: `linear-gradient(to right, 
       rgb(${Math.round(40 * (1 - gradientProgress) + 234 * gradientProgress)}, 
           ${Math.round(50 * (1 - gradientProgress) + 179 * gradientProgress)}, 
@@ -46,7 +57,9 @@ export function HeroContent({ isStudio }: HeroContentProps) {
     backgroundClip: 'text',
     color: 'transparent',
     transition: 'background-image 0.3s ease-out'
-  } as React.CSSProperties;
+  } as React.CSSProperties), [gradientProgress]);
+
+  const currentTaglineContent = useMemo(() => taglines[currentTagline], [currentTagline]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -81,27 +94,29 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentTagline}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            variants={animationVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             transition={{ duration: 0.5 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white absolute inset-0 flex flex-col items-start"
           >
             <span className="text-indigo-200 pb-4">
-              {taglines[currentTagline].line1}
+              {currentTaglineContent.line1}
             </span>
             <span style={gradientStyle} className="whitespace-nowrap pb-4">
-              {taglines[currentTagline].highlight}
+              {currentTaglineContent.highlight}
             </span>
             <span className="text-white/90 pb-4">
-              {taglines[currentTagline].line2}
+              {currentTaglineContent.line2}
             </span>
           </motion.div>
         </AnimatePresence>
       </div>
       <motion.p 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={descriptionVariants}
+        initial="initial"
+        animate="animate"
         transition={{ delay: 0.3, duration: 0.5 }}
         className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none mt-12 lg:mt-16"
       >

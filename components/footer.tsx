@@ -12,22 +12,38 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { debounce } from 'lodash';
 
+interface Dimensions {
+  width: number;
+  height: number;
+}
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+interface NavigationItem {
+  name: string;
+  href: string;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
 const techColors = {
-  base: ["#1E3A8A", "#1E40AF", "#1D4ED8"],
-  bright: ["#3B82F6", "#60A5FA", "#93C5FD"],
+  base: ["#1E3A8A", "#1E40AF", "#1D4ED8"] as const,
+  bright: ["#3B82F6", "#60A5FA", "#93C5FD"] as const,
 } as const;
 
 const studioColors = {
-  base: ["#4338CA", "#4F46E5", "#6366F1"],
-  bright: ["#818CF8", "#A5B4FC", "#C7D2FE"],
+  base: ["#4338CA", "#4F46E5", "#6366F1"] as const,
+  bright: ["#818CF8", "#A5B4FC", "#C7D2FE"] as const,
 } as const;
 
 export default function Footer() {
   const { company } = useCompany();
   const isTech = company === 'tech';
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [dimensions, setDimensions] = useState<Dimensions>({ width: 0, height: 0 });
+  const [mousePos, setMousePos] = useState<MousePosition>({ x: 0, y: 0 });
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
@@ -56,103 +72,118 @@ export default function Footer() {
     };
   }, [updateDimensions]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (rect) {
-      setMousePos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      });
-    }
-  }, []);
+  const throttledHandleMouseMove = useCallback(
+    debounce((e: React.MouseEvent) => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect) {
+        setMousePos({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        });
+      }
+    }, 16), // ~60fps
+    []
+  );
 
-  const getColorVariant = useCallback((x: number, y: number, colorSet: string[]) => {
+  const getColorVariant = useCallback((x: number, y: number, colorSet: readonly string[]) => {
     const index = Math.abs(Math.floor((x + y) / gridSize)) % colorSet.length;
     return colorSet[index];
   }, [gridSize]);
 
-  const generateGrid = useCallback(() => {
+  interface GridElement {
+    key: string;
+    x: number;
+    y: number;
+    isNearMouse: boolean;
+    intensity: number;
+    baseColor: string;
+    brightColor?: string;
+  }
+
+  const generateDotPositions = useCallback(() => {
     if (!isClient) return [];
 
-    const gridElements = [];
+    const positions: GridElement[] = [];
     const cols = Math.ceil(dimensions.width / gridSize) + 1;
     const rows = Math.ceil(dimensions.height / gridSize) + 1;
+    
+    // Optimization: Only generate dots within viewport + buffer
+    const viewportBuffer = hoverRadius;
+    const minCol = Math.max(0, Math.floor((mousePos.x - viewportBuffer) / gridSize));
+    const maxCol = Math.min(cols, Math.ceil((mousePos.x + viewportBuffer) / gridSize));
+    const minRow = Math.max(0, Math.floor((mousePos.y - viewportBuffer) / gridSize));
+    const maxRow = Math.min(rows, Math.ceil((mousePos.y + viewportBuffer) / gridSize));
 
-    // Memoize dot generation calculations
-    const dotPositions = useMemo(() => {
-      const positions = [];
-      for (let i = 0; i <= cols; i++) {
-        for (let j = 0; j <= rows; j++) {
-          const x = i * gridSize;
-          const y = j * gridSize;
-          const dx = mousePos.x - x;
-          const dy = mousePos.y - y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const isNearMouse = distance < hoverRadius;
-          const intensity = isNearMouse ? Math.pow(1 - (distance / hoverRadius), 2) : 0;
-          
+    for (let i = minCol; i <= maxCol; i++) {
+      for (let j = minRow; j <= maxRow; j++) {
+        const x = i * gridSize;
+        const y = j * gridSize;
+        const dx = mousePos.x - x;
+        const dy = mousePos.y - y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Only process dots within hover radius
+        if (distance < hoverRadius) {
+          const intensity = Math.pow(1 - (distance / hoverRadius), 2);
           positions.push({
             key: `dot-${i}-${j}`,
             x,
             y,
-            isNearMouse,
+            isNearMouse: true,
             intensity,
             baseColor: getColorVariant(x, y, colors.base),
-            brightColor: isNearMouse ? colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length] : undefined
+            brightColor: colors.bright[Math.floor((x + y) / gridSize) % colors.bright.length]
           });
         }
       }
-      return positions;
-    }, [cols, rows, mousePos, hoverRadius, colors, getColorVariant]);
+    }
+    return positions;
+  }, [isClient, dimensions, mousePos, colors, getColorVariant, gridSize, hoverRadius]);
 
-    // Generate dots with memoized positions
-    dotPositions.forEach(({ key, x, y, isNearMouse, intensity, baseColor, brightColor }) => {
-      gridElements.push(
-        <motion.circle
-          key={key}
-          cx={x}
-          cy={y}
-          r={baseDotSize}
-          fill={baseColor}
-          initial={{ opacity: 0.3, scale: 1 }}
-          animate={{
-            opacity: 0.3 + (intensity * 0.7),
-            scale: 1 + (intensity * 1),
-            fill: brightColor || baseColor,
-          }}
-          transition={{ type: "spring", stiffness: 1000, damping: 50, mass: 0.1 }}
-        />
-      );
-    });
-
-    return gridElements;
-  }, [isClient, dimensions, mousePos, colors, getColorVariant, baseDotSize]);
+  const generateGrid = useCallback(() => {
+    const positions = generateDotPositions();
+    return positions.map(({ key, x, y, intensity, baseColor, brightColor }) => (
+      <motion.circle
+        key={key}
+        cx={x}
+        cy={y}
+        r={baseDotSize}
+        fill={baseColor}
+        initial={false}
+        animate={{
+          opacity: 0.3 + (intensity * 0.7),
+          scale: 1 + (intensity * 1),
+          fill: brightColor || baseColor,
+        }}
+        transition={{ 
+          type: "spring", 
+          stiffness: 500, // Reduced from 1000
+          damping: 30,   // Reduced from 50
+          mass: 0.05     // Reduced from 0.1
+        }}
+      />
+    ));
+  }, [generateDotPositions, baseDotSize]);
 
   const grid = useMemo(() => generateGrid(), [generateGrid]);
 
-  const socialLinks = useMemo(() => [
-    { href: siteConfig.links.github, icon: Github, label: "GitHub" },
-    { href: siteConfig.links.twitter, icon: XIcon, label: "Twitter" },
-    { href: siteConfig.links.linkedin, icon: Linkedin, label: "LinkedIn" },
-  ], []);
-
-  const navigation = {
+  const navigation = useMemo(() => ({
     company: [
       { name: 'Services', href: `${siteConfig.baseUrl}/#services-section` },
       { name: 'Pricing', href: `${siteConfig.baseUrl}/#pricing-section` },
       { name: 'About', href: `${siteConfig.baseUrl}/#about-section` },
       { name: 'Contact', href: `${siteConfig.baseUrl}/#contact-section` },
-    ],
+    ] as NavigationItem[],
     links: [
       { name: 'X', href: 'https://x.com/romainbey', icon: XIcon },
       { name: 'GitHub', href: 'https://github.com/marcusbey', icon: Github },
       { name: 'LinkedIn', href: 'https://linkedin.com/company/base32-tech/', icon: Linkedin },
-    ],
-  };
+    ] as NavigationItem[],
+  }), []);
 
   const scrollToSection = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const sectionId = href.replace('#', '');
+    const sectionId = href.split('#')[1];
     const section = document.getElementById(sectionId);
     
     if (section) {
@@ -171,7 +202,7 @@ export default function Footer() {
     <LazyMotion features={domAnimation}>
       <footer 
         ref={containerRef}
-        onMouseMove={handleMouseMove}
+        onMouseMove={throttledHandleMouseMove}
         className={`relative overflow-hidden ${
           isTech ? 'bg-gradient-to-b from-[#1E3A8A] to-[#1E40AF]' : 'bg-gradient-to-b from-gray-900 to-black'
         } border-t ${
@@ -245,17 +276,20 @@ export default function Footer() {
 
               {/* Social Links */}
               <div className="flex gap-4">
-                {navigation.links.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-blue-400 transition-colors"
-                  >
-                    <link.icon className="w-6 h-6" />
-                  </a>
-                ))}
+                {navigation.links.map((link) => {
+                  const Icon = link.icon;
+                  return Icon ? (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-blue-400 transition-colors"
+                    >
+                      <Icon className="w-6 h-6" />
+                    </a>
+                  ) : null;
+                })}
               </div>
             </div>
           </div>
@@ -272,15 +306,18 @@ export default function Footer() {
             
             {/* Social icons for mobile */}
             <div className="flex gap-6 sm:hidden">
-              {navigation.links.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className={isTech ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-white'}
-                >
-                  <link.icon className="w-5 h-5" />
-                </a>
-              ))}
+              {navigation.links.map((link) => {
+                const Icon = link.icon;
+                return Icon ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className={isTech ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-white'}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                ) : null;
+              })}
             </div>
           </div>
         </div>

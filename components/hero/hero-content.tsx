@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {cn} from "@/lib/utils";
+import { useScroll } from "@/context/scroll-context";
 
 interface HeroContentProps {
   isStudio: boolean;
@@ -28,6 +29,24 @@ const taglines = [
 
 export function HeroContent({ isStudio }: HeroContentProps) {
   const [currentTagline, setCurrentTagline] = useState(0);
+  const { gradientProgress } = useScroll();
+
+  const gradientStyle = {
+    backgroundImage: `linear-gradient(to right, 
+      rgb(${Math.round(40 * (1 - gradientProgress) + 234 * gradientProgress)}, 
+          ${Math.round(50 * (1 - gradientProgress) + 179 * gradientProgress)}, 
+          ${Math.round(255 * (1 - gradientProgress) + 8 * gradientProgress)}) 0%,
+      rgb(${Math.round(30 * (1 - gradientProgress) + 245 * gradientProgress)}, 
+          ${Math.round(35 * (1 - gradientProgress) + 217 * gradientProgress)}, 
+          ${Math.round(255 * (1 - gradientProgress) + 255 * gradientProgress)}) 45%,
+      rgb(${Math.round(20 * (1 - gradientProgress) + 255 * gradientProgress)}, 
+          ${Math.round(25 * (1 - gradientProgress) + 255 * gradientProgress)}, 
+          ${Math.round(255 * (1 - gradientProgress) + 255 * gradientProgress)}) 100%)`,
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    color: 'transparent',
+    transition: 'background-image 0.3s ease-out'
+  } as React.CSSProperties;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -71,7 +90,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
             <span className="text-indigo-200 pb-4">
               {taglines[currentTagline].line1}
             </span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-indigo-500 to-indigo-600 whitespace-nowrap pb-4">
+            <span style={gradientStyle} className="whitespace-nowrap pb-4">
               {taglines[currentTagline].highlight}
             </span>
             <span className="text-white/90 pb-4">

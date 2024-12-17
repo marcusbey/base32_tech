@@ -3,6 +3,7 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
 import BookingModal from "./booking-modal";
+import { useScroll } from "@/context/scroll-context";
 
 import {
   Bot,
@@ -62,6 +63,7 @@ export default function Services() {
   const [isBookingOpen, setIsBookingOpen] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(false);
   const sectionRef = React.useRef<HTMLElement>(null);
+  const { setGradientProgress } = useScroll();
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -82,6 +84,30 @@ export default function Services() {
 
     return () => observer.disconnect();
   }, []);
+
+  React.useEffect(() => {
+    const calculateProgress = () => {
+      if (!sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const halfScreen = windowHeight / 2;
+      
+      // Calculate progress based on section position relative to half screen
+      const distanceFromHalf = rect.top - halfScreen;
+      const startDistance = windowHeight; // Start transition one screen height before half
+      
+      let progress = 1 - (distanceFromHalf / startDistance);
+      progress = Math.max(0, Math.min(1, progress)); // Clamp between 0 and 1
+      
+      setGradientProgress(progress);
+    };
+
+    window.addEventListener('scroll', calculateProgress);
+    calculateProgress(); // Initial calculation
+
+    return () => window.removeEventListener('scroll', calculateProgress);
+  }, [setGradientProgress]);
 
   return (
     <section

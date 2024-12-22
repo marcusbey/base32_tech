@@ -24,6 +24,13 @@ const services = [
     gradient: "from-blue-600/10 via-cyan-500/5 to-transparent"
   },
   {
+    icon: AppWindow,
+    title: "AI Native Applications",
+    description: "Build AI-first, scalable applications.",
+    details: "Develop applications with AI at their core, ensuring intelligence is built-in, not bolted-on, for truly modern solutions.",
+    gradient: "from-indigo-600/10 via-violet-500/5 to-transparent"
+  },
+  {
     icon: Workflow,
     title: "Process Automation",
     description: "Simplify processes and maximize productivity.",
@@ -50,13 +57,6 @@ const services = [
     description: "Extract valuable data from any web source.",
     details: "Automate data collection from websites, transform raw data into structured formats, and gain actionable insights.",
     gradient: "from-blue-600/10 via-cyan-500/5 to-transparent"
-  },
-  {
-    icon: AppWindow,
-    title: "AI Applications",
-    description: "Build smarter, scalable applications fast.",
-    details: "Develop AI-integrated web and mobile applications tailored to your business needs, ready to scale.",
-    gradient: "from-indigo-600/10 via-violet-500/5 to-transparent"
   }
 ];
 

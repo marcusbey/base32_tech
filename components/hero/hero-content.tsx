@@ -16,9 +16,9 @@ const taglines = [
     line2: "Faster Scaling, Greater Success"
   },
   {
-    line1: "Revolutionizing Production",
-    highlight: "Digital Agents",
-    line2: "Driving Speed and Efficiency"
+    line1: "Building Tomorrow's",
+    highlight: "AI-Native Apps",
+    line2: "Breaking Traditional Constraints"
   },
   {
     line1: "Your Application",

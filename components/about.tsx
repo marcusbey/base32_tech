@@ -47,7 +47,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-blue-400"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-[500] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-blue-400"
               >
                 About
                 <br />
@@ -61,7 +61,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                className="mt-3 sm:mt-4 md:mt-6 text-sm sm:text-base md:text-lg lg:text-xl text-gray-400"
+                className="mt-3 sm:mt-4 md:mt-6 text-sm sm:text-base md:text-lg lg:text-xl text-gray-400 font-light"
               >
                 Crafting intelligent solutions at the intersection of
                 <span className="text-blue-400"> AI and innovation</span>
@@ -76,28 +76,28 @@ export default function About() {
               className="space-y-4 sm:space-y-6 md:space-y-8"
             >
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-semibold mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-[500] mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Mission
                 </h3>
-                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
                   At BASE32, we harness the power of artificial intelligence to solve complex business challenges. Our mission is to make advanced AI technology accessible and impactful, helping businesses automate, innovate, and thrive in an AI-driven world.
                 </p>
               </div>
 
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-semibold mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-[500] mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Vision
                 </h3>
-                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
                   We envision a future where AI enhances every aspect of business operations. Through cutting-edge LLMs, machine learning, and custom AI solutions, we're building intelligent systems that transform how businesses operate and compete.
                 </p>
               </div>
 
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-semibold mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-[500] mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Expertise
                 </h3>
-                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
                   We specialize in developing sophisticated AI solutions, from custom LLM applications to automated workflows. Our team combines deep technical knowledge with strategic insight to deliver AI systems that drive real business value.
                 </p>
               </div>
@@ -143,10 +143,10 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
               className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 z-20"
             >
-              <h3 className="text-xl sm:text-2xl font-semibold text-white mb-1">
+              <h3 className="text-xl sm:text-2xl font-[500] text-white mb-1">
                 Romain BOBOE
               </h3>
-              <p className="text-sm sm:text-base text-gray-300 mb-3 sm:mb-4">Founder, Tech Lead</p>
+              <p className="text-sm sm:text-base text-gray-300 mb-3 sm:mb-4 font-light">Founder, Tech Lead</p>
               <div className="flex gap-3 sm:gap-4">
                 <Link
                   href="https://www.linkedin.com/in/romainboboe/"

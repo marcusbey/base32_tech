@@ -23,7 +23,7 @@ export function StatusBadge({ isStudio }: StatusBadgeProps) {
           ease: "easeInOut"
         }}
       />
-      <span className={`text-xs uppercase tracking-wider ${
+      <span className={`text-xs uppercase tracking-wider font-light ${
         isStudio ? 'text-indigo-400' : 'text-yellow-400'
       }`}>
         Available Now

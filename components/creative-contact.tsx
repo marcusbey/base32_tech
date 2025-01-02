@@ -102,14 +102,14 @@ const Testimonial = memo(function Testimonial({
       className="flex-1 p-4 sm:p-8"
     >
       <div
-        className={`text-lg sm:text-xl mb-3 sm:mb-4 ${
+        className={`text-lg sm:text-xl mb-3 sm:mb-4 font-light ${
           isTech ? "text-yellow-400" : "text-indigo-500"
         }`}
       >
         &quot;
       </div>
       <p
-        className={`text-base sm:text-lg mb-4 sm:mb-6 ${
+        className={`text-base sm:text-lg mb-4 sm:mb-6 font-light ${
           isTech ? "text-gray-300" : "text-gray-600"
         }`}
       >
@@ -117,14 +117,14 @@ const Testimonial = memo(function Testimonial({
       </p>
       <div>
         <p
-          className={`font-medium ${
+          className={`font-[500] ${
             isTech ? "text-white" : "text-gray-900"
           }`}
         >
           {author}
         </p>
         <p
-          className={`text-sm ${
+          className={`text-sm font-light ${
             isTech ? "text-gray-400" : "text-gray-500"
           }`}
         >
@@ -147,7 +147,7 @@ const SubmitButton = memo(function SubmitButton({
       type="submit"
       disabled={isSubmitting}
       whileHover={{ scale: 1.02 }}
-      className={`w-full sm:w-auto py-2 sm:py-3 px-4 sm:px-6 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+      className={`w-full sm:w-auto py-2 sm:py-3 px-4 sm:px-6 rounded-xl font-light flex items-center justify-center gap-2 ${
         isTech
           ? "bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
           : "bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -325,7 +325,7 @@ const CreativeContact = memo(function CreativeContact() {
                 >
                   <SparkleIcon isTech={isTech} />
                   <h2
-                    className={`text-xl sm:text-2xl md:text-3xl font-bold leading-tight ${
+                    className={`text-xl sm:text-2xl md:text-3xl font-[500] leading-tight ${
                       isTech ? "text-white" : "text-gray-900"
                     }`}
                   >
@@ -337,7 +337,7 @@ const CreativeContact = memo(function CreativeContact() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className={`text-sm sm:text-base leading-normal sm:leading-7 ${
+                  className={`text-sm sm:text-base leading-normal sm:leading-7 font-light ${
                     isTech ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
@@ -418,7 +418,7 @@ const CreativeContact = memo(function CreativeContact() {
                 className="flex flex-col items-center md:items-end justify-end w-full md:w-[180px]"
               >
                 <p
-                  className={`text-base leading-normal sm:leading-7 font-medium mb-4 text-center md:text-right ${
+                  className={`text-base leading-normal sm:leading-7 font-light mb-4 text-center md:text-right ${
                     isTech ? "text-gray-300" : "text-gray-700"
                   }`}
                 >
@@ -428,7 +428,7 @@ const CreativeContact = memo(function CreativeContact() {
                   type="button"
                   onClick={() => setIsBookingOpen(true)}
                   whileHover={{ scale: 1.02 }}
-                  className={`w-full max-w-[300px] md:max-w-none py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+                  className={`w-full max-w-[300px] md:max-w-none py-3 rounded-xl font-light flex items-center justify-center gap-2 ${
                     isTech
                       ? "bg-yellow-500 hover:bg-yellow-600 text-black shadow-lg shadow-yellow-500/20"
                       : "bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/20"

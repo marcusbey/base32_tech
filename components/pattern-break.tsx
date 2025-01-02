@@ -31,7 +31,7 @@ export default function PatternBreak() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className={`text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-6 max-w-3xl ${
+          className={`text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-[500] mb-3 sm:mb-6 max-w-3xl ${
             isTech 
               ? "bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400" 
               : "bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-400"
@@ -44,9 +44,9 @@ export default function PatternBreak() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl"
+          className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl font-light"
         >
-          Harness the power of adaptive AI to stay ahead in the digital race
+          Harness the power of adaptive AI to stay ahead <br />in the digital race
         </motion.p>
       </div>
     </section>

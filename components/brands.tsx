@@ -120,7 +120,7 @@ const BrandCard = memo(function BrandCard({
         </div>
         <h3
           className={cn(
-            "text-2xl font-normal transition-colors duration-300",
+            "text-2xl font-[500] transition-colors duration-300",
             isTech
               ? "text-white group-hover:text-yellow-50"
               : "text-gray-900 group-hover:text-indigo-900"
@@ -132,7 +132,7 @@ const BrandCard = memo(function BrandCard({
 
       <p
         className={cn(
-          "mt-4 text-sm transition-colors duration-300",
+          "mt-4 text-sm font-light transition-colors duration-300",
           isTech
             ? "text-gray-400 group-hover:text-gray-300"
             : "text-gray-600 group-hover:text-gray-700"
@@ -152,7 +152,7 @@ const BrandCard = memo(function BrandCard({
             <div
               key={idx}
               className={cn(
-                "flex items-center gap-2",
+                "flex items-center gap-2 font-light",
                 isTech ? "text-gray-400" : "text-gray-600"
               )}
             >
@@ -254,7 +254,7 @@ const Brands = memo(function Brands() {
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
             >
-              <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
+              <h2 className="text-4xl lg:text-5xl font-[500] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
                 Partner with
                 <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
@@ -262,7 +262,7 @@ const Brands = memo(function Brands() {
                 </span>
               </h2>
               <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl -z-10" />
-              <p className="mt-6 text-lg lg:text-xl text-gray-400">
+              <p className="mt-6 text-lg lg:text-xl font-light text-gray-400">
                 {isTech
                   ? "Join forward-thinking enterprises and innovative startups who have achieved "
                   : "Join visionary companies who have transformed their digital presence with "}

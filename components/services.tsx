@@ -130,7 +130,7 @@ export default function Services() {
               className="relative animate-fade-up"
               style={{ "--animation-delay": "0ms" } as React.CSSProperties}
             >
-              <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400 animate-hero-gradient">
+              <h2 className="text-4xl lg:text-5xl font-[500] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400 animate-hero-gradient">
                 Automate Your Business,
                 <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
@@ -138,7 +138,7 @@ export default function Services() {
                 </span>
               </h2>
               <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl z-20" />
-              <p className="mt-6 text-lg lg:text-xl text-gray-400">
+              <p className="mt-6 text-lg lg:text-xl text-gray-400 font-light">
                 Our AI solutions help businesses reduce costs by 60% while 
                 <span className="text-yellow-400"> tripling their operational efficiency</span>
               </p>
@@ -153,14 +153,14 @@ export default function Services() {
               style={{ "--animation-delay": "200ms" } as React.CSSProperties}
             >
               <div className="space-y-8">
-                <p className="text-lg lg:text-xl leading-[1.8] text-gray-300">
+                <p className="text-lg lg:text-xl leading-[1.8] text-gray-300 font-light">
                   Transform your business operations with our enterprise-grade
                   automation solutions. We specialize in developing intelligent
                   systems that reduce operational costs, eliminate human error,
                   and accelerate growth.
                 </p>
 
-                <div className="text-base lg:text-lg leading-[1.6] text-gray-400">
+                <div className="text-base lg:text-lg leading-[1.6] text-gray-400 font-light">
                   <p className="mb-6">Our solutions have helped companies achieve:</p>
                   <ul className="space-y-3">
                     <li className="flex items-center gap-2">
@@ -179,7 +179,7 @@ export default function Services() {
                 </div>
 
                 <button 
-                  className="inline-flex items-center px-12 py-3 rounded-full text-white font-medium text-base lg:text-lg bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 duration-300"
+                  className="inline-flex items-center px-12 py-3 rounded-full text-white font-light text-base lg:text-lg bg-gradient-to-r from-yellow-500/20 to-yellow-500/10 border border-yellow-500/20 hover:border-yellow-500/40 duration-300"
                   onClick={() => setIsBookingOpen(true)}
                 >
                   Book a Call
@@ -226,14 +226,14 @@ export default function Services() {
                   <div className="relative z-10">
                     <service.icon className="w-5 h-5 lg:w-6 lg:h-6 mb-3 text-yellow-400 group-hover:text-yellow-400/90 duration-300" />
                     <div className="space-y-4">
-                      <h3 className="text-lg font-semibold leading-tight text-gray-100">
+                      <h3 className="text-lg font-[500] text-white mb-2">
                         {service.title}
                       </h3>
-                      <p className="text-sm leading-normal sm:leading-6 text-gray-400">
+                      <p className="text-sm text-gray-400 font-light">
                         {service.description}
                       </p>
                     </div>
-                    <p className="text-gray-400 leading-relaxed text-xs lg:text-sm group-hover:text-gray-400/90">
+                    <p className="mt-2 text-sm text-gray-500 font-light">
                       {service.details}
                     </p>
                   </div>

@@ -36,7 +36,7 @@ export function TopMenu() {
         <div className="flex-1 flex justify-end">
           <Link href={`${siteConfig.baseUrl}/#contact-section`}>
             <motion.button
-              className={`relative px-2.5 sm:px-4 py-1 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase tracking-wide border ${
+              className={`relative px-2.5 sm:px-4 py-1 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase tracking-wide border font-light ${
                 isStudio 
                   ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
                   : 'border-white/20 text-white hover:border-yellow-400'

@@ -240,14 +240,14 @@ export default function Testimonials() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               >
-                 <h2 className={`text-4xl lg:text-5xl font-semibold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-br from-white via-yellow-100 to-yellow-300`}>
+                 <h2 className={`text-4xl lg:text-5xl font-[500] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-br from-white via-yellow-100 to-yellow-300`}>
                   Client Success
                   <br />
                   <span className="bg-clip-text text-transparent bg-gradient-to-br from-yellow-300 via-yellow-200 to-white/90">
                     Stories
                   </span>
                 </h2>
-                <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-gray-400">
+                <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-gray-400 font-light">
                   {isTech
                     ? "Join companies who have achieved "
                     : "Join businesses who have transformed with "}
@@ -288,19 +288,19 @@ export default function Testimonials() {
                           isTech ? 'text-yellow-400' : 'text-indigo-500'
                         }`} />
                         
-                        <p className={`text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 leading-normal sm:leading-relaxed ${
+                        <p className={`text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 leading-normal sm:leading-relaxed font-light ${
                           isTech ? 'text-white' : 'text-gray-800'
                         }`}>
                           {currentTestimonials[currentIndex].quote}
                         </p>
                         
                         <div>
-                          <p className={`font-semibold text-sm sm:text-base ${
+                          <p className={`font-[500] text-sm sm:text-base ${
                             isTech ? 'text-white' : 'text-gray-900'
                           }`}>
                             {currentTestimonials[currentIndex].author}
                           </p>
-                          <p className={`text-xs sm:text-sm ${
+                          <p className={`text-xs sm:text-sm font-light ${
                             isTech ? 'text-gray-400' : 'text-gray-600'
                           }`}>
                             {currentTestimonials[currentIndex].role}

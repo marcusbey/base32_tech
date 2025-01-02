@@ -75,13 +75,13 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         <h1
           className={cn(
             "text-7xl md:text-9xl",
-            "font-semibold leading-none tracking-tight",
+            "font-[500] leading-none tracking-tight",
             "bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
           )}
         >
           Creative Design Solutions
         </h1>
-        <p className="text-xl md:text-2xl text-gray-700 max-w-2xl mt-6">
+        <p className="text-xl md:text-2xl text-gray-700 max-w-2xl mt-6 font-light">
           We craft brands and user experiences for companies building a brighter future. Our design-driven approach transforms ideas into impactful digital experiences.
         </p>
       </div>
@@ -99,7 +99,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
             animate="animate"
             exit="exit"
             transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white absolute inset-0 flex flex-col items-start"
+            className="text-4xl md:text-5xl lg:text-6xl font-light text-white absolute inset-0 flex flex-col items-start"
           >
             <span className="text-indigo-200 pb-4">
               {currentTaglineContent.line1}
@@ -118,7 +118,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         initial="initial"
         animate="animate"
         transition={{ delay: 0.3, duration: 0.5 }}
-        className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none mt-12 lg:mt-16"
+        className="text-xl md:text-2xl text-white/70 max-w-2xl backdrop-blur-sm lg:backdrop-blur-none mt-12 lg:mt-16 font-light"
       >
         AI automation cuts development costs by 60% and ships products 10x faster. Seamlessly integrate intelligent agents into your workflow and deliver value to your customers in days not months.
       </motion.p>

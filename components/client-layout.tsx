@@ -1,7 +1,6 @@
 "use client";
 
 import { CompanyProvider } from "@/lib/company-context";
-import AIBanner from "./ai-banner";
 
 export default function ClientLayout({
   children,
@@ -10,7 +9,6 @@ export default function ClientLayout({
 }) {
   return (
     <CompanyProvider>
-      <AIBanner />
       {children}
     </CompanyProvider>
   );

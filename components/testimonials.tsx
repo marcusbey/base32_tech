@@ -240,7 +240,7 @@ export default function Testimonials() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               >
-                 <h2 className={`text-4xl lg:text-5xl font-[500] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-br from-white via-yellow-100 to-yellow-300`}>
+                 <h2 className={`text-4xl lg:text-5xl font-light tracking-tight leading-[1.2] bg-clip-text text-transparent bg-gradient-to-br from-white via-yellow-100 to-yellow-300`}>
                   Client Success
                   <br />
                   <span className="bg-clip-text text-transparent bg-gradient-to-br from-yellow-300 via-yellow-200 to-white/90">
@@ -295,7 +295,7 @@ export default function Testimonials() {
                         </p>
                         
                         <div>
-                          <p className={`font-[500] text-sm sm:text-base ${
+                          <p className={`font-light tracking-tight text-sm sm:text-base ${
                             isTech ? 'text-white' : 'text-gray-900'
                           }`}>
                             {currentTestimonials[currentIndex].author}

@@ -49,7 +49,7 @@ function Works() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl font-bold text-gray-900 mb-16 text-center"
+          className="text-4xl font-light tracking-tight text-gray-900 mb-16 text-center"
         >
           Selected Works
         </motion.h2>
@@ -115,11 +115,11 @@ function Works() {
 
                     <div className="max-w-3xl mx-auto w-full">
                       <div className="space-y-6">
-                        <h3 className="text-3xl font-semibold text-gray-900">
+                        <h3 className="text-3xl font-light tracking-tight text-gray-900">
                           {project.title}
                         </h3>
 
-                        <p className="text-gray-600 text-lg">
+                        <p className="text-gray-600 text-lg font-light">
                           {project.description}
                         </p>
 
@@ -127,7 +127,7 @@ function Works() {
                           {project.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="px-4 py-2 rounded-full text-sm bg-indigo-50 text-indigo-600 font-medium"
+                              className="px-4 py-2 rounded-full text-sm bg-indigo-50 text-indigo-600 font-light tracking-tight"
                             >
                               {tag}
                             </span>
@@ -137,7 +137,7 @@ function Works() {
                         <motion.a
                           href={project.link}
                           whileHover={{ x: 4 }}
-                          className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 transition-colors font-medium"
+                          className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 transition-colors font-light tracking-tight"
                         >
                           View Project Details
                           <ExternalLink className="w-4 h-4" />

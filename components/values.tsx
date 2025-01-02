@@ -272,11 +272,11 @@ export default function Values() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className={`text-4xl sm:text-5xl md:text-6xl font-[500] mb-4 bg-gradient-to-r ${
+              className={`text-4xl sm:text-5xl md:text-6xl font-light mb-4 bg-gradient-to-r ${
                 isTech 
                   ? "from-blue-600 via-blue-500 to-blue-400"
                   : "from-indigo-600 via-indigo-500 to-indigo-400"
-              } bg-clip-text text-transparent text-right ml-auto py-4 leading-tight sm:leading-loose`}
+              } bg-clip-text text-transparent text-right ml-auto py-4 leading-tight sm:leading-loose font-light tracking-tight`}
             >
               Committed to Your Success,
               <br className="hidden sm:block" />
@@ -322,7 +322,7 @@ export default function Values() {
                   } as React.CSSProperties}
                 >
                   <div className="relative z-10">
-                    <h3 className="text-xl sm:text-2xl font-[500] text-white mb-3 sm:mb-4 leading-tight transition-transform duration-300 group-hover:translate-y-[-2px]">
+                    <h3 className="text-xl sm:text-2xl font-light text-white mb-3 sm:mb-4 leading-tight transition-transform duration-300 group-hover:translate-y-[-2px] tracking-tight">
                       {value.title}
                     </h3>
                     <p className="text-gray-400 leading-normal sm:leading-relaxed text-sm sm:text-base transition-transform duration-300 group-hover:translate-y-[-2px] font-light">

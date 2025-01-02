@@ -117,7 +117,7 @@ const Testimonial = memo(function Testimonial({
       </p>
       <div>
         <p
-          className={`font-[500] ${
+          className={`font-light ${
             isTech ? "text-white" : "text-gray-900"
           }`}
         >
@@ -325,7 +325,7 @@ const CreativeContact = memo(function CreativeContact() {
                 >
                   <SparkleIcon isTech={isTech} />
                   <h2
-                    className={`text-xl sm:text-2xl md:text-3xl font-[500] leading-tight ${
+                    className={`text-xl sm:text-2xl md:text-3xl font-light leading-tight ${
                       isTech ? "text-white" : "text-gray-900"
                     }`}
                   >

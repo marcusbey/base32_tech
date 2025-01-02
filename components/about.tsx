@@ -47,7 +47,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-[500] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-blue-400"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-tight leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-blue-400"
               >
                 About
                 <br />
@@ -76,7 +76,7 @@ export default function About() {
               className="space-y-4 sm:space-y-6 md:space-y-8"
             >
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-[500] mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Mission
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
@@ -85,7 +85,7 @@ export default function About() {
               </div>
 
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-[500] mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Vision
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
@@ -94,7 +94,7 @@ export default function About() {
               </div>
 
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-[500] mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
                   Our Expertise
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
@@ -143,7 +143,7 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
               className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 z-20"
             >
-              <h3 className="text-xl sm:text-2xl font-[500] text-white mb-1">
+              <h3 className="text-xl sm:text-2xl font-light tracking-tight text-white mb-1">
                 Romain BOBOE
               </h3>
               <p className="text-sm sm:text-base text-gray-300 mb-3 sm:mb-4 font-light">Founder, Tech Lead</p>

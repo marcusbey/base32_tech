@@ -120,7 +120,7 @@ const BrandCard = memo(function BrandCard({
         </div>
         <h3
           className={cn(
-            "text-2xl font-[500] transition-colors duration-300",
+            "text-2xl font-light transition-colors duration-300",
             isTech
               ? "text-white group-hover:text-yellow-50"
               : "text-gray-900 group-hover:text-indigo-900"
@@ -254,7 +254,7 @@ const Brands = memo(function Brands() {
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
             >
-              <h2 className="text-4xl lg:text-5xl font-[500] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
+              <h2 className="text-4xl lg:text-5xl font-light leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
                 Partner with
                 <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">

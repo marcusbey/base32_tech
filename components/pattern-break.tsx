@@ -31,7 +31,7 @@ export default function PatternBreak() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className={`text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-[500] mb-3 sm:mb-6 max-w-3xl ${
+          className={`text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-3 sm:mb-6 max-w-3xl ${
             isTech 
               ? "bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400" 
               : "bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-400"

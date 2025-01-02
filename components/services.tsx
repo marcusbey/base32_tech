@@ -130,7 +130,7 @@ export default function Services() {
               className="relative animate-fade-up"
               style={{ "--animation-delay": "0ms" } as React.CSSProperties}
             >
-              <h2 className="text-4xl lg:text-5xl font-[500] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400 animate-hero-gradient">
+              <h2 className="text-4xl lg:text-5xl font-light tracking-tight leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400 animate-hero-gradient">
                 Automate Your Business,
                 <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
@@ -199,7 +199,10 @@ export default function Services() {
                     "hover:border-white/20 hover:shadow-lg hover:shadow-white/5",
                     "duration-300"
                   )}
-                  style={{ "--animation-delay": `${300 + (index * 100)}ms` } as React.CSSProperties}
+                  style={{
+                    "--animation-delay": `${(index + 4) * 100}ms`,
+                    backgroundImage: `linear-gradient(to tr, ${service.gradient})`
+                  } as React.CSSProperties}
                 >
                   {/* Base gradient */}
                   <div className={cn(
@@ -224,19 +227,17 @@ export default function Services() {
 
                   {/* Content */}
                   <div className="relative z-10">
-                    <service.icon className="w-5 h-5 lg:w-6 lg:h-6 mb-3 text-yellow-400 group-hover:text-yellow-400/90 duration-300" />
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-[500] text-white mb-2">
-                        {service.title}
-                      </h3>
-                      <p className="text-sm text-gray-400 font-light">
-                        {service.description}
-                      </p>
-                    </div>
-                    <p className="mt-2 text-sm text-gray-500 font-light">
-                      {service.details}
+                    <service.icon className="w-8 h-8 text-white mb-4" />
+                    <h3 className="text-xl font-light tracking-tight text-white mb-2">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm text-gray-400 font-light">
+                      {service.description}
                     </p>
                   </div>
+                  <p className="mt-2 text-sm text-gray-500 font-light">
+                    {service.details}
+                  </p>
                 </div>
               ))}
             </div>

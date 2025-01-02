@@ -93,7 +93,7 @@ function Pricing() {
           className="text-center max-w-2xl mx-auto mb-16"
         >
           <h2
-            className={`text-3xl lg:text-5xl font-[500] mb-4 ${
+            className={`text-3xl lg:text-5xl font-light tracking-tight mb-4 ${
               isTech ? "text-white" : "text-gray-900"
             }`}
           >
@@ -122,7 +122,7 @@ function Pricing() {
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
                   <h3
-                    className={`text-xl lg:text-2xl font-[500] ${
+                    className={`text-xl lg:text-2xl font-light tracking-tight ${
                       isTech ? "text-white" : "text-gray-900"
                     }`}
                   >
@@ -160,7 +160,7 @@ function Pricing() {
                         }`}
                       />
                       <div className="space-y-2">
-                        <h3 className={`text-base lg:text-lg font-[500] leading-tight ${isTech ? "text-white" : "text-gray-900"}`}>
+                        <h3 className={`text-base lg:text-lg font-light tracking-tight leading-tight ${isTech ? "text-white" : "text-gray-900"}`}>
                           {feature.title}
                         </h3>
                         <p className={`text-xs lg:text-sm leading-normal sm:leading-6 font-light ${isTech ? "text-gray-400" : "text-gray-600"}`}>
@@ -193,7 +193,7 @@ function Pricing() {
             <div className="space-y-6">
               <div>
                 <h4
-                  className={`text-xl font-[500] mb-2 ${
+                  className={`text-xl font-light tracking-tight mb-2 ${
                     isTech ? "text-white" : "text-gray-900"
                   }`}
                 >
@@ -205,7 +205,7 @@ function Pricing() {
               </div>
               <div>
                 <h4
-                  className={`text-xl font-[500] mb-2 ${
+                  className={`text-xl font-light tracking-tight mb-2 ${
                     isTech ? "text-white" : "text-gray-900"
                   }`}
                 >

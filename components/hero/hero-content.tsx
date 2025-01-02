@@ -75,7 +75,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
         <h1
           className={cn(
             "text-7xl md:text-9xl",
-            "font-[500] leading-none tracking-tight",
+            "font-light leading-none tracking-tight",
             "bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
           )}
         >

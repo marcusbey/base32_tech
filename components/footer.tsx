@@ -164,7 +164,7 @@ export default function Footer() {
     links: [
       { name: 'X', href: 'https://x.com/romainbey', icon: XIcon },
       { name: 'GitHub', href: 'https://github.com/marcusbey', icon: Github },
-      { name: 'LinkedIn', href: 'https://linkedin.com/company/base32-tech/', icon: Linkedin },
+      { name: 'LinkedIn', href: 'https://linkedin.com/company/base32-tech', icon: Linkedin },
     ],
   };
 

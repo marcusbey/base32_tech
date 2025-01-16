@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useCompany } from "@/lib/company-context";
 import { Building2, Rocket } from "lucide-react";
 import { useEffect, useRef, useState, memo, useMemo, useCallback } from "react";
@@ -220,15 +221,25 @@ const Brands = memo(function Brands() {
         }
         .logos {
           display: flex;
-          gap: 8rem;
+          gap: 2rem;
           animation: scroll 80s linear infinite;
+        }
+        @media (min-width: 640px) {
+          .logos {
+            gap: 4rem;
+          }
+        }
+        @media (min-width: 1024px) {
+          .logos {
+            gap: 8rem;
+          }
         }
         @keyframes scroll {
           0% {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(calc(-50% - 4rem));
+            transform: translateX(calc(-50% - var(--gap, 2rem)));
           }
         }
         .gradient-mask {
@@ -305,16 +316,18 @@ const Brands = memo(function Brands() {
       </div>
 
       {/* Logo Carousel */}
-      <div className="w-full bg-background/50 backdrop-blur-sm py-8 mt-8">
+      <div className="w-full bg-background/50 backdrop-blur-sm py-4 sm:py-6 md:py-8 mt-8">
         <div className="container mx-auto px-4">
-          <h3 className="text-center text-xl font-semibold mb-6">Trusted by Industry Leaders</h3>
           <div className="relative flex overflow-hidden gradient-mask">
-            <div className="logos">
+            <div 
+              className="logos" 
+              style={{ ["--gap" as string]: "2rem" } as React.CSSProperties}
+            >
               {[...clientLogos, ...clientLogos].map((logo, index) => (
                 <div
                   key={index}
                   className={cn(
-                    "flex-shrink-0 h-12 w-32 relative grayscale hover:grayscale-0 transition-all duration-300",
+                    "flex-shrink-0 h-8 w-24 sm:h-10 sm:w-28 md:h-12 md:w-32 relative grayscale hover:grayscale-0 transition-all duration-300",
                     logo.className
                   )}
                 >
@@ -323,7 +336,7 @@ const Brands = memo(function Brands() {
                     alt={logo.alt}
                     fill
                     className="object-contain"
-                    sizes="128px"
+                    sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 128px"
                   />
                 </div>
               ))}

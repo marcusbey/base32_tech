@@ -5,6 +5,7 @@ import { Building2, Rocket } from "lucide-react";
 import { useEffect, useRef, useState, memo, useMemo, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { useThrottledCallback } from "@/lib/performance";
+import Image from "next/image";
 
 const sectors = {
   tech: [
@@ -71,6 +72,14 @@ const sectors = {
 
 type SectorType = typeof sectors.tech[number] | typeof sectors.studio[number];
 
+const clientLogos = [
+  { src: "/logos/bell.png", alt: "Bell" },
+  { src: "/logos/compozit.png", alt: "Compozit" },
+  { src: "/logos/grics.png", alt: "Grics" },
+  { src: "/logos/jda.png", alt: "JDA" },
+  { src: "/logos/northscale.png", alt: "Northscale", className: "h-16" },
+];
+
 const BrandCard = memo(function BrandCard({
   sector,
   index,
@@ -78,7 +87,6 @@ const BrandCard = memo(function BrandCard({
   isTech,
   isInView,
   onClick,
-  ref,
 }: {
   sector: SectorType;
   index: number;
@@ -86,11 +94,9 @@ const BrandCard = memo(function BrandCard({
   isTech: boolean;
   isInView: boolean;
   onClick: () => void;
-  ref?: React.RefObject<HTMLDivElement>;
 }) {
   return (
     <div
-      ref={ref}
       className={cn(
         "brand-card p-6 rounded-2xl backdrop-blur-lg cursor-pointer",
         isActive && "active",
@@ -118,6 +124,7 @@ const BrandCard = memo(function BrandCard({
             )}
           />
         </div>
+
         <h3
           className={cn(
             "text-2xl font-light transition-colors duration-300",
@@ -138,15 +145,10 @@ const BrandCard = memo(function BrandCard({
             : "text-gray-600 group-hover:text-gray-700"
         )}
       >
-        {isActive ? sector.fullDescription : sector.description}
+        {sector.fullDescription}
       </p>
 
-      <div
-        className={cn(
-          "content overflow-hidden transition-all duration-500",
-          isActive ? "mt-6" : ""
-        )}
-      >
+      <div className="mt-6">
         <div className="grid md:grid-cols-2 gap-4">
           {sector.benefits.map((benefit, idx) => (
             <div
@@ -178,16 +180,10 @@ const Brands = memo(function Brands() {
     [company]
   );
   const isTech = company === "tech";
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const secondCardRef = useRef<HTMLDivElement>(null);
-  const lastScrollY = useRef(0);
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         setIsInView(entries[0].isIntersecting);
@@ -195,38 +191,12 @@ const Brands = memo(function Brands() {
       { threshold: 0.1 }
     );
 
-    observer.observe(section);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
     return () => observer.disconnect();
   }, []);
-
-  const handleScroll = useThrottledCallback(() => {
-    const secondCard = secondCardRef.current;
-    if (!secondCard) return;
-
-    const rect = secondCard.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-    const cardMiddle = rect.top + rect.height / 2;
-    const viewportMiddle = windowHeight / 2;
-    const currentScrollY = window.scrollY;
-    const scrollingDown = currentScrollY > lastScrollY.current;
-    
-    const isNearMiddle = Math.abs(cardMiddle - viewportMiddle) < 100;
-    
-    if (isNearMiddle) {
-      setActiveIndex(scrollingDown ? 1 : 0);
-    }
-    
-    lastScrollY.current = currentScrollY;
-  }, 100);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
-
-  const handleCardClick = useCallback((index: number) => {
-    setActiveIndex(activeIndex === index ? -1 : index);
-  }, [activeIndex]);
 
   return (
     <section 
@@ -234,6 +204,50 @@ const Brands = memo(function Brands() {
       id="brands" 
       className="relative py-22 lg:py-48 overflow-hidden"
     >
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .card-fade-in {
+          animation: fadeIn 0.8s ease-out forwards;
+        }
+        .logos {
+          display: flex;
+          gap: 8rem;
+          animation: scroll 80s linear infinite;
+        }
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-50% - 4rem));
+          }
+        }
+        .gradient-mask {
+          mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 15%,
+            black 85%,
+            transparent
+          );
+          -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 15%,
+            black 85%,
+            transparent
+          );
+        }
+      `}</style>
       <div className="absolute inset-0 -z-10">
         <div
           className={cn(
@@ -275,17 +289,45 @@ const Brands = memo(function Brands() {
 
           <div className="lg:col-span-8 space-y-4">
             {currentSectors.map((sector, index) => (
-              <BrandCard
-                key={sector.name}
-                sector={sector}
-                index={index}
-                isActive={activeIndex === index}
-                isTech={isTech}
-                isInView={isInView}
-                onClick={() => handleCardClick(index)}
-                ref={index === 1 ? secondCardRef : undefined}
-              />
+              <div key={sector.name} className="card-fade-in" style={{ animationDelay: `${index * 0.2}s` }}>
+                <BrandCard
+                  sector={sector}
+                  index={index}
+                  isActive={true}
+                  isTech={isTech}
+                  isInView={isInView}
+                  onClick={() => {}}
+                />
+              </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Logo Carousel */}
+      <div className="w-full bg-background/50 backdrop-blur-sm py-8 mt-8">
+        <div className="container mx-auto px-4">
+          <h3 className="text-center text-xl font-semibold mb-6">Trusted by Industry Leaders</h3>
+          <div className="relative flex overflow-hidden gradient-mask">
+            <div className="logos">
+              {[...clientLogos, ...clientLogos].map((logo, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "flex-shrink-0 h-12 w-32 relative grayscale hover:grayscale-0 transition-all duration-300",
+                    logo.className
+                  )}
+                >
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    fill
+                    className="object-contain"
+                    sizes="128px"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

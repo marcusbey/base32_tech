@@ -140,14 +140,21 @@ const config: Config = {
           },
         },
         marquee: {
-          from: { transform: "translateX(0)" },
-          to: { transform: "translateX(calc(-100% - var(--gap)))" },
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' }
+        },
+        marquee2: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' }
         },
         'marquee-vertical': {
           from: { transform: "translateY(0)" },
           to: { transform: "translateY(calc(-100% - var(--gap)))" },
         },
-        // New animations for section consistency
+        slide: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        },
         'slide-in-left': {
           "0%": { transform: "translateX(-100%)", opacity: "0" },
           "100%": { transform: "translateX(0)", opacity: "1" }
@@ -172,6 +179,14 @@ const config: Config = {
         'blur-in': {
           "0%": { filter: "blur(5px)", opacity: "0" },
           "100%": { filter: "blur(0)", opacity: "1" }
+        },
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        },
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-100% - 8rem))' }  // 8rem accounts for the gap
         }
       },
       animation: {
@@ -184,15 +199,18 @@ const config: Config = {
         'fade-up': 'fade-up 1000ms var(--animation-delay, 0ms) ease forwards',
         spotlight: "spotlight 2s ease .75s 1 forwards",
         shimmer: 'shimmer 8s infinite',
-        marquee: 'marquee var(--duration) infinite linear',
+        marquee: 'marquee 40s linear infinite',
+        marquee2: 'marquee2 40s linear infinite',
         'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
-        // New animations
+        slide: 'slide 30s linear infinite',
         'slide-left': 'slide-in-left 0.6s ease-out',
         'slide-right': 'slide-in-right 0.6s ease-out',
         'scale': 'scale-in 0.6s ease-out',
         'hero-gradient': 'hero-gradient 6s ease infinite',
         'float': 'float 3s ease-in-out infinite',
-        'blur-in': 'blur-in 0.6s ease-out'
+        'blur-in': 'blur-in 0.6s ease-out',
+        scroll: 'scroll 20s linear infinite',
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
       },
     },
   },

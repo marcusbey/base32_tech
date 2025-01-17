@@ -4,6 +4,7 @@ import React from 'react';
 import { cn } from "@/lib/utils";
 import BookingModal from "./booking-modal";
 import { useScroll } from "@/context/scroll-context";
+import LogoCarousel from './logo-carousel';
 
 import {
   Bot,
@@ -200,48 +201,22 @@ export default function Services() {
                     "duration-300"
                   )}
                   style={{
-                    "--animation-delay": `${(index + 4) * 100}ms`,
-                    backgroundImage: `linear-gradient(to tr, ${service.gradient})`
+                    "--animation-delay": `${(index + 6) * 100}ms`,
                   } as React.CSSProperties}
                 >
-                  {/* Base gradient */}
-                  <div className={cn(
-                    "absolute inset-0 rounded-2xl",
-                    "bg-gradient-to-tr",
-                    service.gradient,
-                    "-z-10"
-                  )} />
-
-                  {/* Hover gradient effect */}
-                  <div className={cn(
-                    "absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 duration-300",
-                    "bg-gradient-to-tr",
-                    service.gradient.includes("blue") ? "from-blue-400/30 via-cyan-400/20 to-transparent" :
-                    service.gradient.includes("purple") ? "from-purple-400/30 via-pink-400/20 to-transparent" :
-                    service.gradient.includes("emerald") ? "from-emerald-400/30 via-teal-400/20 to-transparent" :
-                    service.gradient.includes("amber") ? "from-amber-400/30 via-orange-400/20 to-transparent" :
-                    service.gradient.includes("rose") ? "from-rose-400/30 via-pink-400/20 to-transparent" :
-                    "from-indigo-400/30 via-violet-400/20 to-transparent",
-                    "-z-10"
-                  )} />
-
-                  {/* Content */}
-                  <div className="relative z-10">
-                    <service.icon className="w-8 h-8 text-white mb-4" />
-                    <h3 className="text-xl font-light tracking-tight text-white mb-2">
-                      {service.title}
-                    </h3>
-                    <p className="text-sm text-gray-400 font-light">
-                      {service.description}
-                    </p>
-                  </div>
-                  <p className="mt-2 text-sm text-gray-500 font-light">
-                    {service.details}
-                  </p>
+                  {/* Service Card Content */}
+                  <service.icon className="w-8 h-8 text-yellow-400 mb-4" />
+                  <h3 className="text-lg font-medium text-white mb-2">{service.title}</h3>
+                  <p className="text-gray-400 text-sm">{service.description}</p>
                 </div>
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Logo Carousel Section */}
+        <div className="mt-24 max-w-6xl mx-auto">
+          <LogoCarousel />
         </div>
       </div>
       <BookingModal 

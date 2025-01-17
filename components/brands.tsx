@@ -3,10 +3,8 @@
 import React from "react";
 import { useCompany } from "@/lib/company-context";
 import { Building2, Rocket } from "lucide-react";
-import { useEffect, useRef, useState, memo, useMemo, useCallback } from "react";
+import { useEffect, useRef, useState, memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { useThrottledCallback } from "@/lib/performance";
-import Image from "next/image";
 
 const sectors = {
   tech: [
@@ -72,14 +70,6 @@ const sectors = {
 } as const;
 
 type SectorType = typeof sectors.tech[number] | typeof sectors.studio[number];
-
-const clientLogos = [
-  { src: "/logos/bell.png", alt: "Bell" },
-  { src: "/logos/compozit.png", alt: "Compozit" },
-  { src: "/logos/grics.png", alt: "Grics" },
-  { src: "/logos/jda.png", alt: "JDA" },
-  { src: "/logos/northscale.png", alt: "Northscale", className: "h-16" },
-];
 
 const BrandCard = memo(function BrandCard({
   sector,
@@ -181,6 +171,7 @@ const Brands = memo(function Brands() {
     [company]
   );
   const isTech = company === "tech";
+  const [activeSector, setActiveSector] = useState<number>(0);
   const sectionRef = useRef<HTMLElement>(null);
   const [isInView, setIsInView] = useState(false);
 
@@ -205,142 +196,37 @@ const Brands = memo(function Brands() {
       id="brands" 
       className="relative py-22 lg:py-48 overflow-hidden"
     >
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .card-fade-in {
-          animation: fadeIn 0.8s ease-out forwards;
-        }
-        .logos {
-          display: flex;
-          gap: 2rem;
-          animation: scroll 80s linear infinite;
-        }
-        @media (min-width: 640px) {
-          .logos {
-            gap: 4rem;
-          }
-        }
-        @media (min-width: 1024px) {
-          .logos {
-            gap: 8rem;
-          }
-        }
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(calc(-50% - var(--gap, 2rem)));
-          }
-        }
-        .gradient-mask {
-          mask-image: linear-gradient(
-            to right,
-            transparent,
-            black 15%,
-            black 85%,
-            transparent
-          );
-          -webkit-mask-image: linear-gradient(
-            to right,
-            transparent,
-            black 15%,
-            black 85%,
-            transparent
-          );
-        }
-      `}</style>
-      <div className="absolute inset-0 -z-10">
-        <div
-          className={cn(
-            "w-full h-full",
-            isTech
-              ? "bg-black/30 backdrop-blur-xl"
-              : "bg-white/30 backdrop-blur-xl border-y border-gray-200"
-          )}
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
-          <div className="lg:col-span-4 relative">
-            <div 
-              className={cn(
-                "transition-all duration-700",
-                isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              )}
-            >
-              <h2 className="text-4xl lg:text-5xl font-light leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400">
-                Partner with
-                <br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
-                  Industry Leaders
-                </span>
-              </h2>
-              <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl -z-10" />
-              <p className="mt-6 text-lg lg:text-xl font-light text-gray-400">
-                {isTech
-                  ? "Join forward-thinking enterprises and innovative startups who have achieved "
-                  : "Join visionary companies who have transformed their digital presence with "}
-                <span className="text-yellow-400">
-                  {isTech ? "80% operational efficiency gains" : "200% engagement growth"}
-                </span>
-              </p>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+          {/* Content */}
+          <div className="relative">
+            <h2 className="text-4xl lg:text-5xl font-light tracking-tight leading-[1.2] bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-200 to-yellow-400 animate-hero-gradient">
+              We Help Companies
+              <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-white">
+                Scale with AI
+              </span>
+            </h2>
+            <div className="absolute -inset-x-4 -inset-y-2 bg-gradient-to-r from-yellow-400/10 via-yellow-300/5 to-transparent blur-2xl" />
+            <p className="mt-6 text-lg lg:text-xl text-gray-400 font-light">
+              Whether you're a startup or an enterprise,
+              <span className="text-yellow-400"> we have the expertise to help you succeed</span>
+            </p>
           </div>
 
-          <div className="lg:col-span-8 space-y-4">
+          {/* Cards */}
+          <div className="grid gap-4">
             {currentSectors.map((sector, index) => (
-              <div key={sector.name} className="card-fade-in" style={{ animationDelay: `${index * 0.2}s` }}>
-                <BrandCard
-                  sector={sector}
-                  index={index}
-                  isActive={true}
-                  isTech={isTech}
-                  isInView={isInView}
-                  onClick={() => {}}
-                />
-              </div>
+              <BrandCard
+                key={sector.name}
+                sector={sector}
+                index={index}
+                isActive={index === activeSector}
+                isTech={isTech}
+                isInView={isInView}
+                onClick={() => setActiveSector(index)}
+              />
             ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Logo Carousel */}
-      <div className="w-full bg-background/50 backdrop-blur-sm py-4 sm:py-6 md:py-8 mt-8">
-        <div className="container mx-auto px-4">
-          <div className="relative flex overflow-hidden gradient-mask">
-            <div 
-              className="logos" 
-              style={{ ["--gap" as string]: "2rem" } as React.CSSProperties}
-            >
-              {[...clientLogos, ...clientLogos].map((logo, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "flex-shrink-0 h-8 w-24 sm:h-10 sm:w-28 md:h-12 md:w-32 relative grayscale hover:grayscale-0 transition-all duration-300",
-                    logo.className
-                  )}
-                >
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 128px"
-                  />
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>

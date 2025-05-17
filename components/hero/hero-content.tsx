@@ -5,9 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {cn} from "@/lib/utils";
 import { useScroll } from "@/context/scroll-context";
 
-interface HeroContentProps {
-  isStudio: boolean;
-}
+// No longer need props as we're focusing only on tech
 
 const taglines = [
   {
@@ -38,7 +36,7 @@ const descriptionVariants = {
   animate: { opacity: 1, y: 0 }
 };
 
-export function HeroContent({ isStudio }: HeroContentProps) {
+export function HeroContent() {
   const [currentTagline, setCurrentTagline] = useState(0);
   const { gradientProgress } = useScroll();
 
@@ -69,24 +67,7 @@ export function HeroContent({ isStudio }: HeroContentProps) {
     return () => clearInterval(timer);
   }, []);
 
-  if (isStudio) {
-    return (
-      <div className="max-w-5xl">
-        <h1
-          className={cn(
-            "text-7xl md:text-9xl",
-            "font-light leading-none tracking-tight",
-            "bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-          )}
-        >
-          Creative Design Solutions
-        </h1>
-        <p className="text-xl md:text-2xl text-gray-700 max-w-2xl mt-6 font-light">
-          We craft brands and user experiences for companies building a brighter future. Our design-driven approach transforms ideas into impactful digital experiences.
-        </p>
-      </div>
-    );
-  }
+  // Tech-focused content only
 
   return (
     <div className="max-w-5xl">

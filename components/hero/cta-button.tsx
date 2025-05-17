@@ -3,11 +3,9 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-interface CTAButtonProps {
-  isStudio: boolean;
-}
+// No longer need props as we're focusing only on tech
 
-export function CTAButton({ isStudio }: CTAButtonProps) {
+export function CTAButton() {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -17,20 +15,12 @@ export function CTAButton({ isStudio }: CTAButtonProps) {
     >
       <Link href="/contact">
         <motion.button
-          className={`relative px-4 py-2 rounded-full text-xs uppercase tracking-wide border ${
-            isStudio 
-              ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
-              : 'border-white/20 text-white hover:border-yellow-400'
-          } transition-colors`}
+          className="px-6 sm:px-8 py-3 rounded-xl text-base sm:text-lg font-light tracking-tight transition-transform bg-yellow-500 hover:bg-yellow-600 text-black"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           Contact
-          <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
-            isStudio
-              ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
-              : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
-          }`} />
+          <span className="absolute inset-0 w-full h-full -z-10 opacity-50 blur-xl rounded-3xl bg-yellow-500" />
         </motion.button>
       </Link>
     </motion.div>

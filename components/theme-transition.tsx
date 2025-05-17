@@ -1,10 +1,8 @@
 "use client";
 
-import { useCompany } from "@/lib/company-context";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function ThemeTransition() {
-  const { company } = useCompany();
 
   return (
     <AnimatePresence>

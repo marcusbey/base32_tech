@@ -11,7 +11,6 @@ import { motion } from "framer-motion";
 
 export default function About() {
   const { company } = useCompany();
-  const isTech = company === "tech";
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -76,7 +75,7 @@ export default function About() {
               className="space-y-4 sm:space-y-6 md:space-y-8"
             >
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 text-blue-400">
                   Our Mission
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
@@ -85,16 +84,16 @@ export default function About() {
               </div>
 
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 text-blue-400">
                   Our Vision
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
-                  We envision a future where AI enhances every aspect of business operations. Through cutting-edge LLMs, machine learning, and custom AI solutions, we're building intelligent systems that transform how businesses operate and compete.
+                  We envision a future where AI enhances every aspect of business operations. Through cutting-edge LLMs, machine learning, and custom AI solutions, we&apos;re building intelligent systems that transform how businesses operate and compete.
                 </p>
               </div>
 
               <div>
-                <h3 className={`text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 ${isTech ? "text-blue-400" : "text-indigo-400"}`}>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-light tracking-tight mb-1.5 sm:mb-2 md:mb-3 text-blue-400">
                   Our Expertise
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed font-light">
@@ -128,9 +127,8 @@ export default function About() {
               >
                 <div className="absolute inset-0" style={{
                   backgroundImage: 
-                    `linear-gradient(to right, ${isTech ? 'rgba(59, 130, 246, 0.3)' : 'rgba(99, 102, 241, 0.3)'} 1px, transparent 1px),
-                     linear-gradient(to bottom, ${isTech ? 'rgba(59, 130, 246, 0.3)' : 'rgba(99, 102, 241, 0.3)'} 1px, transparent 1px)`,
-                  backgroundSize: '30px 30px',
+                    "linear-gradient(to right, rgba(59, 130, 246, 0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(59, 130, 246, 0.3) 1px, transparent 1px)",
+                  backgroundSize: "30px 30px",
                   opacity: 0.7,
                 }} />
               </div>

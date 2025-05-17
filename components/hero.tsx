@@ -10,9 +10,6 @@ import HeroGrid from "./shapes/hero-grid";
 export default function Hero() {
   const { company } = useCompany();
   const { scrollYProgress } = useScroll();
-  
-  const isStudio = company === "studio";
-  const isTech = company === "tech";
 
   // Scroll animations
   const gridOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
@@ -40,15 +37,8 @@ export default function Hero() {
 
       {/* Content */}
       <motion.div
-        style={isStudio ? {
-          transform: contentTransform,
-          opacity: contentOpacity,
-        } : {
-          opacity: contentOpacity
-        }}
-        className={`relative ${
-          isStudio ? "z-10" : "z-20"
-        } w-full max-w-7xl mx-auto p-4 sm:px-6 lg:px-16`}
+        style={{ opacity: contentOpacity }}
+        className="relative z-20 w-full max-w-7xl mx-auto p-4 sm:px-6 lg:px-16"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -56,8 +46,8 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="space-y-8"
         >
-          <StatusBadge isStudio={isStudio} />
-          <HeroContent isStudio={isStudio} />
+          <StatusBadge />
+          <HeroContent />
         </motion.div>
       </motion.div>
     </section>

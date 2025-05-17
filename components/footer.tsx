@@ -13,7 +13,6 @@ import Link from 'next/link';
 
 export default function Footer() {
   const { company } = useCompany();
-  const isTech = company === 'tech';
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -24,17 +23,10 @@ export default function Footer() {
   const baseDotSize = 2;
   const hoverRadius = 150;
 
-  const techColors = {
+  const colors = {
     base: ["#1E3A8A", "#1E40AF", "#1D4ED8"], // Darker blue
     bright: ["#3B82F6", "#60A5FA", "#93C5FD"],
   };
-
-  const studioColors = {
-    base: ["#4338CA", "#4F46E5", "#6366F1"],
-    bright: ["#818CF8", "#A5B4FC", "#C7D2FE"],
-  };
-
-  const colors = isTech ? techColors : studioColors;
 
   useEffect(() => {
     setIsClient(true);
@@ -172,11 +164,7 @@ export default function Footer() {
     <footer 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className={`relative overflow-hidden ${
-        isTech ? 'bg-gradient-to-b from-[#1E3A8A] to-[#1E40AF]' : 'bg-gradient-to-b from-gray-900 to-black'
-      } border-t ${
-        isTech ? 'border-blue-500/20' : 'border-gray-200/20'
-      }`}
+      className="relative overflow-hidden bg-gradient-to-b from-[#1E3A8A] to-[#1E40AF] border-t border-blue-500/20"
     >
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black pointer-events-none" />
@@ -206,11 +194,9 @@ export default function Footer() {
           {/* Logo and description */}
           <div className="lg:max-w-sm">
             <div className="flex items-center gap-2 mb-6">
-              <Logo isStudio={!isTech} />
+              <Logo />
             </div>
-            <p className={`text-base leading-relaxed ${
-              isTech ? 'text-gray-400' : 'text-gray-400'
-            }`}>
+            <p className="text-base leading-relaxed text-gray-400">
               Building the future through technology and design. We create solutions that transform businesses and delight users.
             </p>
           </div>
@@ -219,9 +205,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row gap-12 lg:gap-24">
             {/* Navigation Links */}
             <div>
-              <h3 className={`text-sm font-semibold uppercase tracking-wider mb-4 ${
-                isTech ? 'text-gray-300' : 'text-gray-300'
-              }`}>
+              <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-gray-300">
                 Navigation
               </h3>
               <ul className="space-y-3">
@@ -229,11 +213,7 @@ export default function Footer() {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className={`text-sm hover:underline transition-colors ${
-                        isTech 
-                          ? 'text-gray-400 hover:text-white' 
-                          : 'text-gray-400 hover:text-white'
-                      }`}
+                      className="text-sm hover:underline transition-colors text-gray-400 hover:text-white"
                     >
                       {item.name}
                     </Link>
@@ -260,12 +240,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className={`mt-16 pt-8 border-t ${
-          isTech ? 'border-blue-500/20' : 'border-gray-200/20'
-        } flex flex-col sm:flex-row justify-between items-center gap-4`}>
-          <p className={`text-sm ${
-            isTech ? 'text-gray-400' : 'text-gray-400'
-          }`}>
+        <div className="mt-16 pt-8 border-t border-blue-500/20 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-gray-400">
             &copy; 2024 BASE32. All rights reserved.
           </p>
           
@@ -275,7 +251,7 @@ export default function Footer() {
               <a
                 key={link.name}
                 href={link.href}
-                className={isTech ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-white'}
+                className="text-gray-400 hover:text-white"
               >
                 <link.icon className="w-5 h-5" />
               </a>

@@ -50,14 +50,12 @@ function useDeviceCapabilities() {
   return capabilities;
 }
 
-const Works = dynamic(() => import("@/components/works"), {
-  loading: () => null,
-});
+// const Works = dynamic(() => import("@/components/works"), {
+//   loading: () => null,
+// });
 
 export default function Home() {
   const { company } = useCompany();
-  const isStudio = company === "studio";
-  const isTech = company === "tech";
   const { shouldDisable3D } = useDeviceCapabilities();
 
   return (
@@ -67,12 +65,7 @@ export default function Home() {
         <BackgroundEffects />
       </div>
 
-      {/* Grid background (z-index: 2) */}
-      {isStudio && (
-        <div className="fixed inset-8 grid-layer rounded-3xl overflow-hidden">
-          <div className="w-full h-full studio-grid" />
-        </div>
-      )}
+      {/* Grid background removed as we're focusing only on tech */}
 
       {/* Hero section (z-index: 3) */}
       <div className="relative hero-layer">
@@ -88,7 +81,7 @@ export default function Home() {
         <PatternBreak />
         <Brands />
         <Values />
-        <Works />
+        {/* <Works /> */}
         <Testimonials />
         <Pricing />
         <About />

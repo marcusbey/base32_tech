@@ -6,83 +6,49 @@ import { Building2, Rocket } from "lucide-react";
 import { useEffect, useRef, useState, memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
-const sectors = {
-  tech: [
-    {
-      name: "Startups" as const,
-      icon: Rocket,
-      description:
-        "Empowering startups with agile development and cost-effective solutions. We excel in product thinking, rapid prototyping, MVP development...",
-      fullDescription:
-        "Empowering startups with agile development and cost-effective solutions. We excel in product thinking, rapid prototyping, MVP development, and comprehensive mobile and SAAS solutions.",
-      benefits: [
-        "Rapid MVP development and iteration",
-        "Scalable architecture from day one",
-        "Cost-effective automation solutions",
-        "Growth-focused implementation",
-      ],
-    },
-    {
-      name: "Enterprise" as const,
-      icon: Building2,
-      description:
-        "Partnering with established organizations to drive digital transformation through intelligent automation. We specialize in enterprise-wide solutions, legacy system modernization...",
-      fullDescription:
-        "Partnering with established organizations to drive digital transformation through intelligent automation. We specialize in enterprise-wide solutions, legacy system modernization, and secure, scalable architectures that enhance operational efficiency.",
-      benefits: [
-        "Custom AI solutions tailored to enterprise scale",
-        "Seamless integration with existing systems",
-        "Enhanced security and compliance measures",
-        "Comprehensive training and support",
-      ],
-    },
-  ],
-  studio: [
-    {
-      name: "Startups" as const,
-      icon: Rocket,
-      description:
-        "Helping startups build memorable brands and engaging digital products. We focus on rapid iteration and scalable design solutions...",
-      fullDescription:
-        "Helping startups build memorable brands and engaging digital products. We focus on rapid iteration and scalable design solutions that grow with your business.",
-      benefits: [
-        "Brand strategy development",
-        "Product design",
-        "User interface design",
-        "Design system creation",
-      ],
-    },
-    {
-      name: "Enterprise" as const,
-      icon: Building2,
-      description:
-        "Creating sophisticated brand identities and digital experiences for established organizations. Our enterprise solutions deliver scalable design systems...",
-      fullDescription:
-        "Creating sophisticated brand identities and digital experiences for established organizations. Our enterprise solutions deliver scalable design systems and comprehensive brand guidelines.",
-      benefits: [
-        "Enterprise-scale design systems",
-        "Brand identity development",
-        "Digital transformation",
-        "User experience optimization",
-      ],
-    },
-  ],
-} as const;
+const sectors = [
+  {
+    name: "Startups" as const,
+    icon: Rocket,
+    description:
+      "Empowering startups with agile development and cost-effective solutions. We excel in product thinking, rapid prototyping, MVP development...",
+    fullDescription:
+      "Empowering startups with agile development and cost-effective solutions. We excel in product thinking, rapid prototyping, MVP development, and comprehensive mobile and SAAS solutions.",
+    benefits: [
+      "Rapid MVP development and iteration",
+      "Scalable architecture from day one",
+      "Cost-effective automation solutions",
+      "Growth-focused implementation",
+    ],
+  },
+  {
+    name: "Enterprise" as const,
+    icon: Building2,
+    description:
+      "Partnering with established organizations to drive digital transformation through intelligent automation. We specialize in enterprise-wide solutions, legacy system modernization...",
+    fullDescription:
+      "Partnering with established organizations to drive digital transformation through intelligent automation. We specialize in enterprise-wide solutions, legacy system modernization, and secure, scalable architectures that enhance operational efficiency.",
+    benefits: [
+      "Custom AI solutions tailored to enterprise scale",
+      "Seamless integration with existing systems",
+      "Enhanced security and compliance measures",
+      "Comprehensive training and support",
+    ],
+  },
+] as const;
 
-type SectorType = typeof sectors.tech[number] | typeof sectors.studio[number];
+type SectorType = typeof sectors[number];
 
 const BrandCard = memo(function BrandCard({
   sector,
   index,
   isActive,
-  isTech,
   isInView,
   onClick,
 }: {
   sector: SectorType;
   index: number;
   isActive: boolean;
-  isTech: boolean;
   isInView: boolean;
   onClick: () => void;
 }) {
@@ -92,7 +58,7 @@ const BrandCard = memo(function BrandCard({
         "brand-card p-6 rounded-2xl backdrop-blur-lg cursor-pointer",
         isActive && "active",
         isInView && "animate-fade-up",
-        isTech ? "hover:bg-blue-950/20" : "hover:bg-indigo-50/50"
+        "hover:bg-blue-950/20"
       )}
       style={{ '--animation-delay': `${index * 150}ms` } as React.CSSProperties}
       onClick={onClick}
@@ -101,17 +67,13 @@ const BrandCard = memo(function BrandCard({
         <div
           className={cn(
             "p-3 rounded-xl transition-colors duration-300",
-            isTech
-              ? "bg-yellow-500/10 group-hover:bg-yellow-500/20"
-              : "bg-indigo-500/10 group-hover:bg-indigo-500/20"
+            "bg-yellow-500/10 group-hover:bg-yellow-500/20"
           )}
         >
           <sector.icon
             className={cn(
               "w-8 h-8 transition-transform duration-300 group-hover:scale-110",
-              isTech
-                ? "text-yellow-400 group-hover:text-yellow-300"
-                : "text-indigo-500 group-hover:text-indigo-400"
+              "text-yellow-400 group-hover:text-yellow-300"
             )}
           />
         </div>
@@ -119,9 +81,7 @@ const BrandCard = memo(function BrandCard({
         <h3
           className={cn(
             "text-2xl font-light transition-colors duration-300",
-            isTech
-              ? "text-white group-hover:text-yellow-50"
-              : "text-gray-900 group-hover:text-indigo-900"
+            "text-white group-hover:text-yellow-50"
           )}
         >
           {sector.name}
@@ -131,9 +91,7 @@ const BrandCard = memo(function BrandCard({
       <p
         className={cn(
           "mt-4 text-sm font-light transition-colors duration-300",
-          isTech
-            ? "text-gray-400 group-hover:text-gray-300"
-            : "text-gray-600 group-hover:text-gray-700"
+          "text-gray-400 group-hover:text-gray-300"
         )}
       >
         {sector.fullDescription}
@@ -146,13 +104,13 @@ const BrandCard = memo(function BrandCard({
               key={idx}
               className={cn(
                 "flex items-center gap-2 font-light",
-                isTech ? "text-gray-400" : "text-gray-600"
+                "text-gray-400"
               )}
             >
               <div
                 className={cn(
                   "w-1.5 h-1.5 rounded-full",
-                  isTech ? "bg-yellow-400" : "bg-indigo-500"
+                  "bg-yellow-400"
                 )}
               />
               <span>{benefit}</span>
@@ -166,11 +124,7 @@ const BrandCard = memo(function BrandCard({
 
 const Brands = memo(function Brands() {
   const { company } = useCompany();
-  const currentSectors = useMemo(
-    () => (company === "tech" ? sectors.tech : sectors.studio),
-    [company]
-  );
-  const isTech = company === "tech";
+  const currentSectors = sectors;
   const [activeSector, setActiveSector] = useState<number>(0);
   const sectionRef = useRef<HTMLElement>(null);
   const [isInView, setIsInView] = useState(false);
@@ -222,7 +176,7 @@ const Brands = memo(function Brands() {
                 sector={sector}
                 index={index}
                 isActive={index === activeSector}
-                isTech={isTech}
+
                 isInView={isInView}
                 onClick={() => setActiveSector(index)}
               />

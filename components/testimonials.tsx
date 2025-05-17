@@ -6,70 +6,38 @@ import { useCompany } from '@/lib/company-context';
 import { Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
-const testimonials = {
-  tech: [
-    {
-      quote: "Base32 didn't just deliver code – they became true innovation partners. Their deep understanding of AI transformed our automation pipeline, reducing deployment time by 70%. Their strategic thinking and ownership mentality set them apart.",
-      author: "Marcus Chen",
-      role: "VP of Engineering, TechFlow",
-    },
-    {
-      quote: "The AI integration exceeded all expectations. Their team worked as an extension of ours, delivering features in weeks that we estimated would take quarters. The technical expertise combined with business acumen made all the difference.",
-      author: "Sarah Williams",
-      role: "CTO, InnovateAI",
-    },
-    {
-      quote: "From day one, Base32 demonstrated exceptional vision and execution. They elevated our entire approach to AI implementation, and the results have exceeded our most optimistic projections by 200%.",
-      author: "David Park",
-      role: "Head of Innovation, FutureScale",
-    },
-    {
-      quote: "Their AI solutions revolutionized our workflow automation. What impressed me most was how they understood our business challenges and delivered solutions that went beyond just technology – they transformed our entire operation.",
-      author: "Jennifer Zhao",
-      role: "Director of Operations, NextGen Systems",
-    },
-  ],
-  studio: [
-    {
-      quote: "Working with Base32 was transformative. They didn't just design our interface – they reimagined our entire user experience. Our user engagement increased by 150% within the first month post-launch.",
-      author: "Rachel Torres",
-      role: "Product Director, DesignFirst",
-    },
-    {
-      quote: "The level of creativity and technical precision was outstanding. They delivered a design system that not only looks beautiful but has dramatically improved our development efficiency by 80%. Every interaction was purposeful.",
-      author: "Michael Zhang",
-      role: "UX Director, CreativeFlow",
-    },
-    {
-      quote: "Base32 brought a perfect blend of innovation and practicality. They transformed our complex requirements into an elegant, user-friendly design that our customers love. Our user satisfaction scores jumped from 72% to 94%.",
-      author: "Emma Thompson",
-      role: "CEO, BrandScape",
-    },
-    {
-      quote: "Their approach to design thinking revolutionized how we view product development. They created a visual language that perfectly captures our brand while delivering an intuitive user experience that our customers rave about.",
-      author: "Alex Rivera",
-      role: "Creative Director, VisualScope",
-    },
-  ],
-};
+const testimonials = [
+  {
+    quote: "Base32 didn't just deliver code – they became true innovation partners. Their deep understanding of AI transformed our automation pipeline, reducing deployment time by 70%. Their strategic thinking and ownership mentality set them apart.",
+    author: "Marcus Chen",
+    role: "VP of Engineering, TechFlow",
+  },
+  {
+    quote: "The AI integration exceeded all expectations. Their team worked as an extension of ours, delivering features in weeks that we estimated would take quarters. The technical expertise combined with business acumen made all the difference.",
+    author: "Sarah Williams",
+    role: "CTO, InnovateAI",
+  },
+  {
+    quote: "From day one, Base32 demonstrated exceptional vision and execution. They elevated our entire approach to AI implementation, and the results have exceeded our most optimistic projections by 200%.",
+    author: "David Park",
+    role: "Head of Innovation, FutureScale",
+  },
+  {
+    quote: "Their AI solutions revolutionized our workflow automation. What impressed me most was how they understood our business challenges and delivered solutions that went beyond just technology – they transformed our entire operation.",
+    author: "Jennifer Zhao",
+    role: "Director of Operations, NextGen Systems",
+  },
+];
 
-const techColors = {
+const colors = {
   base: ["#EAB308", "#CA8A04", "#A16207"],
   active: ["#FDE047", "#EAB308", "#CA8A04"],
   glow: ["#FEF08A", "#FDE047", "#EAB308"]
 };
 
-const studioColors = {
-  base: ["#FDE047", "#EAB308", "#CA8A04"],
-  active: ["#FEF08A", "#FDE047", "#EAB308"],
-  glow: ["#FEF9C3", "#FEF08A", "#FDE047"]
-};
-
 export default function Testimonials() {
   const { company } = useCompany();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const currentTestimonials = company === 'tech' ? testimonials.tech : testimonials.studio;
-  const isTech = company === 'tech';
   const containerRef = useRef<HTMLDivElement>(null);
   
   const mouseX = useMotionValue(0);
@@ -78,8 +46,7 @@ export default function Testimonials() {
 
   const gridSize = 40; 
   const baseDotSize = 2; 
-  const maxLightRadius = 150; 
-  const colors = isTech ? techColors : studioColors;
+  const maxLightRadius = 150;
 
   useEffect(() => {
     const container = containerRef.current;
@@ -180,23 +147,28 @@ export default function Testimonials() {
     return gridElements;
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextTestimonial();
+    }, 8000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % currentTestimonials.length);
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   };
 
   const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + currentTestimonials.length) % currentTestimonials.length);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
   };
 
   return (
     <div ref={containerRef} className="relative w-full overflow-hidden">
       {/* Background with grid */}
       <div className="absolute inset-0 -z-10">
-        <div className={`w-full h-full ${
-          isTech 
-            ? 'bg-black/80 backdrop-blur-sm'
-            : 'bg-white/90 backdrop-blur-sm'
-        }`} />
+        <div className={`w-full h-full bg-black/80 backdrop-blur-sm`} />
         <svg
           className="absolute inset-0 w-full h-full"
           style={{
@@ -248,11 +220,9 @@ export default function Testimonials() {
                   </span>
                 </h2>
                 <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-gray-400 font-light">
-                  {isTech
-                    ? "Join companies who have achieved "
-                    : "Join businesses who have transformed with "}
+                  Join companies who have achieved 
                   <span className="text-yellow-400">
-                    {isTech ? "95% customer satisfaction" : "150% productivity boost"}
+                    95% customer satisfaction
                   </span>
                 </p>
               </motion.div>
@@ -265,11 +235,7 @@ export default function Testimonials() {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={prevTestimonial}
-                    className={`p-3 rounded-full ${
-                      isTech
-                        ? 'bg-blue-500/10 hover:bg-blue-500/20 text-white'
-                        : 'bg-indigo-100 hover:bg-indigo-200 text-indigo-600'
-                    }`}
+                    className="p-3 rounded-full bg-blue-500/10 hover:bg-blue-500/20 text-white"
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </motion.button>
@@ -284,26 +250,18 @@ export default function Testimonials() {
                         transition={{ duration: 0.3 }}
                         className="text-center px-0 md:px-8 py-12"
                       >
-                        <Quote className={`w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-4 sm:mb-6 ${
-                          isTech ? 'text-yellow-400' : 'text-indigo-500'
-                        }`} />
+                        <Quote className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-4 sm:mb-6 text-yellow-400" />
                         
-                        <p className={`text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 leading-normal sm:leading-relaxed font-light ${
-                          isTech ? 'text-white' : 'text-gray-800'
-                        }`}>
-                          {currentTestimonials[currentIndex].quote}
+                        <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 leading-normal sm:leading-relaxed font-light text-white">
+                          {testimonials[currentIndex].quote}
                         </p>
                         
                         <div>
-                          <p className={`font-light tracking-tight text-sm sm:text-base ${
-                            isTech ? 'text-white' : 'text-gray-900'
-                          }`}>
-                            {currentTestimonials[currentIndex].author}
+                          <p className="font-light tracking-tight text-sm sm:text-base text-white">
+                            {testimonials[currentIndex].author}
                           </p>
-                          <p className={`text-xs sm:text-sm font-light ${
-                            isTech ? 'text-gray-400' : 'text-gray-600'
-                          }`}>
-                            {currentTestimonials[currentIndex].role}
+                          <p className="text-xs sm:text-sm font-light text-gray-400">
+                            {testimonials[currentIndex].role}
                           </p>
                         </div>
                       </motion.div>
@@ -314,29 +272,21 @@ export default function Testimonials() {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={nextTestimonial}
-                    className={`p-3 rounded-full ${
-                      isTech
-                        ? 'bg-blue-500/10 hover:bg-blue-500/20 text-white'
-                        : 'bg-indigo-100 hover:bg-indigo-200 text-indigo-600'
-                    }`}
+                    className="p-3 rounded-full bg-blue-500/10 hover:bg-blue-500/20 text-white"
                   >
                     <ChevronRight className="w-6 h-6" />
                   </motion.button>
                 </div>
 
                 <div className="flex justify-center mt-12 gap-2">
-                  {currentTestimonials.map((_, index) => (
+                  {testimonials.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentIndex(index)}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
                         index === currentIndex
-                          ? isTech
-                            ? 'bg-yellow-400 w-6'
-                            : 'bg-indigo-500 w-6'
-                          : isTech
-                            ? 'bg-gray-600'
-                            : 'bg-gray-300'
+                          ? 'bg-yellow-400 w-6'
+                          : 'bg-gray-600'
                       }`}
                     />
                   ))}

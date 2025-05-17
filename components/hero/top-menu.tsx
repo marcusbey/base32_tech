@@ -8,7 +8,6 @@ import { siteConfig } from '@/config/site';
 
 export function TopMenu() {
   const { company } = useCompany();
-  const isStudio = company === 'studio';
   const { scrollY } = useScroll();
   
   // Transform scroll position to opacity
@@ -29,27 +28,19 @@ export function TopMenu() {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left Side - Logo */}
         <div className="flex-1">
-          <Logo isStudio={isStudio} />
+          <Logo />
         </div>
 
         {/* Right Side - Contact Button */}
         <div className="flex-1 flex justify-end">
           <Link href={`${siteConfig.baseUrl}/#contact-section`}>
             <motion.button
-              className={`relative px-2.5 sm:px-4 py-1 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase tracking-wide border font-light ${
-                isStudio 
-                  ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
-                  : 'border-white/20 text-white hover:border-yellow-400'
-              } transition-colors`}
+              className="relative px-2.5 sm:px-4 py-1 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase tracking-wide border font-light border-white/20 text-white hover:border-yellow-400 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Contact
-              <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
-                isStudio
-                  ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
-                  : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
-              }`} />
+              <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px bg-gradient-to-r from-transparent via-yellow-400 to-transparent" />
             </motion.button>
           </Link>
         </div>

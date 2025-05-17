@@ -2,17 +2,13 @@
 
 import { motion } from 'framer-motion';
 
-interface StatusBadgeProps {
-  isStudio: boolean;
-}
+// No longer need props as we're focusing only on tech
 
-export function StatusBadge({ isStudio }: StatusBadgeProps) {
+export function StatusBadge() {
   return (
     <div className="flex items-center gap-2">
       <motion.div
-        className={`w-2 h-2 rounded-full ${
-          isStudio ? 'bg-indigo-500' : 'bg-yellow-400'
-        }`}
+        className="w-2 h-2 rounded-full bg-yellow-400"
         animate={{
           scale: [1, 1.5, 1],
           opacity: [1, 0.5, 1],
@@ -23,9 +19,7 @@ export function StatusBadge({ isStudio }: StatusBadgeProps) {
           ease: "easeInOut"
         }}
       />
-      <span className={`text-xs uppercase tracking-wider font-light ${
-        isStudio ? 'text-indigo-400' : 'text-yellow-400'
-      }`}>
+      <span className="text-xs uppercase tracking-wider font-light text-yellow-400">
         Available Now
       </span>
     </div>

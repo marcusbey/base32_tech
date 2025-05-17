@@ -11,8 +11,7 @@ import Image from 'next/image';
 import { siteConfig } from "@/config/site";
 
 export default function Navigation() {
-  const { company, toggleCompany } = useCompany();
-  const isStudio = company === "studio";
+  const { company } = useCompany();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -93,19 +92,15 @@ export default function Navigation() {
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: isMenuOpen ? 1 : 0, x: isMenuOpen ? 0 : '100%' }}
               transition={{ type: 'spring', damping: 20 }}
-              className={`absolute right-0 top-0 bottom-0 w-full sm:w-96 ${
-                isStudio ? 'bg-white' : 'bg-gray-900'
-              } shadow-2xl`}
+              className="absolute right-0 top-0 bottom-0 w-full sm:w-96 bg-gray-900 shadow-2xl"
             >
               <div className="relative flex flex-col h-full p-6">
                 {/* Close Button */}
                 <button
                   onClick={() => setIsMenuOpen(false)}
-                  className={`absolute top-4 right-4 p-2 rounded-full ${
-                    isStudio ? 'hover:bg-gray-100' : 'hover:bg-gray-800'
-                  }`}
+                  className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-800"
                 >
-                  <X className={isStudio ? 'text-gray-900' : 'text-white'} />
+                  <X className="text-white" />
                 </button>
 
                 <div className="flex-1 flex flex-col items-center justify-center">
@@ -122,9 +117,7 @@ export default function Navigation() {
                         <Link href={item.href}>
                           <button
                             onClick={item.action}
-                            className={`text-3xl font-medium ${
-                              isStudio ? 'text-gray-900' : 'text-white'
-                            }`}
+                            className="text-2xl cursor-pointer mb-2 text-white"
                           >
                             {item.name}
                           </button>
@@ -134,26 +127,19 @@ export default function Navigation() {
                     
                     {/* Contact Button */}
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: navItems.length * 0.1 }}
-                      className="text-center pt-4"
+                      transition={{ delay: 0.4 }}
                     >
-                      <Link href={`${siteConfig.baseUrl}/#contact`}>
-                        <button
-                          className={`relative px-6 py-3 rounded-full text-sm uppercase tracking-wide border ${
-                            isStudio 
-                              ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
-                              : 'border-white/20 text-white hover:border-yellow-400'
-                          } transition-colors`}
+                      <Link href={`${siteConfig.baseUrl}/#contact-section`}>
+                        <motion.button
+                          className="text-center px-6 py-4 w-full rounded-lg bg-yellow-500 hover:bg-yellow-600 text-gray-900"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
                         >
                           Contact
-                          <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
-                            isStudio
-                              ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
-                              : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
-                          }`} />
-                        </button>
+                          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px bg-gradient-to-r from-transparent via-yellow-400 to-transparent" />
+                        </motion.button>
                       </Link>
                     </motion.div>
                   </nav>
@@ -178,22 +164,18 @@ export default function Navigation() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`flex items-center gap-2 ${
-                  isStudio ? 'text-gray-800' : 'text-white'
-                }`}
+                className="flex items-center gap-2 text-white"
               >
                 <div className="w-4 h-4 relative">
                   <Image
-                    src={isStudio ? '/images/dark_base32.svg' : '/images/white_base32.svg'}
+                    src="/images/white_base32.svg"
                     alt="Base32 Logo"
                     fill
                     className="object-contain"
                     priority
                   />
                 </div>
-                <span className="text-sm font-medium">
-                  {isStudio ? 'BASE32.STUDIO' : 'BASE32.TECH'}
-                </span>
+                <span className="text-sm font-medium">BASE32.TECH</span>
               </motion.button>
             </Link>
 
@@ -204,15 +186,11 @@ export default function Navigation() {
                   <Link href={item.href}>
                     <button
                       onClick={item.action}
-                      className={`relative text-xs uppercase tracking-wide ${
-                        isStudio ? 'text-gray-800' : 'text-white'
-                      }`}
+                      className="relative text-xs uppercase tracking-wide text-white"
                     >
                       {item.name}
                       <motion.div
-                        className={`absolute -bottom-1 left-0 w-full h-0.5 ${
-                          isStudio ? 'bg-gray-800' : 'bg-white'
-                        } opacity-50`}
+                        className="absolute -bottom-1 left-0 w-full h-0.5 bg-white opacity-50"
                         initial={{ scaleX: 0 }}
                         whileHover={{ scaleX: 1 }}
                       />
@@ -224,20 +202,12 @@ export default function Navigation() {
               {/* Contact Button */}
               <Link href={`${siteConfig.baseUrl}/#contact-section`}>
                 <motion.button
-                  className={`relative px-4 py-2 rounded-full text-xs uppercase tracking-wide border ${
-                    isStudio 
-                      ? 'border-gray-300 text-gray-800 hover:border-indigo-400'
-                      : 'border-white/20 text-white hover:border-yellow-400'
-                  } transition-colors`}
+                  className="relative px-4 py-2 rounded-full text-xs uppercase tracking-wide border border-white/20 text-white hover:border-yellow-400 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   Contact
-                  <span className={`absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px ${
-                    isStudio
-                      ? 'bg-gradient-to-r from-transparent via-indigo-500 to-transparent'
-                      : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'
-                  }`} />
+                  <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px h-px bg-gradient-to-r from-transparent via-yellow-400 to-transparent" />
                 </motion.button>
               </Link>
             </div>
@@ -247,9 +217,7 @@ export default function Navigation() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMenuOpen(true)}
-              className={`md:hidden flex flex-col gap-1.5 ${
-                isStudio ? 'text-gray-800' : 'text-white'
-              }`}
+              className="md:hidden flex flex-col gap-1.5 text-white"
             >
               <motion.span className="w-6 h-0.5 rounded-full bg-current" />
               <motion.span className="w-4 h-0.5 rounded-full bg-current" />

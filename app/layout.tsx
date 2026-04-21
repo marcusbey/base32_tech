@@ -5,6 +5,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { ScrollProvider } from "@/context/scroll-context";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -136,6 +137,7 @@ export default function RootLayout({
           </ClientLayout>
         </ScrollProvider>
         <Toaster richColors closeButton position="top-center" />
+        <Analytics />
       </body>
     </html>
   );

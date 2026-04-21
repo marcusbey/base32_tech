@@ -4,12 +4,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig = {
-  output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
   },
   images: {
-    unoptimized: true,
     domains: ['images.unsplash.com'],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,

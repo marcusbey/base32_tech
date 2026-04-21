@@ -155,10 +155,10 @@ export default function Services() {
             >
               <div className="space-y-8">
                 <p className="text-lg lg:text-xl leading-[1.8] text-gray-300 font-light">
-                  Transform your business operations with our enterprise-grade
-                  automation solutions. We specialize in developing intelligent
-                  systems that reduce operational costs, eliminate human error,
-                  and accelerate growth.
+                  We build AI-native applications and intelligent agents that
+                  ship fast and scale further. From LLM-powered products to
+                  autonomous workflows, every solution is engineered for
+                  production from day one.
                 </p>
 
                 <div className="text-base lg:text-lg leading-[1.6] text-gray-400 font-light">

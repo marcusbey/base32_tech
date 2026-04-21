@@ -9,9 +9,9 @@ import { useScroll } from "@/context/scroll-context";
 
 const taglines = [
   {
-    line1: "Enterprise Solutions",
-    highlight: "Smarter Automation",
-    line2: "Faster Scaling, Greater Success"
+    line1: "Ship AI-Powered",
+    highlight: "Applications",
+    line2: "That Learn, Scale, and Deliver"
   },
   {
     line1: "Building Tomorrow's",
@@ -19,9 +19,9 @@ const taglines = [
     line2: "Breaking Traditional Constraints"
   },
   {
-    line1: "Your Application",
-    highlight: "MVP-Ready",
-    line2: "Delivered Faster Than Ever"
+    line1: "Your AI Application",
+    highlight: "Production-Ready",
+    line2: "Shipped in Days, Not Months"
   }
 ] as const;
 

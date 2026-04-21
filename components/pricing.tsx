@@ -141,7 +141,7 @@ function Pricing() {
 
                 <div className="mb-8">
                   <p className={`text-base lg:text-lg font-light ${isTech ? "text-gray-300" : "text-gray-700"}`}>
-                    Get a customized solution designed specifically for your business needs. Our team will work closely with you to understand your requirements and deliver exceptional results.
+                    Get an AI-powered application built specifically for your product. We architect, build, and ship — from prototype to production — with speed and precision.
                   </p>
                 </div>
 
@@ -200,7 +200,7 @@ function Pricing() {
                   Why Choose Us?
                 </h4>
                 <p className={`${isTech ? "text-gray-400" : "text-gray-600"} font-light`}>
-                  We partner with you to create solutions that drive real business value. Our approach combines technical excellence with strategic thinking.
+                  We build AI applications that ship fast and get smarter over time. Technical depth meets product thinking on every engagement.
                 </p>
               </div>
               <div>
@@ -218,7 +218,7 @@ function Pricing() {
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className={`w-5 h-5 ${isTech ? "text-yellow-400" : "text-indigo-500"}`} />
-                    Custom Solution Design
+                    AI Architecture & Build
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className={`w-5 h-5 ${isTech ? "text-yellow-400" : "text-indigo-500"}`} />

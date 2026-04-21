@@ -50,3 +50,7 @@ public/static/
 
 # Cache
 .cache/
+.vercel
+
+# OMC state
+.omc/

@@ -1,12 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-if (!process.env.RESEND_API_KEY) {
-  throw new Error('Missing RESEND_API_KEY environment variable');
-}
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Template for the sender (confirmation email)
 const techEmailTemplate = (vision: string, name: string) => `
 <!DOCTYPE html>
@@ -79,6 +73,10 @@ const teamNotificationTemplate = (vision: string, email: string, name: string, c
 
 export async function POST(request: Request) {
   try {
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
+    }
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const { vision, email, name, company } = await request.json();
 
     if (!vision || !email || !name) {
